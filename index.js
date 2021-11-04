@@ -1,0 +1,1 @@
+const valueSearch = document.getElementsByClassName('search_input').value;

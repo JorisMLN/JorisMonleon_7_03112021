@@ -80,11 +80,9 @@ header h1 {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-  height: 200px;
 }
 
 .filtres__selected {
-  border: 1px solid #ff3300;
   width: 80%;
 }
 
@@ -142,10 +140,18 @@ header h1 {
 
 .result__card {
   background-color: #E7E7E7;
-  width: 380px;
-  height: 364px;
+  width: 350px;
+  height: 350px;
   border-radius: 5px;
   margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+.result__card__top {
+  background-color: #C7BEBE;
+  width: 100%;
+  height: 50%;
+  border-radius: 5px 5px 0px 0px;
 }
 
 footer {
