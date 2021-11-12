@@ -46,37 +46,67 @@ header {
   margin-right:15px;
 }
 
+#btnIngredients{
+  background-color: #3282F7;
+  border-color: #3282F7;
+}
+
 #inputIngredients{
   // display: none;
   color: white;
-  background-color: #6c757d;
-  border-color: #6c757d;
+  background-color: #3282F7;
+  border-color: #3282F7;
   height: 37.6px;
   width: 123px;
   border-radius: .25rem;
   border: none;
 }
 
+#menuIngredients{
+  max-height: 200px;
+}
+
+#btnAppareils{
+  background-color: #68D9A4;
+  border-color: #68D9A4;
+}
+
 #inputAppareils{
   // display: none;
   color: white;
-  background-color: #6c757d;
-  border-color: #6c757d;
+  background-color: #68D9A4;
+  border-color: #68D9A4;
   height: 37.6px;
   width: 102px;
   border-radius: .25rem;
   border: none;
 }
 
+#menuAppareils{
+  max-height: 500px;
+}
+
+#btnUstensiles{
+  background-color: #ED6454;
+  border-color: #ED6454;
+}
+
 #inputUstensiles{
   // display: none;
   color: white;
-  background-color: #6c757d;
-  border-color: #6c757d;
+  background-color: #ED6454;
+  border-color: #ED6454;
   height: 37.6px;
   width: 114px;
   border-radius: .25rem;
   border: none;
+}
+
+#menuUstensils{
+  display: flex;
+  flex-wrap: wrap;
+  height: 100px;
+  width: 500px;
 }
 
 #result {
@@ -85,11 +115,18 @@ header {
   justify-content: space-evenly;
   align-items: center;
   width: 90%;
-  max-width: 1100px;
+  max-width: 1150px;
   max-height: 70vh;
   padding-top: 40px;
   // border: 1px solid blue;
   overflow-y: scroll;
+  .card{
+    margin-bottom: 30px;
+    .body-text{
+      overflow-y: scroll;
+      max-height: 160px;
+    }
+  }
 }
 
 .hidden{
