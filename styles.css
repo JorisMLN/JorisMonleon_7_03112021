@@ -89,7 +89,7 @@ header h1 {
   border: none;
 }
 
-.result {
+#result {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -103,7 +103,9 @@ header h1 {
           align-items: center;
   width: 90%;
   max-width: 1100px;
+  max-height: 70vh;
   padding-top: 40px;
+  overflow-y: scroll;
 }
 
 .hidden {
