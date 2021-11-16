@@ -23,8 +23,15 @@ const resultDisplay = (database) => {
 
   htmlDisplayBloc.innerHTML = htmlString;
 };
-
 resultDisplay(database);
+
+
+//  - - - - - - - - - - - - - - - - - - - - -
+// Regex de validation
+function isValid(tester) {
+  return !/[~`!#$%\^&*+=\-\[\]\\'.;,/{}|\\":<>\?]/g.test(tester);
+}
+
 
 
 //  - - - - - - - - - - - - - - - - - - - - -
@@ -52,6 +59,9 @@ const ingredientDropdownLoop = (database) => {
   database.forEach(recette => {
     recette.ingredients.forEach(elm => {
       resultIngredients.add(elm.ingredient)
+      if (isValid(elm.ingredient) === true) {
+        resultIngredients.add(elm.ingredient)
+      }
     })
   })
 
@@ -62,7 +72,6 @@ const ingredientDropdownLoop = (database) => {
   })
   menuIngredients.innerHTML = htmlUl;
 };
-
 ingredientDropdownLoop(database);
 
 
@@ -77,7 +86,6 @@ const switchToInput2 = () => {
   inputAppareils.classList.remove('hidden');
   menuAppareils.classList.add('show');
 }
-
 const switchTobtn2 = () => {
   btnAppareils.classList.remove('hidden');
   inputAppareils.classList.add('hidden');
@@ -90,7 +98,9 @@ inputAppareils.addEventListener('focusout', switchTobtn2)
 const appareilsDropdownLoop = (database) => {
   let resultAppareils = new Set([]);
   database.forEach(recette => {
-    resultAppareils.add(recette.appliance)
+    if (isValid(recette.appliance) === true) {
+      resultAppareils.add(recette.appliance)
+    }
   })
 
   let menuAppareils = document.getElementById('menuAppareils');
@@ -100,7 +110,6 @@ const appareilsDropdownLoop = (database) => {
   })
   menuAppareils.innerHTML = htmlUl;
 };
-
 appareilsDropdownLoop(database);
 
 
@@ -115,13 +124,11 @@ const switchToInput3 = () => {
   inputUstensiles.classList.remove('hidden');
   menuUstensiles.classList.add('show');
 }
-
 const switchTobtn3 = () => {
   btnUstensiles.classList.remove('hidden');
   inputUstensiles.classList.add('hidden');
   menuUstensiles.classList.remove('show');
 }
-
 btnUstensiles.addEventListener('click', switchToInput3);
 inputUstensiles.addEventListener('focusout', switchTobtn3)
 
@@ -130,7 +137,9 @@ const ustensilsDropdownLoop = (database) => {
   let resultUstensils = new Set([]);
   database.forEach(recette => {
     recette.ustensils.forEach(elm => {
-      resultUstensils.add(elm)
+      if (isValid(elm) === true) {
+        resultUstensils.add(elm)
+      }
     })
   })
 
@@ -141,5 +150,4 @@ const ustensilsDropdownLoop = (database) => {
   })
   menuUstensiles.innerHTML = htmlUl;
 };
-
 ustensilsDropdownLoop(database);
