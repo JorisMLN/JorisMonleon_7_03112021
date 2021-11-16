@@ -44,39 +44,89 @@ header {
 
 .btn-group{
   margin-right:15px;
+  height: 50px;
 }
 
 #inputIngredients{
   // display: none;
   color: white;
-  background-color: #6c757d;
-  border-color: #6c757d;
-  height: 37.6px;
+  background-color: #3282F7;
+  border-color: #3282F7;
+  height: 50px;
   width: 123px;
   border-radius: .25rem;
   border: none;
 }
 
+#btnIngredients{
+  background-color: #3282F7;
+  border-color: #3282F7;
+}
+
+#menuIngredients{
+  background-color: #3282F7;
+  border-color: #3282F7;
+  .dropdown-item{
+    color: white;
+    &:hover{
+      color: black;
+    }
+  }
+}
+  
+
 #inputAppareils{
   // display: none;
   color: white;
-  background-color: #6c757d;
-  border-color: #6c757d;
-  height: 37.6px;
+  background-color: #68D9A4;
+  border-color: #68D9A4;
+  height: 50px;
   width: 102px;
   border-radius: .25rem;
   border: none;
 }
 
+#btnAppareils{
+  background-color: #68D9A4;
+  border-color: #68D9A4;
+}
+
+#menuAppareils{
+  background-color: #68D9A4;
+  border-color: #68D9A4;
+  .dropdown-item{
+    color: white;
+    &:hover{
+      color: black;
+    }
+  }
+}
+
 #inputUstensiles{
   // display: none;
   color: white;
-  background-color: #6c757d;
-  border-color: #6c757d;
-  height: 37.6px;
+  background-color: #ED6454;
+  border-color: #ED6454;
+  height: 50px;
   width: 114px;
   border-radius: .25rem;
   border: none;
+}
+
+#btnUstensiles{
+  background-color: #ED6454;
+  border-color: #ED6454;
+}
+
+#menuUstensiles{
+  background-color: #ED6454;
+  border-color: #ED6454;
+  .dropdown-item{
+    color: white;
+    &:hover{
+      color: black;
+    }
+  }
 }
 
 #result {
