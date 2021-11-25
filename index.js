@@ -24,9 +24,6 @@ const resultDisplay = (database) => {
 resultDisplay(database);
 
 
-<<<<<<< HEAD
-//  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-=======
 //  - - - - - - - - - - - - - - - - - - - - -
 // Regex de validation
 function isValid(tester) {
@@ -34,9 +31,7 @@ function isValid(tester) {
 }
 
 
-
 //  - - - - - - - - - - - - - - - - - - - - -
->>>>>>> f1104cfa0fbcfc5aaa1e5c4a1252dff83d697875
 // Gestion dropdown INGREDIENTS
 const btnIngredients = document.getElementById('btnIngredients');
 const inputIngredients = document.getElementById('inputIngredients');
@@ -47,28 +42,13 @@ const intoInputIngredients = () => {
   inputIngredients.classList.remove('hidden');
   menuIngredients.classList.add('show');
 }
-<<<<<<< HEAD
-
-const intoButtonIngredients = () => {
-=======
-const switchTobtn1 = () => {
->>>>>>> f1104cfa0fbcfc5aaa1e5c4a1252dff83d697875
+const intoSwitchIngredients = () => {
   btnIngredients.classList.remove('hidden');
   inputIngredients.classList.add('hidden');
   menuIngredients.classList.remove('show');
 }
-<<<<<<< HEAD
-
 btnIngredients.addEventListener('click', intoInputIngredients);
-inputIngredients.addEventListener('focusout', intoButtonIngredients)
-
-// loop display components
-// const displayComponents = (database) => {
-//   let htmlDisplayBloc = document.getElementById('menuIngredients');
-//   let htmlString = '';
-=======
-btnIngredients.addEventListener('click', switchToInput1);
-inputIngredients.addEventListener('focusout', switchTobtn1)
+inputIngredients.addEventListener('focusout', intoSwitchIngredients)
 
 // Ingredient Dropdown display loop
 const ingredientDropdownLoop = (database) => {
@@ -91,17 +71,6 @@ const ingredientDropdownLoop = (database) => {
 };
 ingredientDropdownLoop(database);
 
->>>>>>> f1104cfa0fbcfc5aaa1e5c4a1252dff83d697875
-
-//   database.forEach(element => {
-//     htmlString += `
-//     <li><a class="dropdown-item" href="#">${element.ingredients}</a></li>
-//       `
-//   });
-//   htmlDisplayBloc.innerHTML = htmlString;
-// };
-// displayComponents(database);
-
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Gestion dropdown APPAREILS
@@ -114,28 +83,14 @@ const intoInputAppliances = () => {
   inputAppareils.classList.remove('hidden');
   menuAppareils.classList.add('show');
 }
-<<<<<<< HEAD
-
 const intoButtonAppliances = () => {
-=======
-const switchTobtn2 = () => {
->>>>>>> f1104cfa0fbcfc5aaa1e5c4a1252dff83d697875
   btnAppareils.classList.remove('hidden');
   inputAppareils.classList.add('hidden');
   menuAppareils.classList.remove('show');
 }
-<<<<<<< HEAD
-
 btnAppareils.addEventListener('click', intoInputAppliances);
 inputAppareils.addEventListener('focusout', intoButtonAppliances)
 
-// Loop Display Appliance
-// const displayAppliances = (database) => {
-//   let htmlDisplayBloc = document.getElementById('menuAppareils');
-//   let htmlString = '';
-=======
-btnAppareils.addEventListener('click', switchToInput2);
-inputAppareils.addEventListener('focusout', switchTobtn2)
 
 // Appareils Dropdown display loop
 const appareilsDropdownLoop = (database) => {
@@ -155,18 +110,6 @@ const appareilsDropdownLoop = (database) => {
 };
 appareilsDropdownLoop(database);
 
->>>>>>> f1104cfa0fbcfc5aaa1e5c4a1252dff83d697875
-
-//   database.forEach(element => {
-//     htmlString += `
-//     <li><a class="dropdown-item" href="#">${element.appliance}</a></li>
-//       `
-//   });
-//   console.log(htmlString);
-//   htmlDisplayBloc.innerHTML = htmlString;
-// };
-// displayAppliances(database);
-
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 // Gestion dropdown USTENSILES
@@ -179,37 +122,13 @@ const intoInputUstensils = () => {
   inputUstensiles.classList.remove('hidden');
   menuUstensiles.classList.add('show');
 }
-<<<<<<< HEAD
-
 const intoButtonUstensils = () => {
-=======
-const switchTobtn3 = () => {
->>>>>>> f1104cfa0fbcfc5aaa1e5c4a1252dff83d697875
   btnUstensiles.classList.remove('hidden');
   inputUstensiles.classList.add('hidden');
   menuUstensiles.classList.remove('show');
 }
-<<<<<<< HEAD
-
 btnUstensiles.addEventListener('click', intoInputUstensils);
 inputUstensiles.addEventListener('focusout', intoButtonUstensils)
-
-// Loop Display Ustensils
-// const displayUstensils = (database) => {
-//   let htmlDisplayBloc = document.getElementById('menuAppareils');
-//   let htmlString = '';
-
-//   database.forEach(element => {
-//     htmlString += `
-//     <li><a class="dropdown-item" href="#">${element.ustensils}</a></li>
-//       `
-//   });
-//   htmlDisplayBloc.innerHTML = htmlString;
-// };
-// displayUstensils(database);
-=======
-btnUstensiles.addEventListener('click', switchToInput3);
-inputUstensiles.addEventListener('focusout', switchTobtn3)
 
 // Appareils Dropdown display loop
 const ustensilsDropdownLoop = (database) => {
@@ -230,4 +149,4 @@ const ustensilsDropdownLoop = (database) => {
   menuUstensiles.innerHTML = htmlUl;
 };
 ustensilsDropdownLoop(database);
->>>>>>> f1104cfa0fbcfc5aaa1e5c4a1252dff83d697875
+
