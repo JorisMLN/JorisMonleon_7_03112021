@@ -55,24 +55,33 @@ header h1 {
   max-width: 1100px;
 }
 
+.hidden {
+  display: none;
+}
+
+.push {
+  width: 290px;
+}
+
+.show {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  max-height: 1000px;
+  width: 300px;
+  z-index: 3;
+}
+
 .btn-group {
   margin-right: 15px;
   height: 50px;
 }
 
-#btnIngredients {
-  background-color: #3282F7;
-  border-color: #3282F7;
-}
-
-#inputIngredients {
-  color: white;
-  background-color: #3282F7;
-  border-color: #3282F7;
-  height: 50px;
-  width: 123px;
-  border-radius: .25rem;
-  border: none;
+.inputDrop {
+  margin-left: 10px;
+  width: 250px;
 }
 
 #btnIngredients {
@@ -93,16 +102,6 @@ header h1 {
   color: black;
 }
 
-#inputAppareils {
-  color: white;
-  background-color: #68D9A4;
-  border-color: #68D9A4;
-  height: 50px;
-  width: 102px;
-  border-radius: .25rem;
-  border: none;
-}
-
 #btnAppareils {
   background-color: #68D9A4;
   border-color: #68D9A4;
@@ -119,16 +118,6 @@ header h1 {
 
 #menuAppareils .dropdown-item:hover {
   color: black;
-}
-
-#inputUstensiles {
-  color: white;
-  background-color: #ED6454;
-  border-color: #ED6454;
-  height: 50px;
-  width: 114px;
-  border-radius: .25rem;
-  border: none;
 }
 
 #btnUstensiles {
@@ -175,9 +164,5 @@ header h1 {
 #result .card .body-text {
   overflow-y: scroll;
   max-height: 160px;
-}
-
-.hidden {
-  display: none;
 }
 /*# sourceMappingURL=styles.css.map */

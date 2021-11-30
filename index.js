@@ -1,4 +1,5 @@
 import database from './database.js';
+import filterDatabase from './filteredData.js';
 
 // String.prototype.removeDiacritics = function() {
 //   return this.toLocaleLowerCase().normalize("NFD")
@@ -6,23 +7,9 @@ import database from './database.js';
 
 // "totétèça".removeDiacritics()
 
-// -------------------------------
+// // -------------------------------
 
 // str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
-
-// -------------------------------
-
-// const element = document.getElementById('toto')
-// element.addEventListener('input', e => {
-//     const currentInputValue = e.target.value
-    
-//     setTimeout( () => {
-//         const actualInputValue = document.getElementById('toto').value
-//         if (currentInputValue === actualInputValue) {
-//             ...
-//         }
-//     }, 300)
-// })
 
 
 //  - - - - - - - - - - - - - - - - - - - - -
@@ -30,15 +17,20 @@ import database from './database.js';
 const inputResearch = () => {
   let research = document.getElementById('searchBar');
   research.addEventListener('input', (bar) => {
-    let targetValue = JSON.stringify(bar.target.value);
+    let targetValue = bar.target.value;
 
-    if(targetValue.length >= 5){
-      console.log(targetValue)
-      console.log(resultIngredients)
+    if (targetValue.length >= 3) {
+      setTimeout(() => {
+        let actualInputValue = document.getElementById('searchBar').value;
 
-      if(resultIngredients.includes(targetValue) === true){
-        console.log("matchFound")
-      }
+        if (targetValue === actualInputValue) {
+
+          console.log(filterDatabase);
+          let result = filterDatabase.filter(word => word.name === targetValue);
+          console.log(result);
+
+        }
+      }, 500);
     }
   });
 }
@@ -61,8 +53,7 @@ const resultDisplay = (database) => {
         </div>
       </div>
       `
-    }
-  );
+  });
 
   htmlDisplayBloc.innerHTML = htmlString;
 };
@@ -78,29 +69,24 @@ function isValid(tester) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 // Gestion dropdown INGREDIENTS
 const btnIngredients = document.getElementById('btnIngredients');
-const inputIngredients = document.getElementById('inputIngredients');
 const menuIngredients = document.getElementById('menuIngredients');
 
 const intoInputIngredients = () => {
-  btnIngredients.classList.add('hidden');
-  inputIngredients.classList.remove('hidden');
   menuIngredients.classList.add('show');
+  btnIngredients.classList.add('push');
 }
 const intoSwitchIngredients = () => {
-  btnIngredients.classList.remove('hidden');
-  inputIngredients.classList.add('hidden');
+  btnIngredients.classList.remove('push');
   menuIngredients.classList.remove('show');
 }
 btnIngredients.addEventListener('click', intoInputIngredients);
-inputIngredients.addEventListener('focusout', intoSwitchIngredients)
+menuIngredients.addEventListener('focusout', intoSwitchIngredients)
 
 // Ingredient Dropdown display loop
-let resultIngredients = new Set([]);
-
 const ingredientDropdownLoop = (database) => {
+  let resultIngredients = new Set([]);
   database.forEach(recette => {
     recette.ingredients.forEach(elm => {
-      resultIngredients.add(elm.ingredient)
       if (isValid(elm.ingredient) === true) {
         resultIngredients.add(elm.ingredient)
       }
@@ -108,7 +94,7 @@ const ingredientDropdownLoop = (database) => {
   })
 
   let menuIngredients = document.getElementById('menuIngredients');
-  let htmlUl = '<li><input type="text></li>';
+  let htmlUl = '<input class="inputDrop" type="text">';
   resultIngredients.forEach(ingredient => {
     htmlUl += `<li><a class="dropdown-item" href="#">${ingredient}</a></li>`
   })
@@ -120,27 +106,23 @@ ingredientDropdownLoop(database);
 // - - - - - - - - - - - - - -
 // Gestion dropdown APPAREILS
 const btnAppareils = document.getElementById('btnAppareils');
-const inputAppareils = document.getElementById('inputAppareils');
 const menuAppareils = document.getElementById('menuAppareils');
 
 const intoInputAppliances = () => {
   btnAppareils.classList.add('hidden');
-  inputAppareils.classList.remove('hidden');
   menuAppareils.classList.add('show');
 }
 const intoButtonAppliances = () => {
   btnAppareils.classList.remove('hidden');
-  inputAppareils.classList.add('hidden');
   menuAppareils.classList.remove('show');
 }
 btnAppareils.addEventListener('click', intoInputAppliances);
-inputAppareils.addEventListener('focusout', intoButtonAppliances)
+menuAppareils.addEventListener('focusout', intoButtonAppliances)
 
 
 // Appareils Dropdown display loop
-let resultAppareils = new Set([]);
-
 const appareilsDropdownLoop = (database) => {
+  let resultAppareils = new Set([]);
   database.forEach(recette => {
     if (isValid(recette.appliance) === true) {
       resultAppareils.add(recette.appliance)
@@ -148,7 +130,7 @@ const appareilsDropdownLoop = (database) => {
   })
 
   let menuAppareils = document.getElementById('menuAppareils');
-  let htmlUl = '';
+  let htmlUl = '<input class="inputDrop" type="text">';
   resultAppareils.forEach(appliance => {
     htmlUl += `<li><a class="dropdown-item" href="#">${appliance}</a></li>`
   })
@@ -160,26 +142,22 @@ appareilsDropdownLoop(database);
 // - - - - - - - - - - - - - -  
 // Gestion dropdown USTENSILES
 const btnUstensiles = document.getElementById('btnUstensiles');
-const inputUstensiles = document.getElementById('inputUstensiles');
 const menuUstensiles = document.getElementById('menuUstensiles');
 
 const intoInputUstensils = () => {
   btnUstensiles.classList.add('hidden');
-  inputUstensiles.classList.remove('hidden');
   menuUstensiles.classList.add('show');
 }
 const intoButtonUstensils = () => {
   btnUstensiles.classList.remove('hidden');
-  inputUstensiles.classList.add('hidden');
   menuUstensiles.classList.remove('show');
 }
 btnUstensiles.addEventListener('click', intoInputUstensils);
-inputUstensiles.addEventListener('focusout', intoButtonUstensils)
+menuUstensiles.addEventListener('focusout', intoButtonUstensils)
 
 // Appareils Dropdown display loop
-let resultUstensils = new Set([]);
-
 const ustensilsDropdownLoop = (database) => {
+  let resultUstensils = new Set([]);
   database.forEach(recette => {
     recette.ustensils.forEach(elm => {
       if (isValid(elm) === true) {
@@ -189,7 +167,7 @@ const ustensilsDropdownLoop = (database) => {
   })
 
   let menuUstensiles = document.getElementById('menuUstensiles');
-  let htmlUl = '';
+  let htmlUl = '<input class="inputDrop" type="text">';
   resultUstensils.forEach(ustensils => {
     htmlUl += `<li><a class="dropdown-item" href="#">${ustensils}</a></li>`
   })
