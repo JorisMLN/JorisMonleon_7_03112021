@@ -1,16 +1,6 @@
 import database from './database.js';
 import filterDatabase from './filteredData.js';
 
-// String.prototype.removeDiacritics = function() {
-//   return this.toLocaleLowerCase().normalize("NFD")
-// }
-
-// "totétèça".removeDiacritics()
-
-// // -------------------------------
-
-// str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
-
 
 //  - - - - - - - - - - - - - - - - - - - - -
 // input Listener
@@ -24,7 +14,6 @@ const inputResearch = () => {
         let actualInputValue = document.getElementById('searchBar').value;
 
         if (targetValue === actualInputValue) {
-
           console.log(filterDatabase);
           let resultArray = [];
           filterDatabase.forEach(recette => {
@@ -66,6 +55,127 @@ const resultDisplay = (database, resultArray) => {
 };
 
 
+
+/*####################################################################################################################################*/
+// - - - - - - - - - - - - - -
+// Gestion dropdown INGREDIENTS
+const ingredientsDropdown = (database) => {
+  const btnIngredients = document.getElementById('btnIngredients');
+  const menuIngredients = document.getElementById('menuIngredients');
+
+  const intoInputIngredients = () => {
+    menuIngredients.classList.add('show');
+    btnIngredients.classList.add('push');
+  }
+  const intoSwitchIngredients = () => {
+    btnIngredients.classList.remove('push');
+    menuIngredients.classList.remove('show');
+  }
+  btnIngredients.addEventListener('click', intoInputIngredients);
+  menuIngredients.addEventListener('focusout', intoSwitchIngredients)
+
+  // Ingredient Dropdown display loop
+  const ingredientDropdownLoop = (database) => {
+    let resultIngredients = new Set([]);
+    database.forEach(recette => {
+      recette.ingredients.forEach(elm => {
+        if (isValid(elm.ingredient) === true) {
+          resultIngredients.add(elm.ingredient)
+        }
+      })
+    })
+
+    let menuIngredients = document.getElementById('menuIngredients');
+    let htmlUl = '<input class="inputDrop" type="text">';
+    resultIngredients.forEach(ingredient => {
+      htmlUl += `<li><a class="dropdown-item" href="#">${ingredient}</a></li>`
+    })
+    menuIngredients.innerHTML = htmlUl;
+  };
+  ingredientDropdownLoop(database);
+}
+ingredientsDropdown(database);
+
+
+// - - - - - - - - - - - - - -
+// Gestion dropdown APPAREILS
+const appareilsDropdown = () => {
+  const btnAppareils = document.getElementById('btnAppareils');
+  const menuAppareils = document.getElementById('menuAppareils');
+
+  const intoInputAppliances = () => {
+    btnAppareils.classList.add('hidden');
+    menuAppareils.classList.add('show');
+  }
+  const intoButtonAppliances = () => {
+    btnAppareils.classList.remove('hidden');
+    menuAppareils.classList.remove('show');
+  }
+  btnAppareils.addEventListener('click', intoInputAppliances);
+  menuAppareils.addEventListener('focusout', intoButtonAppliances)
+
+
+  // Appareils Dropdown display loop
+  const appareilsDropdownLoop = (database) => {
+    let resultAppareils = new Set([]);
+    database.forEach(recette => {
+      if (isValid(recette.appliance) === true) {
+        resultAppareils.add(recette.appliance)
+      }
+    })
+
+    let menuAppareils = document.getElementById('menuAppareils');
+    let htmlUl = '<input class="inputDrop" type="text">';
+    resultAppareils.forEach(appliance => {
+      htmlUl += `<li><a class="dropdown-item" href="#">${appliance}</a></li>`
+    })
+    menuAppareils.innerHTML = htmlUl;
+  };
+  appareilsDropdownLoop(database);
+}
+appareilsDropdown(database);
+
+
+// - - - - - - - - - - - - - -  
+// Gestion dropdown USTENSILES
+const ustensilsDropdown = (database) => {
+  const btnUstensiles = document.getElementById('btnUstensiles');
+  const menuUstensiles = document.getElementById('menuUstensiles');
+
+  const intoInputUstensils = () => {
+    btnUstensiles.classList.add('hidden');
+    menuUstensiles.classList.add('show');
+  }
+  const intoButtonUstensils = () => {
+    btnUstensiles.classList.remove('hidden');
+    menuUstensiles.classList.remove('show');
+  }
+  btnUstensiles.addEventListener('click', intoInputUstensils);
+  menuUstensiles.addEventListener('focusout', intoButtonUstensils)
+
+  // Appareils Dropdown display loop
+  const ustensilsDropdownLoop = (database) => {
+    let resultUstensils = new Set([]);
+    database.forEach(recette => {
+      recette.ustensils.forEach(elm => {
+        if (isValid(elm) === true) {
+          resultUstensils.add(elm)
+        }
+      })
+    })
+
+    let menuUstensiles = document.getElementById('menuUstensiles');
+    let htmlUl = '<input class="inputDrop" type="text">';
+    resultUstensils.forEach(ustensils => {
+      htmlUl += `<li><a class="dropdown-item" href="#">${ustensils}</a></li>`
+    })
+    menuUstensiles.innerHTML = htmlUl;
+  };
+  ustensilsDropdownLoop(database);
+}
+ustensilsDropdown(database);
+
+
 //  - - - - - - - - - - - - - - - - - - - - -
 // Regex de validation
 function isValid(tester) {
@@ -73,117 +183,15 @@ function isValid(tester) {
 }
 
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-// Gestion dropdown INGREDIENTS
-const btnIngredients = document.getElementById('btnIngredients');
-const menuIngredients = document.getElementById('menuIngredients');
-
-const intoInputIngredients = () => {
-  menuIngredients.classList.add('show');
-  btnIngredients.classList.add('push');
-}
-const intoSwitchIngredients = () => {
-  btnIngredients.classList.remove('push');
-  menuIngredients.classList.remove('show');
-}
-btnIngredients.addEventListener('click', intoInputIngredients);
-menuIngredients.addEventListener('focusout', intoSwitchIngredients)
-
-// Ingredient Dropdown display loop
-const ingredientDropdownLoop = (database) => {
-  let resultIngredients = new Set([]);
-  database.forEach(recette => {
-    recette.ingredients.forEach(elm => {
-      if (isValid(elm.ingredient) === true) {
-        resultIngredients.add(elm.ingredient)
-      }
-    })
-  })
-
-  let menuIngredients = document.getElementById('menuIngredients');
-  let htmlUl = '<input class="inputDrop" type="text">';
-  resultIngredients.forEach(ingredient => {
-    htmlUl += `<li><a class="dropdown-item" href="#">${ingredient}</a></li>`
-  })
-  menuIngredients.innerHTML = htmlUl;
-};
-ingredientDropdownLoop(database);
+/*####################################################################################################################################*/
 
 
-// - - - - - - - - - - - - - -
-// Gestion dropdown APPAREILS
-const btnAppareils = document.getElementById('btnAppareils');
-const menuAppareils = document.getElementById('menuAppareils');
+// String.prototype.removeDiacritics = function() {
+//   return this.toLocaleLowerCase().normalize("NFD")
+// }
 
-const intoInputAppliances = () => {
-  btnAppareils.classList.add('hidden');
-  menuAppareils.classList.add('show');
-}
-const intoButtonAppliances = () => {
-  btnAppareils.classList.remove('hidden');
-  menuAppareils.classList.remove('show');
-}
-btnAppareils.addEventListener('click', intoInputAppliances);
-menuAppareils.addEventListener('focusout', intoButtonAppliances)
+// "totétèça".removeDiacritics()
 
+// // -------------------------------
 
-// Appareils Dropdown display loop
-const appareilsDropdownLoop = (database) => {
-  let resultAppareils = new Set([]);
-  database.forEach(recette => {
-    if (isValid(recette.appliance) === true) {
-      resultAppareils.add(recette.appliance)
-    }
-  })
-
-  let menuAppareils = document.getElementById('menuAppareils');
-  let htmlUl = '<input class="inputDrop" type="text">';
-  resultAppareils.forEach(appliance => {
-    htmlUl += `<li><a class="dropdown-item" href="#">${appliance}</a></li>`
-  })
-  menuAppareils.innerHTML = htmlUl;
-};
-appareilsDropdownLoop(database);
-
-
-// - - - - - - - - - - - - - -  
-// Gestion dropdown USTENSILES
-const btnUstensiles = document.getElementById('btnUstensiles');
-const menuUstensiles = document.getElementById('menuUstensiles');
-
-const intoInputUstensils = () => {
-  btnUstensiles.classList.add('hidden');
-  menuUstensiles.classList.add('show');
-}
-const intoButtonUstensils = () => {
-  btnUstensiles.classList.remove('hidden');
-  menuUstensiles.classList.remove('show');
-}
-btnUstensiles.addEventListener('click', intoInputUstensils);
-menuUstensiles.addEventListener('focusout', intoButtonUstensils)
-
-// Appareils Dropdown display loop
-const ustensilsDropdownLoop = (database) => {
-  let resultUstensils = new Set([]);
-  database.forEach(recette => {
-    recette.ustensils.forEach(elm => {
-      if (isValid(elm) === true) {
-        resultUstensils.add(elm)
-      }
-    })
-  })
-
-  let menuUstensiles = document.getElementById('menuUstensiles');
-  let htmlUl = '<input class="inputDrop" type="text">';
-  resultUstensils.forEach(ustensils => {
-    htmlUl += `<li><a class="dropdown-item" href="#">${ustensils}</a></li>`
-  })
-  menuUstensiles.innerHTML = htmlUl;
-};
-ustensilsDropdownLoop(database);
-
-
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
+// str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
