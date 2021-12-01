@@ -25,26 +25,32 @@ const inputResearch = () => {
 
         if (targetValue === actualInputValue) {
 
-          console.log(filterDatabase);
           let result = filterDatabase.filter(word => word.name === targetValue);
           console.log(result);
 
+          let resultArray = [];
+          result.map(recette => {
+            resultArray.push(recette.id);
+          })
+          console.log(resultArray);
+
+          resultDisplay(database, resultArray);
         }
       }, 500);
     }
   });
 }
-
 inputResearch();
 
 //  - - - - - - - - - - - - - - - - - - - - -
 // Result display loop
-const resultDisplay = (database) => {
+const resultDisplay = (database, resultArray) => {
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
 
   database.forEach(element => {
-    htmlString += `
+    if (resultArray.includes(element.id) === true) {
+      htmlString += `
       <div class="card" style="width: 18rem;">
         <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
         <div class="card__body">
@@ -53,11 +59,12 @@ const resultDisplay = (database) => {
         </div>
       </div>
       `
+    }
   });
 
   htmlDisplayBloc.innerHTML = htmlString;
 };
-resultDisplay(database);
+
 
 //  - - - - - - - - - - - - - - - - - - - - -
 // Regex de validation
