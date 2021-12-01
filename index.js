@@ -25,12 +25,12 @@ const inputResearch = () => {
 
         if (targetValue === actualInputValue) {
 
-          let result = filterDatabase.filter(word => word.name === targetValue);
-          console.log(result);
-
+          console.log(filterDatabase);
           let resultArray = [];
-          result.map(recette => {
-            resultArray.push(recette.id);
+          filterDatabase.forEach(recette => {
+            if (recette.name.indexOf(targetValue) != -1) {
+              resultArray.push(recette.id)
+            }
           })
           console.log(resultArray);
 
