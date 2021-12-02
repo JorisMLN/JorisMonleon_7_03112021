@@ -7,13 +7,15 @@ import filterDatabase from './filteredData.js';
 const inputResearch = () => {
   let research = document.getElementById('searchBar');
   research.addEventListener('input', (bar) => {
-    let targetValue = bar.target.value;
+    let targetValue = bar.target.value.removeDiacritics();
+    console.log(targetValue);
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
-        let actualInputValue = document.getElementById('searchBar').value;
+        let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
         if (targetValue === actualInputValue) {
+
           console.log(filterDatabase);
           let resultArray = [];
           filterDatabase.forEach(recette => {
@@ -54,6 +56,12 @@ const resultDisplay = (database, resultArray) => {
   htmlDisplayBloc.innerHTML = htmlString;
 };
 
+//  - - - - - - - - - - - - - - - - - - - - -
+// Remove Diacritics
+
+String.prototype.removeDiacritics = function () {
+  return this.toLocaleLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
+}
 
 
 /*####################################################################################################################################*/
@@ -184,14 +192,3 @@ function isValid(tester) {
 
 
 /*####################################################################################################################################*/
-
-
-// String.prototype.removeDiacritics = function() {
-//   return this.toLocaleLowerCase().normalize("NFD")
-// }
-
-// "totétèça".removeDiacritics()
-
-// // -------------------------------
-
-// str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
