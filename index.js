@@ -1,44 +1,56 @@
 import database from './database.js';
 import filterDatabase from './filteredData.js';
 
-
 //  - - - - - - - - - - - - - - - - - - - - -
 // input Listener
 const inputResearch = () => {
   let research = document.getElementById('searchBar');
+  let resultArray = [];
+  resultDisplay(database, resultArray);
+
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
     console.log(targetValue);
+    resultDisplay(database, resultArray, targetValue);
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
-
         if (targetValue === actualInputValue) {
-
-          console.log(filterDatabase);
-          let resultArray = [];
           filterDatabase.forEach(recette => {
-            if (recette.name.indexOf(targetValue) != -1) {
+            if (recette.name.indexOf(targetValue) && recette.description.indexOf(targetValue) != -1) {
               resultArray.push(recette.id)
             }
           })
           console.log(resultArray);
-
-          resultDisplay(database, resultArray);
+          resultDisplay(database, resultArray, targetValue);
         }
       }, 500);
     }
+    resultArray.length = 0;
   });
 }
 inputResearch();
 
 //  - - - - - - - - - - - - - - - - - - - - -
 // Result display loop
-const resultDisplay = (database, resultArray) => {
+function resultDisplay(database, resultArray, target){
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
 
+  resultArray.length === 0 || target.length === 0 ? 
+  database.forEach(element => {
+      htmlString += `
+      <div class="card" style="width: 18rem;">
+        <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
+        <div class="card__body">
+          <h5 class="card-title">${element.name}</h5>
+          <p class="body-text">${element.description}</p>
+        </div>
+      </div>
+      `
+  })
+  :
   database.forEach(element => {
     if (resultArray.includes(element.id) === true) {
       htmlString += `
@@ -55,6 +67,7 @@ const resultDisplay = (database, resultArray) => {
 
   htmlDisplayBloc.innerHTML = htmlString;
 };
+
 
 //  - - - - - - - - - - - - - - - - - - - - -
 // Remove Diacritics
