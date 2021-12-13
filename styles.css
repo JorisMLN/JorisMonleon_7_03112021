@@ -44,6 +44,83 @@ header h1 {
   max-width: 1100px;
 }
 
+#tagList {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+  margin-bottom: 10px;
+}
+
+#tagList .tagBlue {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-width: 200px;
+  height: 40px;
+  color: white;
+  background-color: #3282F7;
+  border: 1px solid #3282F7;
+  border-radius: 4px;
+  margin: 2px;
+  padding: 10px;
+}
+
+#tagList .tagGreen {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-width: 200px;
+  height: 40px;
+  color: white;
+  background-color: #68D9A4;
+  border: 1px solid #68D9A4;
+  border-radius: 4px;
+  margin: 2px;
+  padding: 10px;
+}
+
+#tagList .tagRed {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-width: 200px;
+  height: 40px;
+  color: white;
+  background-color: #ED6454;
+  border: 1px solid #ED6454;
+  border-radius: 4px;
+  margin: 2px;
+  padding: 10px;
+}
+
 .filtres {
   display: -webkit-box;
   display: -ms-flexbox;

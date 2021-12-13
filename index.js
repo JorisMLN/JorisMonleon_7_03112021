@@ -13,7 +13,6 @@ const inputResearch = () => {
     if (targetValue.length >= 3) {
       setTimeout(() => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
-
         if (targetValue === actualInputValue) {
 
           console.log(filterDatabase);
@@ -23,8 +22,8 @@ const inputResearch = () => {
               resultArray.push(recette.id)
             }
           })
-          console.log(resultArray);
 
+          console.log(resultArray);
           resultDisplay(database, resultArray);
         }
       }, 500);
@@ -56,15 +55,53 @@ const resultDisplay = (database, resultArray) => {
   htmlDisplayBloc.innerHTML = htmlString;
 };
 
-//  - - - - - - - - - - - - - - - - - - - - -
-// Remove Diacritics
-
-String.prototype.removeDiacritics = function () {
-  return this.toLocaleLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
-}
-
 
 /*####################################################################################################################################*/
+//  - - - - - - - - - - - - - - - - - - - - -
+// Recupération click dropdown
+
+let tagList = document.getElementById('tagList');
+let htmlTag = "";
+
+function recoveryValueBlue() {
+  let dropItemsBlue = document.getElementsByClassName('itemBlue');
+  console.log(dropItemsBlue);
+
+  Array.from(dropItemsBlue).forEach((item) => {
+    item.addEventListener('click', function (event) {
+      console.log(event.target.textContent);
+      htmlTag += `<div class="tagBlue">${event.target.textContent}</div>`;
+      tagList.innerHTML = htmlTag;
+    });
+  })
+};
+
+function recoveryValueGreen() {
+  let dropItemsGreen = document.getElementsByClassName('itemGreen');
+  console.log(dropItemsGreen);
+
+  Array.from(dropItemsGreen).forEach((item) => {
+    item.addEventListener('click', function (event) {
+      console.log(event.target.textContent);
+      htmlTag += `<div class="tagGreen">${event.target.textContent}</div>`;
+      tagList.innerHTML = htmlTag;
+    });
+  })
+};
+
+function recoveryValueRed() {
+  let dropItemsRed = document.getElementsByClassName('itemRed');
+  console.log(dropItemsRed);
+
+  Array.from(dropItemsRed).forEach((item) => {
+    item.addEventListener('click', function (event) {
+      console.log(event.target.textContent);
+      htmlTag += `<div class="tagRed">${event.target.textContent}</div>`;
+      tagList.innerHTML = htmlTag;
+    });
+  })
+}
+
 // - - - - - - - - - - - - - -
 // Gestion dropdown INGREDIENTS
 const ingredientsDropdown = (database) => {
@@ -96,11 +133,12 @@ const ingredientsDropdown = (database) => {
     let menuIngredients = document.getElementById('menuIngredients');
     let htmlUl = '<input class="inputDrop" type="text">';
     resultIngredients.forEach(ingredient => {
-      htmlUl += `<li><a class="dropdown-item" href="#">${ingredient}</a></li>`
+      htmlUl += `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
     })
     menuIngredients.innerHTML = htmlUl;
   };
   ingredientDropdownLoop(database);
+  recoveryValueBlue();
 }
 ingredientsDropdown(database);
 
@@ -135,11 +173,12 @@ const appareilsDropdown = () => {
     let menuAppareils = document.getElementById('menuAppareils');
     let htmlUl = '<input class="inputDrop" type="text">';
     resultAppareils.forEach(appliance => {
-      htmlUl += `<li><a class="dropdown-item" href="#">${appliance}</a></li>`
+      htmlUl += `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
     })
     menuAppareils.innerHTML = htmlUl;
   };
   appareilsDropdownLoop(database);
+  recoveryValueGreen();
 }
 appareilsDropdown(database);
 
@@ -175,20 +214,26 @@ const ustensilsDropdown = (database) => {
     let menuUstensiles = document.getElementById('menuUstensiles');
     let htmlUl = '<input class="inputDrop" type="text">';
     resultUstensils.forEach(ustensils => {
-      htmlUl += `<li><a class="dropdown-item" href="#">${ustensils}</a></li>`
+      htmlUl += `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
     })
     menuUstensiles.innerHTML = htmlUl;
   };
   ustensilsDropdownLoop(database);
+  recoveryValueRed();
 }
 ustensilsDropdown(database);
 
 
+/*####################################################################################################################################*/
 //  - - - - - - - - - - - - - - - - - - - - -
 // Regex de validation
 function isValid(tester) {
   return !/[~`!#$%\^&*+=\-\[\]\\'.;,/{}|\\":<>\?]/g.test(tester);
 }
 
+//  - - - - - - - - - - - - - - - - - - - - -
+// Remove Diacritics
 
-/*####################################################################################################################################*/
+String.prototype.removeDiacritics = function () {
+  return this.toLocaleLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
+}
