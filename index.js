@@ -108,13 +108,14 @@ function recoveryValueRed() {
 }
 
 function removeTag() {
-  let closeBtn = document.getElementsByClassName('tag');
+  let closeBtn = document.getElementsByClassName('closeBtn');
   Array.from(closeBtn).forEach((button) => {
     button.addEventListener('click', function (event) {
-      console.log(event.target.outerHTML);
+      console.log(event.target.parentElement.outerHTML);
       console.log(htmlTag.length)
 
-      let indexFound = htmlTag.findIndex(tag => tag === event.target.outerHTML);
+      let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
+      console.log(indexFound);
       htmlTag.splice(indexFound, 1);
 
       tagList.innerHTML = htmlTag;
