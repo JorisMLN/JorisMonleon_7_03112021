@@ -33,18 +33,19 @@ header {
 #tagList{
   display: flex;
   width: 90%;
+  max-width: 1100px;
   margin-bottom: 10px;
   .tag{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    max-width: 200px;
     height: 40px;
     color: white;
     border-radius: 4px;
     margin: 2px;
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   .Blue{
     background-color: #3282F7;
@@ -62,15 +63,14 @@ header {
 
 .closeBtn{
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   align-items: center;
-  
+  justify-content: center;
   height: 20px;
   width: 20px;
   border: 3px solid white;
   border-radius: 30px;
-  margin-left: 10px
+  margin-left: 10px;
+  padding-bottom: 5px;
 }
 
 .filtres {
