@@ -61,46 +61,69 @@ const resultDisplay = (database, resultArray) => {
 // Recupération click dropdown
 
 let tagList = document.getElementById('tagList');
-let htmlTag = "";
+let htmlTag = [];
 
 function recoveryValueBlue() {
   let dropItemsBlue = document.getElementsByClassName('itemBlue');
-  console.log(dropItemsBlue);
 
   Array.from(dropItemsBlue).forEach((item) => {
     item.addEventListener('click', function (event) {
-      console.log(event.target.textContent);
-      htmlTag += `<div class="tagBlue">${event.target.textContent}</div>`;
+
+      htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      console.log(htmlTag)
       tagList.innerHTML = htmlTag;
+
+      removeTag();
     });
   })
 };
 
 function recoveryValueGreen() {
   let dropItemsGreen = document.getElementsByClassName('itemGreen');
-  console.log(dropItemsGreen);
 
   Array.from(dropItemsGreen).forEach((item) => {
     item.addEventListener('click', function (event) {
-      console.log(event.target.textContent);
-      htmlTag += `<div class="tagGreen">${event.target.textContent}</div>`;
+
+      htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      console.log(htmlTag)
       tagList.innerHTML = htmlTag;
+
+      removeTag();
     });
   })
 };
 
 function recoveryValueRed() {
   let dropItemsRed = document.getElementsByClassName('itemRed');
-  console.log(dropItemsRed);
 
   Array.from(dropItemsRed).forEach((item) => {
     item.addEventListener('click', function (event) {
-      console.log(event.target.textContent);
-      htmlTag += `<div class="tagRed">${event.target.textContent}</div>`;
+      htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      console.log(htmlTag)
       tagList.innerHTML = htmlTag;
+
+      removeTag();
     });
   })
 }
+
+function removeTag() {
+  let closeBtn = document.getElementsByClassName('tag');
+  Array.from(closeBtn).forEach((button) => {
+    button.addEventListener('click', function (event) {
+      console.log(event.target.outerHTML);
+      console.log(htmlTag.length)
+
+      let indexFound = htmlTag.findIndex(tag => tag === event.target.outerHTML);
+      htmlTag.splice(indexFound, 1);
+
+      tagList.innerHTML = htmlTag;
+      console.log(htmlTag);
+      removeTag();
+    })
+  })
+}
+
 
 // - - - - - - - - - - - - - -
 // Gestion dropdown INGREDIENTS

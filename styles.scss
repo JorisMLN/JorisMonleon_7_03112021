@@ -34,51 +34,43 @@ header {
   display: flex;
   width: 90%;
   margin-bottom: 10px;
-  .tagBlue{
+  .tag{
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    flex-direction: row;
+    justify-content: space-evenly;
     align-items: center;
-    // min-width: 20px;
     max-width: 200px;
     height: 40px;
     color: white;
+    border-radius: 4px;
+    margin: 2px;
+    padding: 10px;
+  }
+  .Blue{
     background-color: #3282F7;
     border: 1px solid #3282F7;
-    border-radius: 4px;
-    margin: 2px;
-    padding: 10px;
   }
-  .tagGreen{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    // min-width: 20px;
-    max-width: 200px;
-    height: 40px;
-    color: white;
+  .Green{
     background-color: #68D9A4;
     border: 1px solid #68D9A4;
-    border-radius: 4px;
-    margin: 2px;
-    padding: 10px;
   }
-  .tagRed{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    // min-width: 20px;
-    max-width: 200px;
-    height: 40px;
-    color: white;
+  .Red{
     background-color: #ED6454;
     border: 1px solid #ED6454;
-    border-radius: 4px;
-    margin: 2px;
-    padding: 10px;
   }
+}
+
+.closeBtn{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  
+  height: 20px;
+  width: 20px;
+  border: 3px solid white;
+  border-radius: 30px;
+  margin-left: 10px
 }
 
 .filtres {
