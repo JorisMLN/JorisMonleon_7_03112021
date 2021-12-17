@@ -89,15 +89,76 @@ function resultDisplay(database, resultArrayName, resultArrayDescription){
 };
 
 
+/*####################################################################################################################################*/
 //  - - - - - - - - - - - - - - - - - - - - -
-// Remove Diacritics
+// Recupération click dropdown
 
-String.prototype.removeDiacritics = function () {
-  return this.toLocaleLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
+let tagList = document.getElementById('tagList');
+let htmlTag = [];
+
+function recoveryValueBlue() {
+  let dropItemsBlue = document.getElementsByClassName('itemBlue');
+
+  Array.from(dropItemsBlue).forEach((item) => {
+    item.addEventListener('click', function (event) {
+
+      htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      console.log(htmlTag)
+      tagList.innerHTML = htmlTag;
+
+      removeTag();
+    });
+  })
+};
+
+function recoveryValueGreen() {
+  let dropItemsGreen = document.getElementsByClassName('itemGreen');
+
+  Array.from(dropItemsGreen).forEach((item) => {
+    item.addEventListener('click', function (event) {
+
+      htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      console.log(htmlTag)
+      tagList.innerHTML = htmlTag;
+
+      removeTag();
+    });
+  })
+};
+
+function recoveryValueRed() {
+  let dropItemsRed = document.getElementsByClassName('itemRed');
+
+  Array.from(dropItemsRed).forEach((item) => {
+    item.addEventListener('click', function (event) {
+      htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      console.log(htmlTag)
+      tagList.innerHTML = htmlTag;
+
+      removeTag();
+    });
+  })
+}
+
+function removeTag() {
+  let closeBtn = document.getElementsByClassName('closeBtn');
+  Array.from(closeBtn).forEach((button) => {
+    button.addEventListener('click', function (event) {
+      console.log(event.target.parentElement.outerHTML);
+      console.log(htmlTag.length)
+
+      let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
+      console.log(indexFound);
+      htmlTag.splice(indexFound, 1);
+
+      tagList.innerHTML = htmlTag;
+      console.log(htmlTag);
+      removeTag();
+    })
+  })
 }
 
 
-/*####################################################################################################################################*/
 // - - - - - - - - - - - - - -
 // Gestion dropdown INGREDIENTS
 const ingredientsDropdown = (database) => {
@@ -134,6 +195,7 @@ const ingredientsDropdown = (database) => {
     menuIngredients.innerHTML = htmlUl;
   };
   ingredientDropdownLoop(database);
+  recoveryValueBlue();
 }
 ingredientsDropdown(database);
 
@@ -173,6 +235,7 @@ const appareilsDropdown = () => {
     menuAppareils.innerHTML = htmlUl;
   };
   appareilsDropdownLoop(database);
+  recoveryValueGreen();
 }
 appareilsDropdown(database);
 
@@ -213,15 +276,21 @@ const ustensilsDropdown = (database) => {
     menuUstensiles.innerHTML = htmlUl;
   };
   ustensilsDropdownLoop(database);
+  recoveryValueRed();
 }
 ustensilsDropdown(database);
 
 
+/*####################################################################################################################################*/
 //  - - - - - - - - - - - - - - - - - - - - -
 // Regex de validation
 function isValid(tester) {
   return !/[~`!#$%\^&*+=\-\[\]\\'.;,/{}|\\":<>\?]/g.test(tester);
 }
 
+//  - - - - - - - - - - - - - - - - - - - - -
+// Remove Diacritics
 
-/*####################################################################################################################################*/
+String.prototype.removeDiacritics = function () {
+  return this.toLocaleLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
+}

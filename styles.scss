@@ -30,6 +30,49 @@ header {
   max-width: 1100px;
 }
 
+#tagList{
+  display: flex;
+  width: 90%;
+  max-width: 1100px;
+  margin-bottom: 10px;
+  .tag{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 40px;
+    color: white;
+    border-radius: 4px;
+    margin: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .Blue{
+    background-color: #3282F7;
+    border: 1px solid #3282F7;
+  }
+  .Green{
+    background-color: #68D9A4;
+    border: 1px solid #68D9A4;
+  }
+  .Red{
+    background-color: #ED6454;
+    border: 1px solid #ED6454;
+  }
+}
+
+.closeBtn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  border: 3px solid white;
+  border-radius: 30px;
+  margin-left: 10px;
+  padding-bottom: 5px;
+}
+
 .filtres {
   display: flex;
   align-items: center;
