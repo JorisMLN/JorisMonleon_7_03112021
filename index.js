@@ -17,16 +17,31 @@ const inputResearch = () => {
       setTimeout(() => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
         if (targetValue === actualInputValue) {
+
+          let beforeFilterDescriptionArray = [];
+
           filterDatabase.forEach(recette => {
             if (recette.name.indexOf(targetValue) != -1) {
               resultArrayName.push(recette.id)
             }
             if (recette.description.indexOf(targetValue) != -1) {
-              resultArrayDescription.push(recette.id)
+              beforeFilterDescriptionArray.push(recette.id)
             }
           })
+
+          // filtre pour enlever les doublons de recherche
+          resultArrayDescription = beforeFilterDescriptionArray.filter(id => !resultArrayName.includes(id));
+
+          // ordre alphabétique
+          resultArrayDescription.sort();
+          resultArrayName.sort();
+
+          // logs de vérification
+          console.log("resultArrayName");
           console.log(resultArrayName);
+          console.log("resultArrayDescription");
           console.log(resultArrayDescription);
+
           resultDisplay(database, resultArrayName, resultArrayDescription);
         }
       }, 500);
@@ -42,46 +57,34 @@ inputResearch();
 function resultDisplay(database, resultArrayName, resultArrayDescription){
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
-  // Peut-etre formater les 2 Array pour éviter les doublons'id' dans l'array de description
 
-  resultArrayName.length === 0 && resultArrayDescription.length === 0 ? 
-  database.forEach(element => {
-      htmlString += `
-      <div class="card" style="width: 18rem;">
-        <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
-        <div class="card__body">
-          <h5 class="card-title">${element.name}</h5>
-          <p class="body-text">${element.description}</p>
-        </div>
+  // template HTML du bloc vignette
+  const templateHTML = (element) => {
+    return `
+    <div class="card" style="width: 18rem;">
+      <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
+      <div class="card__body">
+        <h5 class="card-title">${element.name}</h5>
+        <p class="body-text">${element.description}</p>
       </div>
-      `
+    </div>
+    `
+  }
+
+  resultArrayName.length === 0 && resultArrayDescription.length === 0 
+  ? 
+  database.forEach(element => {
+      htmlString += templateHTML(element);
   })
   :
   database.forEach(element => {
     if (resultArrayName.includes(element.id) === true) {
-      htmlString += `
-      <div class="card" style="width: 18rem;">
-        <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
-        <div class="card__body">
-          <h5 class="card-title">${element.name} ${element.id}</h5>
-          <p class="body-text">${element.description}</p>
-        </div>
-      </div>
-      `
+      htmlString += templateHTML(element);
     }
   });
-  // mettre une condition pour filter les elements deja presents dans l'array de nom
   database.forEach(element => {
     if (resultArrayDescription.includes(element.id) === true) {
-      htmlString += `
-      <div class="card" style="width: 18rem;">
-        <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
-        <div class="card__body">
-          <h5 class="card-title">${element.name} ${element.id}</h5>
-          <p class="body-text">${element.description}</p>
-        </div>
-      </div>
-      `
+      htmlString += templateHTML(element);
     }
   });
 
