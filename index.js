@@ -190,7 +190,7 @@ const ingredientsDropdown = (database) => {
     let menuIngredients = document.getElementById('menuIngredients');
     let htmlUl = '<input class="inputDrop" type="text">';
     resultIngredients.forEach(ingredient => {
-      htmlUl += `<li><a class="dropdown-item" href="#">${ingredient}</a></li>`
+      htmlUl += `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
     })
     menuIngredients.innerHTML = htmlUl;
   };
@@ -230,7 +230,7 @@ const appareilsDropdown = () => {
     let menuAppareils = document.getElementById('menuAppareils');
     let htmlUl = '<input class="inputDrop" type="text">';
     resultAppareils.forEach(appliance => {
-      htmlUl += `<li><a class="dropdown-item" href="#">${appliance}</a></li>`
+      htmlUl += `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
     })
     menuAppareils.innerHTML = htmlUl;
   };
@@ -271,7 +271,7 @@ const ustensilsDropdown = (database) => {
     let menuUstensiles = document.getElementById('menuUstensiles');
     let htmlUl = '<input class="inputDrop" type="text">';
     resultUstensils.forEach(ustensils => {
-      htmlUl += `<li><a class="dropdown-item" href="#">${ustensils}</a></li>`
+      htmlUl += `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
     })
     menuUstensiles.innerHTML = htmlUl;
   };
