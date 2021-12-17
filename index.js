@@ -5,40 +5,46 @@ import filterDatabase from './filteredData.js';
 // input Listener
 const inputResearch = () => {
   let research = document.getElementById('searchBar');
-  let resultArray = [];
-  resultDisplay(database, resultArray);
+  let resultArrayName = [];
+  let resultArrayDescription = [];
+  resultDisplay(database, resultArrayName, resultArrayDescription);
 
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
-    console.log(targetValue);
-    resultDisplay(database, resultArray, targetValue);
+    resultDisplay(database, resultArrayName, resultArrayDescription);
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
         if (targetValue === actualInputValue) {
           filterDatabase.forEach(recette => {
-            if (recette.name.indexOf(targetValue) && recette.description.indexOf(targetValue) != -1) {
-              resultArray.push(recette.id)
+            if (recette.name.indexOf(targetValue) != -1) {
+              resultArrayName.push(recette.id)
+            }
+            if (recette.description.indexOf(targetValue) != -1) {
+              resultArrayDescription.push(recette.id)
             }
           })
-          console.log(resultArray);
-          resultDisplay(database, resultArray, targetValue);
+          console.log(resultArrayName);
+          console.log(resultArrayDescription);
+          resultDisplay(database, resultArrayName, resultArrayDescription);
         }
       }, 500);
     }
-    resultArray.length = 0;
+    resultArrayName.length = 0;
+    resultArrayDescription.length = 0;
   });
 }
 inputResearch();
 
 //  - - - - - - - - - - - - - - - - - - - - -
 // Result display loop
-function resultDisplay(database, resultArray, target){
+function resultDisplay(database, resultArrayName, resultArrayDescription){
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
+  // Peut-etre formater les 2 Array pour éviter les doublons'id' dans l'array de description
 
-  resultArray.length === 0 || target.length === 0 ? 
+  resultArrayName.length === 0 && resultArrayDescription.length === 0 ? 
   database.forEach(element => {
       htmlString += `
       <div class="card" style="width: 18rem;">
@@ -52,7 +58,21 @@ function resultDisplay(database, resultArray, target){
   })
   :
   database.forEach(element => {
-    if (resultArray.includes(element.id) === true) {
+    if (resultArrayName.includes(element.id) === true) {
+      htmlString += `
+      <div class="card" style="width: 18rem;">
+        <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
+        <div class="card__body">
+          <h5 class="card-title">${element.name} ${element.id}</h5>
+          <p class="body-text">${element.description}</p>
+        </div>
+      </div>
+      `
+    }
+  });
+  // mettre une condition pour filter les elements deja presents dans l'array de nom
+  database.forEach(element => {
+    if (resultArrayDescription.includes(element.id) === true) {
       htmlString += `
       <div class="card" style="width: 18rem;">
         <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
