@@ -53,7 +53,12 @@ const inputResearch = () => {
 inputResearch();
 
 //  - - - - - - - - - - - - - - - - - - - - -
-// Result display loop
+/**
+ * Result display loop
+ * @param {Array<string>} database 
+ * @param {Array<string>} resultArrayName 
+ * @param {Array<string>} resultArrayDescription 
+ */
 function resultDisplay(database, resultArrayName, resultArrayDescription){
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
