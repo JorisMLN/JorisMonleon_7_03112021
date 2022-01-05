@@ -11,15 +11,24 @@ const inputResearch = () => {
 
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
-    resultDisplay(database, resultArrayName, resultArrayDescription);
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
         if (targetValue === actualInputValue) {
 
-          let beforeFilterDescriptionArray = [];
+          // Code avec qu un seul Array pour optimisation de l AlgoV2
 
+          // filteredRecipe = {filterByName: [], filterByDescription: []};
+          // filteredDatabase.forEach(recette => {
+          //   if (recette.name.indexOf(targetValue) > -1) {
+          //     filteredRecipe.filterByName.push(recette.id) ;
+          //   } else if (recette.description.indexOf(targetValue) > -1) {
+          //     filteredRecipe.filterByDescription.push(recette.id) ;
+          //   }
+          // }) ;
+
+          let beforeFilterDescriptionArray = [];
           filterDatabase.forEach(recette => {
             if (recette.name.indexOf(targetValue) != -1) {
               resultArrayName.push(recette.id)
@@ -31,19 +40,9 @@ const inputResearch = () => {
 
           // filtre pour enlever les doublons de recherche
           resultArrayDescription = beforeFilterDescriptionArray.filter(id => !resultArrayName.includes(id));
-
-          // ordre alphabétique
-          resultArrayDescription.sort();
-          resultArrayName.sort();
-
-          // logs de vérification
-          console.log("resultArrayName");
-          console.log(resultArrayName);
-          console.log("resultArrayDescription");
-          console.log(resultArrayDescription);
-
-          resultDisplay(database, resultArrayName, resultArrayDescription);
         }
+
+        resultDisplay(database, resultArrayName, resultArrayDescription);
       }, 500);
     }
     resultArrayName.length = 0;
@@ -53,13 +52,8 @@ const inputResearch = () => {
 inputResearch();
 
 //  - - - - - - - - - - - - - - - - - - - - -
-/**
- * Result display loop
- * @param {Array<string>} database 
- * @param {Array<string>} resultArrayName 
- * @param {Array<string>} resultArrayDescription 
- */
-function resultDisplay(database, resultArrayName, resultArrayDescription){
+
+function resultDisplay(database, resultArrayName, resultArrayDescription) {
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
 
@@ -76,17 +70,17 @@ function resultDisplay(database, resultArrayName, resultArrayDescription){
     `
   }
 
-  resultArrayName.length === 0 && resultArrayDescription.length === 0 
-  ? 
-  database.forEach(element => {
+  resultArrayName.length === 0 && resultArrayDescription.length === 0
+    ?
+    database.forEach(element => {
       htmlString += templateHTML(element);
-  })
-  :
-  database.forEach(element => {
-    if (resultArrayName.includes(element.id) === true) {
-      htmlString += templateHTML(element);
-    }
-  });
+    })
+    :
+    database.forEach(element => {
+      if (resultArrayName.includes(element.id) === true) {
+        htmlString += templateHTML(element);
+      }
+    });
   database.forEach(element => {
     if (resultArrayDescription.includes(element.id) === true) {
       htmlString += templateHTML(element);
@@ -185,27 +179,77 @@ const ingredientsDropdown = (database) => {
   menuIngredients.addEventListener('focusout', intoSwitchIngredients)
 
   // Ingredient Dropdown display loop
-  const ingredientDropdownLoop = (database) => {
-    let resultIngredients = new Set([]);
-    database.forEach(recette => {
-      recette.ingredients.forEach(elm => {
-        if (isValid(elm.ingredient) === true) {
-          resultIngredients.add(elm.ingredient)
-        }
-      })
-    })
-
+  const blueDisplay = (blueResult) => {
     let menuIngredients = document.getElementById('menuIngredients');
-    let htmlUl = '<input class="inputDrop" type="text">';
-    resultIngredients.forEach(ingredient => {
+    let htmlUl = '<input id="blueInput" class="inputDrop" type="text">';
+    blueResult.forEach(ingredient => {
       htmlUl += `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
     })
     menuIngredients.innerHTML = htmlUl;
+  }
+
+  const ingredientDropdownLoop = (database) => {
+
+    let blueResult = new Set([]);
+
+    database.forEach(recette => {
+      recette.ingredients.forEach(elm => {
+        let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
+        if (isValid(ingredientWithoutDiacritics) === true) {
+          blueResult.add(ingredientWithoutDiacritics)
+        };
+      });
+    });
+    blueDisplay(blueResult);
+
+    let blueInput = document.querySelector('#blueInput');
+    blueInput.addEventListener('input', (bar) => {
+      let blueValue = bar.target.value.removeDiacritics();
+      if (blueValue.length >= 3) {
+        database.forEach(recette => {
+          recette.ingredients.forEach(elm => {
+            let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
+
+            if (isValid(ingredientWithoutDiacritics) === true && ingredientWithoutDiacritics.indexOf(blueValue) != 0) {
+              blueResult.delete(ingredientWithoutDiacritics);
+            }
+            blueDisplay(blueResult);
+          })
+        })
+      };
+    });
+
+
+
+
+
+    // let resultIngredients = new Set([]);
+    // console.log(resultIngredients)
+
+    // database.forEach(recette => {
+    //   recette.ingredients.forEach(elm => {
+
+    //     let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
+
+    //     if (isValid(ingredientWithoutDiacritics) === true) {
+    //       resultIngredients.add(ingredientWithoutDiacritics)
+    //     }
+    //   })
+    // })
+
+    // let menuIngredients = document.getElementById('menuIngredients');
+    // let htmlUl = '<input id="inputBlue" class="inputDrop" type="text">';
+    // resultIngredients.forEach(ingredient => {
+    //   htmlUl += `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
+    // })
+    // menuIngredients.innerHTML = htmlUl;
   };
   ingredientDropdownLoop(database);
   recoveryValueBlue();
 }
 ingredientsDropdown(database);
+
+
 
 
 // - - - - - - - - - - - - - -
@@ -236,7 +280,7 @@ const appareilsDropdown = () => {
     })
 
     let menuAppareils = document.getElementById('menuAppareils');
-    let htmlUl = '<input class="inputDrop" type="text">';
+    let htmlUl = '<input id="greenInput" class="inputDrop" type="text">';
     resultAppareils.forEach(appliance => {
       htmlUl += `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
     })
@@ -277,7 +321,7 @@ const ustensilsDropdown = (database) => {
     })
 
     let menuUstensiles = document.getElementById('menuUstensiles');
-    let htmlUl = '<input class="inputDrop" type="text">';
+    let htmlUl = '<input id="redInput" class="inputDrop" type="text">';
     resultUstensils.forEach(ustensils => {
       htmlUl += `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
     })

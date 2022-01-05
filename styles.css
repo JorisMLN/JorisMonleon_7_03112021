@@ -154,8 +154,17 @@ header h1 {
 }
 
 #menuIngredients {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   background-color: #3282F7;
   border-color: #3282F7;
+  height: 900px;
+  width: 700px;
+}
+
+#menuIngredients .inputDrop {
+  height: 30px;
+  width: 150px;
 }
 
 #menuIngredients .dropdown-item {
