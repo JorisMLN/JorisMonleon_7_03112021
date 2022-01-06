@@ -1,13 +1,13 @@
 import database from './database.js';
-import filterDatabase from './filteredData.js';
+import filteredDatabase from './filteredData.js';
 
 //  - - - - - - - - - - - - - - - - - - - - -
 // input Listener
 const inputResearch = () => {
   let research = document.getElementById('searchBar');
-  let resultArrayName = [];
-  let resultArrayDescription = [];
-  resultDisplay(database, resultArrayName, resultArrayDescription);
+  let filteredRecipe = { filterByName: [], filterByDescription: [] };
+  resultDisplay(database, filteredRecipe);
+  blueManager(database, filteredRecipe)
 
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
@@ -17,43 +17,31 @@ const inputResearch = () => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
         if (targetValue === actualInputValue) {
 
-          // Code avec qu un seul Array pour optimisation de l AlgoV2
-
-          // filteredRecipe = {filterByName: [], filterByDescription: []};
-          // filteredDatabase.forEach(recette => {
-          //   if (recette.name.indexOf(targetValue) > -1) {
-          //     filteredRecipe.filterByName.push(recette.id) ;
-          //   } else if (recette.description.indexOf(targetValue) > -1) {
-          //     filteredRecipe.filterByDescription.push(recette.id) ;
-          //   }
-          // }) ;
-
-          let beforeFilterDescriptionArray = [];
-          filterDatabase.forEach(recette => {
-            if (recette.name.indexOf(targetValue) != -1) {
-              resultArrayName.push(recette.id)
+          // Display loop for the main page
+          filteredDatabase.forEach(recette => {
+            if (recette.name.indexOf(targetValue) > -1) {
+              filteredRecipe.filterByName.push(recette.id);
+            } else if (recette.description.indexOf(targetValue) > -1) {
+              filteredRecipe.filterByDescription.push(recette.id);
             }
-            if (recette.description.indexOf(targetValue) != -1) {
-              beforeFilterDescriptionArray.push(recette.id)
-            }
-          })
-
-          // filtre pour enlever les doublons de recherche
-          resultArrayDescription = beforeFilterDescriptionArray.filter(id => !resultArrayName.includes(id));
+          });
         }
-
-        resultDisplay(database, resultArrayName, resultArrayDescription);
+        resultDisplay(database, filteredRecipe);
+        blueManager(database, filteredRecipe)
       }, 500);
     }
-    resultArrayName.length = 0;
-    resultArrayDescription.length = 0;
+    resultDisplay(database, filteredRecipe);
+    blueManager(database, filteredRecipe)
+    filteredRecipe.filterByName.length = 0;
+    filteredRecipe.filterByDescription.length = 0;
   });
+
 }
 inputResearch();
 
 //  - - - - - - - - - - - - - - - - - - - - -
-
-function resultDisplay(database, resultArrayName, resultArrayDescription) {
+// General display
+function resultDisplay(database, filteredRecipe) {
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
 
@@ -70,19 +58,19 @@ function resultDisplay(database, resultArrayName, resultArrayDescription) {
     `
   }
 
-  resultArrayName.length === 0 && resultArrayDescription.length === 0
+  filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0
     ?
     database.forEach(element => {
       htmlString += templateHTML(element);
     })
     :
     database.forEach(element => {
-      if (resultArrayName.includes(element.id) === true) {
+      if (filteredRecipe.filterByName.includes(element.id) === true) {
         htmlString += templateHTML(element);
       }
     });
   database.forEach(element => {
-    if (resultArrayDescription.includes(element.id) === true) {
+    if (filteredRecipe.filterByDescription.includes(element.id) === true) {
       htmlString += templateHTML(element);
     }
   });
@@ -91,10 +79,56 @@ function resultDisplay(database, resultArrayName, resultArrayDescription) {
 };
 
 
-/*####################################################################################################################################*/
+/*##### D R O P D O W N S ###############################################################################################################################*/
+// BLUE Dropdown display
+
+function blueManager(database, filteredRecipe) {
+
+  let blueResult = new Set([]);
+
+  database.forEach(recette => {
+    recette.ingredients.forEach(elm => {
+      let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
+      if (isValid(ingredientWithoutDiacritics) === true) {
+        blueResult.add(ingredientWithoutDiacritics)
+      };
+    });
+  })
+  blueDisplay(blueResult, filteredRecipe, database);
+
+  recoveryValueBlue();
+
+  function blueDisplay(blueResult, filteredRecipe, database) {
+
+    const templateHTML = (ingredient) => {
+      return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
+    }
+    let menuIngredients = document.getElementById('menuIngredients');
+    let htmlUl = '<input id="blueInput" class="inputDrop" type="text">';
+
+    console.log(filteredRecipe)
+
+    if (filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0) {
+      blueResult.forEach(ingredient => {
+        htmlUl += templateHTML(ingredient);
+      })
+    } else {
+      database.forEach(recette => {
+        if (filteredRecipe.filterByName.includes(recette.id) === true) {
+          recette.ingredients.forEach(elm => {
+            let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
+            htmlUl += templateHTML(ingredientWithoutDiacritics);
+          })
+        }
+      })
+    }
+
+    menuIngredients.innerHTML = htmlUl;
+  }
+}
+
 //  - - - - - - - - - - - - - - - - - - - - -
 // Recupération click dropdown
-
 let tagList = document.getElementById('tagList');
 let htmlTag = [];
 
@@ -160,7 +194,6 @@ function removeTag() {
   })
 }
 
-
 // - - - - - - - - - - - - - -
 // Gestion dropdown INGREDIENTS
 const ingredientsDropdown = (database) => {
@@ -177,79 +210,8 @@ const ingredientsDropdown = (database) => {
   }
   btnIngredients.addEventListener('click', intoInputIngredients);
   menuIngredients.addEventListener('focusout', intoSwitchIngredients)
-
-  // Ingredient Dropdown display loop
-  const blueDisplay = (blueResult) => {
-    let menuIngredients = document.getElementById('menuIngredients');
-    let htmlUl = '<input id="blueInput" class="inputDrop" type="text">';
-    blueResult.forEach(ingredient => {
-      htmlUl += `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
-    })
-    menuIngredients.innerHTML = htmlUl;
-  }
-
-  const ingredientDropdownLoop = (database) => {
-
-    let blueResult = new Set([]);
-
-    database.forEach(recette => {
-      recette.ingredients.forEach(elm => {
-        let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
-        if (isValid(ingredientWithoutDiacritics) === true) {
-          blueResult.add(ingredientWithoutDiacritics)
-        };
-      });
-    });
-    blueDisplay(blueResult);
-
-    let blueInput = document.querySelector('#blueInput');
-    blueInput.addEventListener('input', (bar) => {
-      let blueValue = bar.target.value.removeDiacritics();
-      if (blueValue.length >= 3) {
-        database.forEach(recette => {
-          recette.ingredients.forEach(elm => {
-            let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
-
-            if (isValid(ingredientWithoutDiacritics) === true && ingredientWithoutDiacritics.indexOf(blueValue) != 0) {
-              blueResult.delete(ingredientWithoutDiacritics);
-            }
-            blueDisplay(blueResult);
-          })
-        })
-      };
-    });
-
-
-
-
-
-    // let resultIngredients = new Set([]);
-    // console.log(resultIngredients)
-
-    // database.forEach(recette => {
-    //   recette.ingredients.forEach(elm => {
-
-    //     let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
-
-    //     if (isValid(ingredientWithoutDiacritics) === true) {
-    //       resultIngredients.add(ingredientWithoutDiacritics)
-    //     }
-    //   })
-    // })
-
-    // let menuIngredients = document.getElementById('menuIngredients');
-    // let htmlUl = '<input id="inputBlue" class="inputDrop" type="text">';
-    // resultIngredients.forEach(ingredient => {
-    //   htmlUl += `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
-    // })
-    // menuIngredients.innerHTML = htmlUl;
-  };
-  ingredientDropdownLoop(database);
-  recoveryValueBlue();
 }
 ingredientsDropdown(database);
-
-
 
 
 // - - - - - - - - - - - - - -
