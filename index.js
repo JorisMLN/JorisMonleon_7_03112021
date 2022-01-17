@@ -1,54 +1,85 @@
 import database from './database.js';
-import filterDatabase from './filteredData.js';
-
+import filteredDatabase from './filteredData.js';
 
 //  - - - - - - - - - - - - - - - - - - - - -
-// input Listener
-const inputResearch = () => {
+// Main Algo
+const inputResearch = (tagValue) => {
   let research = document.getElementById('searchBar');
+  let filteredRecipe = { filterByName: [], filterByDescription: [] };
+
+  resultDisplay(database, filteredRecipe);
+  blueManager(database, filteredRecipe);
+  greenManager(database, filteredRecipe);
+  redManager(database, filteredRecipe);
+
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
-    console.log(targetValue);
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
         if (targetValue === actualInputValue) {
 
-          console.log(filterDatabase);
-          let resultArray = [];
-          filterDatabase.forEach(recette => {
-            if (recette.name.indexOf(targetValue) != -1) {
-              resultArray.push(recette.id)
+          // Display loop for the main page
+          filteredDatabase.forEach(recette => {
+            if (recette.name.indexOf(targetValue) > -1) {
+              filteredRecipe.filterByName.push(recette.id);
+            } else if (recette.description.indexOf(targetValue) > -1) {
+              filteredRecipe.filterByDescription.push(recette.id);
             }
-          })
-
-          console.log(resultArray);
-          resultDisplay(database, resultArray);
+          });
         }
+
+        resultDisplay(database, filteredRecipe);
+        blueManager(database, filteredRecipe);
+        greenManager(database, filteredRecipe);
+        redManager(database, filteredRecipe);
       }, 500);
     }
+    resultDisplay(database, filteredRecipe);
+    blueManager(database, filteredRecipe);
+    greenManager(database, filteredRecipe);
+    redManager(database, filteredRecipe);
+
+    filteredRecipe.filterByName.length = 0;
+    filteredRecipe.filterByDescription.length = 0;
   });
 }
 inputResearch();
 
 //  - - - - - - - - - - - - - - - - - - - - -
-// Result display loop
-const resultDisplay = (database, resultArray) => {
+// General display
+function resultDisplay(database, filteredRecipe) {
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
 
-  database.forEach(element => {
-    if (resultArray.includes(element.id) === true) {
-      htmlString += `
-      <div class="card" style="width: 18rem;">
-        <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
-        <div class="card__body">
-          <h5 class="card-title">${element.name} ${element.id}</h5>
-          <p class="body-text">${element.description}</p>
-        </div>
+  // template HTML du bloc vignette
+  const templateHTML = (element) => {
+    return `
+    <div class="card" style="width: 18rem;">
+      <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
+      <div class="card__body">
+        <h5 class="card-title">${element.name}</h5>
+        <p class="body-text">${element.description}</p>
       </div>
-      `
+    </div>
+    `
+  }
+
+  filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0
+    ?
+    database.forEach(element => {
+      htmlString += templateHTML(element);
+    })
+    :
+    database.forEach(element => {
+      if (filteredRecipe.filterByName.includes(element.id) === true) {
+        htmlString += templateHTML(element);
+      }
+    });
+  database.forEach(element => {
+    if (filteredRecipe.filterByDescription.includes(element.id) === true) {
+      htmlString += templateHTML(element);
     }
   });
 
@@ -58,10 +89,15 @@ const resultDisplay = (database, resultArray) => {
 
 /*####################################################################################################################################*/
 //  - - - - - - - - - - - - - - - - - - - - -
-// Recupération click dropdown
-
+//Appel de l'algo principale + variables de tag
 let tagList = document.getElementById('tagList');
 let htmlTag = [];
+let tagValue = [];
+
+inputResearch(tagValue);
+
+/*##### D R O P D O W N S ###############################################################################################################################*/
+// Recupération click dropdown
 
 function recoveryValueBlue() {
   let dropItemsBlue = document.getElementsByClassName('itemBlue');
@@ -69,10 +105,13 @@ function recoveryValueBlue() {
   Array.from(dropItemsBlue).forEach((item) => {
     item.addEventListener('click', function (event) {
 
-      htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      console.log(htmlTag)
-      tagList.innerHTML = htmlTag;
+      tagValue.push(event.target.textContent);
+      console.log(tagValue);
 
+      htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      console.log(htmlTag);
+
+      tagList.innerHTML = htmlTag;
       removeTag();
     });
   })
@@ -84,10 +123,13 @@ function recoveryValueGreen() {
   Array.from(dropItemsGreen).forEach((item) => {
     item.addEventListener('click', function (event) {
 
-      htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      console.log(htmlTag)
-      tagList.innerHTML = htmlTag;
+      tagValue.push(event.target.textContent);
+      console.log(tagValue);
 
+      htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      console.log(htmlTag);
+
+      tagList.innerHTML = htmlTag;
       removeTag();
     });
   })
@@ -98,10 +140,14 @@ function recoveryValueRed() {
 
   Array.from(dropItemsRed).forEach((item) => {
     item.addEventListener('click', function (event) {
+
+      tagValue.push(event.target.textContent);
+      console.log(tagValue);
+
       htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       console.log(htmlTag)
-      tagList.innerHTML = htmlTag;
 
+      tagList.innerHTML = htmlTag;
       removeTag();
     });
   })
@@ -111,6 +157,7 @@ function removeTag() {
   let closeBtn = document.getElementsByClassName('closeBtn');
   Array.from(closeBtn).forEach((button) => {
     button.addEventListener('click', function (event) {
+
       console.log(event.target.parentElement.outerHTML);
       console.log(htmlTag.length)
 
@@ -125,130 +172,189 @@ function removeTag() {
   })
 }
 
+// - - - - - - - - - - - - - - - - - - - - -
+// Dropdown display
+function blueManager(database, filteredRecipe) {
 
-// - - - - - - - - - - - - - -
-// Gestion dropdown INGREDIENTS
-const ingredientsDropdown = (database) => {
-  const btnIngredients = document.getElementById('btnIngredients');
-  const menuIngredients = document.getElementById('menuIngredients');
+  let blueResult = new Set([]);
 
-  const intoInputIngredients = () => {
-    menuIngredients.classList.add('show');
-    btnIngredients.classList.add('push');
-  }
-  const intoSwitchIngredients = () => {
-    btnIngredients.classList.remove('push');
-    menuIngredients.classList.remove('show');
-  }
-  btnIngredients.addEventListener('click', intoInputIngredients);
-  menuIngredients.addEventListener('focusout', intoSwitchIngredients)
+  database.forEach(recette => {
+    recette.ingredients.forEach(elm => {
+      let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
+      if (isValid(ingredientWithoutDiacritics) === true) {
+        blueResult.add(ingredientWithoutDiacritics)
+      };
+    });
+  })
+  blueDisplay(blueResult, filteredRecipe, database);
+  recoveryValueBlue();
 
-  // Ingredient Dropdown display loop
-  const ingredientDropdownLoop = (database) => {
-    let resultIngredients = new Set([]);
-    database.forEach(recette => {
-      recette.ingredients.forEach(elm => {
-        if (isValid(elm.ingredient) === true) {
-          resultIngredients.add(elm.ingredient)
+  function blueDisplay(blueResult, filteredRecipe, database) {
+
+    const templateHTML = (ingredient) => {
+      return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
+    }
+    let blueMenu = document.getElementById('blueMenu');
+    let htmlUl = '<input id="blueInput" class="inputDrop" type="text">';
+
+    console.log(filteredRecipe)
+
+    if (filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0) {
+      blueResult.forEach(ingredient => {
+        htmlUl += templateHTML(ingredient);
+      })
+    } else {
+      database.forEach(recette => {
+        if (filteredRecipe.filterByName.includes(recette.id) === true) {
+          recette.ingredients.forEach(elm => {
+            let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
+            htmlUl += templateHTML(ingredientWithoutDiacritics);
+          })
         }
       })
-    })
+    }
 
-    let menuIngredients = document.getElementById('menuIngredients');
-    let htmlUl = '<input class="inputDrop" type="text">';
-    resultIngredients.forEach(ingredient => {
-      htmlUl += `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
+    blueMenu.innerHTML = htmlUl;
+  }
+}
+
+function greenManager(database, filteredRecipe) {
+
+  let greenResult = new Set([]);
+
+  database.forEach(recette => {
+    let applianceWithoutDiacritics = recette.appliance.removeDiacritics();
+    if (isValid(applianceWithoutDiacritics) === true) {
+      greenResult.add(applianceWithoutDiacritics)
+    }
+  })
+  greenDisplay(greenResult, filteredRecipe, database);
+  recoveryValueGreen();
+
+  function greenDisplay(greenResult, filteredRecipe, database) {
+
+    const templateHTML = (appliance) => {
+      return `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
+    }
+    let greenMenu = document.getElementById('greenMenu');
+    let htmlUl = '<input id="greenInput" class="inputDrop" type="text">';
+
+    console.log(filteredRecipe)
+
+    if (filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0) {
+      greenResult.forEach(appliance => {
+        htmlUl += templateHTML(appliance);
+      })
+    } else {
+      database.forEach(recette => {
+        if (filteredRecipe.filterByName.includes(recette.id) === true) {
+          let applianceWithoutDiacritics = recette.appliance.removeDiacritics();
+          htmlUl += templateHTML(applianceWithoutDiacritics);
+        }
+      })
+    }
+
+    greenMenu.innerHTML = htmlUl;
+  }
+}
+
+function redManager(database, filteredRecipe) {
+
+  let redResult = new Set([]);
+
+  database.forEach(recette => {
+    recette.ustensils.forEach(elm => {
+      if (isValid(elm) === true) {
+        redResult.add(elm)
+      }
     })
-    menuIngredients.innerHTML = htmlUl;
-  };
-  ingredientDropdownLoop(database);
-  recoveryValueBlue();
+  })
+  redDisplay(redResult, filteredRecipe, database);
+  recoveryValueRed();
+
+  function redDisplay(redResult, filteredRecipe, database) {
+
+    const templateHTML = (ustensils) => {
+      return `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
+    }
+    let redMenu = document.getElementById('redMenu');
+    let htmlUl = '<input id="redInput" class="inputDrop" type="text">';
+
+    if (filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0) {
+      redResult.forEach(ustensils => {
+        htmlUl += templateHTML(ustensils);
+      })
+    }
+    else {
+      database.forEach(recette => {
+        if (filteredRecipe.filterByName.includes(recette.id) === true) {
+          recette.ustensils.forEach(elm => {
+            let ustensilsWithoutDiacritics = elm.removeDiacritics();
+            htmlUl += templateHTML(ustensilsWithoutDiacritics);
+          })
+        }
+      })
+    }
+
+    redMenu.innerHTML = htmlUl;
+  }
+}
+
+// - - - - - - - - - - - - - - - - - - - - -
+// Gestion DOM dropdown 
+const ingredientsDropdown = (database) => {
+  const blueBtn = document.getElementById('blueBtn');
+  const blueMenu = document.getElementById('blueMenu');
+
+  const intoInputIngredients = () => {
+    blueMenu.classList.add('show');
+    blueBtn.classList.add('bluePush');
+  }
+  const intoSwitchIngredients = () => {
+    blueBtn.classList.remove('bluePush');
+    blueMenu.classList.remove('show');
+  }
+  blueBtn.addEventListener('click', intoInputIngredients);
+  blueMenu.addEventListener('focusout', intoSwitchIngredients)
 }
 ingredientsDropdown(database);
 
-
-// - - - - - - - - - - - - - -
-// Gestion dropdown APPAREILS
 const appareilsDropdown = () => {
-  const btnAppareils = document.getElementById('btnAppareils');
-  const menuAppareils = document.getElementById('menuAppareils');
+  const greenBtn = document.getElementById('greenBtn');
+  const greenMenu = document.getElementById('greenMenu');
 
   const intoInputAppliances = () => {
-    btnAppareils.classList.add('hidden');
-    menuAppareils.classList.add('show');
+    greenBtn.classList.add('greenPush');
+    greenMenu.classList.add('show');
   }
   const intoButtonAppliances = () => {
-    btnAppareils.classList.remove('hidden');
-    menuAppareils.classList.remove('show');
+    greenBtn.classList.remove('greenPush');
+    greenMenu.classList.remove('show');
   }
-  btnAppareils.addEventListener('click', intoInputAppliances);
-  menuAppareils.addEventListener('focusout', intoButtonAppliances)
-
-
-  // Appareils Dropdown display loop
-  const appareilsDropdownLoop = (database) => {
-    let resultAppareils = new Set([]);
-    database.forEach(recette => {
-      if (isValid(recette.appliance) === true) {
-        resultAppareils.add(recette.appliance)
-      }
-    })
-
-    let menuAppareils = document.getElementById('menuAppareils');
-    let htmlUl = '<input class="inputDrop" type="text">';
-    resultAppareils.forEach(appliance => {
-      htmlUl += `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
-    })
-    menuAppareils.innerHTML = htmlUl;
-  };
-  appareilsDropdownLoop(database);
-  recoveryValueGreen();
+  greenBtn.addEventListener('click', intoInputAppliances);
+  greenMenu.addEventListener('focusout', intoButtonAppliances)
 }
 appareilsDropdown(database);
 
-
-// - - - - - - - - - - - - - -  
-// Gestion dropdown USTENSILES
-const ustensilsDropdown = (database) => {
-  const btnUstensiles = document.getElementById('btnUstensiles');
-  const menuUstensiles = document.getElementById('menuUstensiles');
+const ustensilsDropdown = () => {
+  const redBtn = document.getElementById('redBtn');
+  const redMenu = document.getElementById('redMenu');
 
   const intoInputUstensils = () => {
-    btnUstensiles.classList.add('hidden');
-    menuUstensiles.classList.add('show');
+    redBtn.classList.add('hidden');
+    redMenu.classList.add('show');
   }
   const intoButtonUstensils = () => {
-    btnUstensiles.classList.remove('hidden');
-    menuUstensiles.classList.remove('show');
+    redBtn.classList.remove('hidden');
+    redMenu.classList.remove('show');
   }
-  btnUstensiles.addEventListener('click', intoInputUstensils);
-  menuUstensiles.addEventListener('focusout', intoButtonUstensils)
-
-  // Appareils Dropdown display loop
-  const ustensilsDropdownLoop = (database) => {
-    let resultUstensils = new Set([]);
-    database.forEach(recette => {
-      recette.ustensils.forEach(elm => {
-        if (isValid(elm) === true) {
-          resultUstensils.add(elm)
-        }
-      })
-    })
-
-    let menuUstensiles = document.getElementById('menuUstensiles');
-    let htmlUl = '<input class="inputDrop" type="text">';
-    resultUstensils.forEach(ustensils => {
-      htmlUl += `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
-    })
-    menuUstensiles.innerHTML = htmlUl;
-  };
-  ustensilsDropdownLoop(database);
-  recoveryValueRed();
+  redBtn.addEventListener('click', intoInputUstensils);
+  redMenu.addEventListener('focusout', intoButtonUstensils)
 }
-ustensilsDropdown(database);
+ustensilsDropdown();
 
 
-/*####################################################################################################################################*/
+/*##### S E R V I C E S ###############################################################################################################################*/
 //  - - - - - - - - - - - - - - - - - - - - -
 // Regex de validation
 function isValid(tester) {

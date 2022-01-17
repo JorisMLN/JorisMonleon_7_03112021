@@ -12,7 +12,7 @@ body {
           align-items: center;
 }
 
-header {
+body header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -28,18 +28,18 @@ header {
   height: 160px;
 }
 
-header .logo {
+body header .logo {
   width: 50px;
   font-style: #D04F4F;
   margin-top: 50px;
 }
 
-header h1 {
+body header h1 {
   margin: 0px;
   color: #D04F4F;
 }
 
-.search {
+body .search {
   width: 90%;
   max-width: 1100px;
 }
@@ -90,7 +90,7 @@ header h1 {
   border: 1px solid #ED6454;
 }
 
-.closeBtn {
+#tagList .closeBtn {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -102,7 +102,7 @@ header h1 {
           justify-content: center;
   height: 20px;
   width: 20px;
-  border: 3px solid white;
+  border: 2px solid white;
   border-radius: 30px;
   margin-left: 10px;
   padding-bottom: 5px;
@@ -119,15 +119,35 @@ header h1 {
   max-width: 1100px;
 }
 
-.hidden {
-  display: none;
+.filtres .btn-group {
+  margin-right: 15px;
+  height: 50px;
 }
 
-.push {
-  width: 290px;
+.filtres .btn-group #blueBtn {
+  background-color: #3282F7;
+  border-color: #3282F7;
 }
 
-.show {
+.filtres .btn-group .bluePush {
+  width: 700px;
+}
+
+.filtres .btn-group #blueMenu {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  background-color: #3282F7;
+  border-color: #3282F7;
+  height: 900px;
+  width: 700px;
+}
+
+.filtres .btn-group #blueMenu .inputDrop {
+  height: 30px;
+  margin-left: 10px;
+}
+
+.filtres .btn-group #blueMenu .show {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -138,67 +158,90 @@ header h1 {
   z-index: 3;
 }
 
-.btn-group {
-  margin-right: 15px;
-  height: 50px;
+.filtres .btn-group #blueMenu .dropdown-item {
+  color: white;
 }
 
-.inputDrop {
+.filtres .btn-group #blueMenu .dropdown-item:hover {
+  color: black;
+}
+
+.filtres .btn-group #greenBtn {
+  background-color: #68D9A4;
+  border-color: #68D9A4;
+}
+
+.filtres .btn-group .greenPush {
+  width: 180px;
+}
+
+.filtres .btn-group #greenMenu {
+  width: 180px;
+  background-color: #68D9A4;
+  border-color: #68D9A4;
+}
+
+.filtres .btn-group #greenMenu .inputDrop {
+  height: 30px;
+  width: 150px;
   margin-left: 10px;
-  width: 250px;
 }
 
-#btnIngredients {
-  background-color: #3282F7;
-  border-color: #3282F7;
+.filtres .btn-group #greenMenu .show {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  max-height: 1000px;
+  width: 300px;
+  z-index: 3;
 }
 
-#menuIngredients {
-  background-color: #3282F7;
-  border-color: #3282F7;
-}
-
-#menuIngredients .dropdown-item {
+.filtres .btn-group #greenMenu .dropdown-item {
   color: white;
 }
 
-#menuIngredients .dropdown-item:hover {
+.filtres .btn-group #greenMenu .dropdown-item:hover {
   color: black;
 }
 
-#btnAppareils {
-  background-color: #68D9A4;
-  border-color: #68D9A4;
-}
-
-#menuAppareils {
-  background-color: #68D9A4;
-  border-color: #68D9A4;
-}
-
-#menuAppareils .dropdown-item {
-  color: white;
-}
-
-#menuAppareils .dropdown-item:hover {
-  color: black;
-}
-
-#btnUstensiles {
+.filtres .btn-group #redBtn {
   background-color: #ED6454;
   border-color: #ED6454;
 }
 
-#menuUstensiles {
+.filtres .btn-group #redBtn .hidden {
+  display: none;
+}
+
+.filtres .btn-group #redMenu {
   background-color: #ED6454;
   border-color: #ED6454;
 }
 
-#menuUstensiles .dropdown-item {
+.filtres .btn-group #redMenu .inputDrop {
+  height: 30px;
+  width: 150px;
+  margin-left: 10px;
+}
+
+.filtres .btn-group #redMenu .show {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  max-height: 1000px;
+  width: 300px;
+  z-index: 3;
+}
+
+.filtres .btn-group #redMenu .dropdown-item {
   color: white;
 }
 
-#menuUstensiles .dropdown-item:hover {
+.filtres .btn-group #redMenu .dropdown-item:hover {
   color: black;
 }
 

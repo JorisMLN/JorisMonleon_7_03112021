@@ -3,39 +3,43 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
-  width: 100%;
-  height: 160px;
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    height: 160px;
 
-  .logo {
-    width: 50px;
-    font-style: #D04F4F;
-    margin-top: 50px;
+    .logo {
+      width: 50px;
+      font-style: #D04F4F;
+      margin-top: 50px;
+    }
+
+    h1 {
+      margin: 0px;
+      color: #D04F4F;
+    }
   }
 
-  h1 {
-    margin: 0px;
-    color: #D04F4F;
+  .search {
+    width: 90%;
+    max-width: 1100px;
   }
 }
 
-.search {
-  width: 90%;
-  max-width: 1100px;
-}
 
-#tagList{
+// #############################################################################
+// TAGS
+#tagList {
   display: flex;
   width: 90%;
   max-width: 1100px;
   margin-bottom: 10px;
-  .tag{
+
+  .tag {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -47,113 +51,165 @@ header {
     padding-left: 10px;
     padding-right: 10px;
   }
-  .Blue{
+
+  .Blue {
     background-color: #3282F7;
     border: 1px solid #3282F7;
   }
-  .Green{
+
+  .Green {
     background-color: #68D9A4;
     border: 1px solid #68D9A4;
   }
-  .Red{
+
+  .Red {
     background-color: #ED6454;
     border: 1px solid #ED6454;
   }
+
+  .closeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    border: 2px solid white;
+    border-radius: 30px;
+    margin-left: 10px;
+    padding-bottom: 5px;
+  }
 }
 
-.closeBtn{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 20px;
-  width: 20px;
-  border: 3px solid white;
-  border-radius: 30px;
-  margin-left: 10px;
-  padding-bottom: 5px;
-}
 
+// #############################################################################
+// FILTRES + DROPDOWN
 .filtres {
   display: flex;
   align-items: center;
   width: 90%;
   max-width: 1100px;
-}
 
-.hidden{
-  display: none;
-}
+  .btn-group {
+    margin-right: 15px;
+    height: 50px;
 
-.push{
-  width: 290px;
-}
+    #blueBtn {
+      background-color: #3282F7;
+      border-color: #3282F7;
+    }
 
-.show{
-  display: flex;
-  flex-wrap: wrap;
-  max-height: 1000px;
-  width: 300px;
-  z-index: 3;
-}
+    .bluePush {
+      width: 700px;
+    }
 
-.btn-group{
-  margin-right: 15px;
-  height: 50px;
-}
+    #blueMenu {
+      .inputDrop {
+        height: 30px;
+        margin-left: 10px;
+      }
 
-.inputDrop{
-  margin-left: 10px;
-  width: 250px;
-}
+      .show {
+        display: flex;
+        flex-wrap: wrap;
+        max-height: 1000px;
+        width: 300px;
+        z-index: 3;
+      }
 
-#btnIngredients{
-  background-color: #3282F7;
-  border-color: #3282F7;
-}
+      // display: flex;
+      flex-wrap: wrap;
+      background-color: #3282F7;
+      border-color: #3282F7;
+      height: 900px;
+      width: 700px;
 
-#menuIngredients{
-  background-color: #3282F7;
-  border-color: #3282F7;
-  .dropdown-item{
-    color: white;
-    &:hover{
-      color: black;
+      .dropdown-item {
+        color: white;
+
+        &:hover {
+          color: black;
+        }
+      }
+    }
+
+    #greenBtn {
+      background-color: #68D9A4;
+      border-color: #68D9A4;
+    }
+
+    .greenPush {
+      width: 180px;
+    }
+
+    #greenMenu {
+      .inputDrop {
+        height: 30px;
+        width: 150px;
+        margin-left: 10px;
+      }
+
+      .show {
+        display: flex;
+        flex-wrap: wrap;
+        max-height: 1000px;
+        width: 300px;
+        z-index: 3;
+      }
+
+      width: 180px;
+      background-color: #68D9A4;
+      border-color: #68D9A4;
+
+      .dropdown-item {
+        color: white;
+
+        &:hover {
+          color: black;
+        }
+      }
+    }
+
+    #redBtn {
+      background-color: #ED6454;
+      border-color: #ED6454;
+
+      .hidden {
+        display: none;
+      }
+    }
+
+    #redMenu {
+      .inputDrop {
+        height: 30px;
+        width: 150px;
+        margin-left: 10px;
+      }
+
+      .show {
+        display: flex;
+        flex-wrap: wrap;
+        max-height: 1000px;
+        width: 300px;
+        z-index: 3;
+      }
+
+      background-color: #ED6454;
+      border-color: #ED6454;
+
+      .dropdown-item {
+        color: white;
+
+        &:hover {
+          color: black;
+        }
+      }
     }
   }
 }
 
-#btnAppareils{
-  background-color: #68D9A4;
-  border-color: #68D9A4;
-}
 
-#menuAppareils{
-  background-color: #68D9A4;
-  border-color: #68D9A4;
-  .dropdown-item{
-    color: white;
-    &:hover{
-      color: black;
-    }
-  }
-}
-
-#btnUstensiles{
-  background-color: #ED6454;
-  border-color: #ED6454;
-}
-
-#menuUstensiles{
-  background-color: #ED6454;
-  border-color: #ED6454;
-  .dropdown-item{
-    color: white;
-    &:hover{
-      color: black;
-    }
-  }
-}
-
+// #############################################################################
+// MAIN RESULT
 #result {
   display: flex;
   flex-wrap: wrap;
@@ -164,9 +220,11 @@ header {
   max-height: 70vh;
   padding-top: 40px;
   overflow-y: scroll;
-  .card{
+
+  .card {
     margin-bottom: 30px;
-    .body-text{
+
+    .body-text {
       overflow-y: scroll;
       max-height: 160px;
     }
