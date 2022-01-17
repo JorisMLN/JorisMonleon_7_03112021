@@ -5,12 +5,20 @@ const filtered = (database) => {
 
   database.forEach(recette => {
     let payloadObjet = {};
+
     payloadObjet.name = recette.name.removeDiacritics();
+
     payloadObjet.description = recette.description.removeDiacritics();
+
     payloadObjet.id = recette.id;
+
+    payloadObjet.ingredients = [];
+    recette.ingredients.forEach(elm => {
+      payloadObjet.ingredients.push(elm.ingredient);
+    })
+
     arrayData.push(payloadObjet);
   });
-  console.log(arrayData);
 
   return arrayData;
 }

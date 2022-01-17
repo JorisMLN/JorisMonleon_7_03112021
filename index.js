@@ -1,16 +1,21 @@
 import database from './database.js';
 import filteredDatabase from './filteredData.js';
 
-//  - - - - - - - - - - - - - - - - - - - - -
-// Main Algo
-const inputResearch = (tagValue) => {
-  let research = document.getElementById('searchBar');
-  let filteredRecipe = { filterByName: [], filterByDescription: [] };
+main();
 
-  resultDisplay(database, filteredRecipe);
-  blueManager(database, filteredRecipe);
-  greenManager(database, filteredRecipe);
-  redManager(database, filteredRecipe);
+// Main Algo
+function main() {
+
+  let filteredRecipe = [];
+  filteredDatabase.forEach(element => {
+    filteredRecipe.push(element);
+  })
+  console.log(filteredRecipe);
+  displayProcess(database, filteredRecipe);
+
+  let research = document.getElementById('searchBar');
+
+
 
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
@@ -20,34 +25,36 @@ const inputResearch = (tagValue) => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
         if (targetValue === actualInputValue) {
 
-          // Display loop for the main page
+          // result loop with id
           filteredDatabase.forEach(recette => {
             if (recette.name.indexOf(targetValue) > -1) {
-              filteredRecipe.filterByName.push(recette.id);
+              filteredRecipe.push(recette.id);
+
+              // } else if (recette.ingredients.indexOf(targetValue) > -1) {
+              //   filteredRecipe.push(recette.id);
+
             } else if (recette.description.indexOf(targetValue) > -1) {
-              filteredRecipe.filterByDescription.push(recette.id);
+              filteredRecipe.push(recette.id);
             }
           });
+          console.log(filteredRecipe)
         }
-
-        resultDisplay(database, filteredRecipe);
-        blueManager(database, filteredRecipe);
-        greenManager(database, filteredRecipe);
-        redManager(database, filteredRecipe);
+        displayProcess(database, filteredRecipe);
       }, 500);
     }
-    resultDisplay(database, filteredRecipe);
-    blueManager(database, filteredRecipe);
-    greenManager(database, filteredRecipe);
-    redManager(database, filteredRecipe);
-
-    filteredRecipe.filterByName.length = 0;
-    filteredRecipe.filterByDescription.length = 0;
+    displayProcess(database, filteredRecipe);
+    filteredRecipe.length = 0;
   });
 }
-inputResearch();
 
-//  - - - - - - - - - - - - - - - - - - - - -
+// display process function
+function displayProcess(database, filteredRecipe) {
+  resultDisplay(database, filteredRecipe);
+  blueManager(database, filteredRecipe);
+  greenManager(database, filteredRecipe);
+  redManager(database, filteredRecipe);
+}
+
 // General display
 function resultDisplay(database, filteredRecipe) {
   let htmlDisplayBloc = document.getElementById('result');
@@ -66,40 +73,32 @@ function resultDisplay(database, filteredRecipe) {
     `
   }
 
-  filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0
+  filteredRecipe.length === 0
     ?
     database.forEach(element => {
       htmlString += templateHTML(element);
     })
     :
     database.forEach(element => {
-      if (filteredRecipe.filterByName.includes(element.id) === true) {
+      if (filteredRecipe.includes(element.id) === true) {
         htmlString += templateHTML(element);
       }
     });
-  database.forEach(element => {
-    if (filteredRecipe.filterByDescription.includes(element.id) === true) {
-      htmlString += templateHTML(element);
-    }
-  });
 
   htmlDisplayBloc.innerHTML = htmlString;
 };
 
-
-/*####################################################################################################################################*/
 //  - - - - - - - - - - - - - - - - - - - - -
-//Appel de l'algo principale + variables de tag
+//Appel de l'algo principale avec variables de tag
 let tagList = document.getElementById('tagList');
 let htmlTag = [];
 let tagValue = [];
 
-inputResearch(tagValue);
 
 /*##### D R O P D O W N S ###############################################################################################################################*/
 // Recupération click dropdown
 
-function recoveryValueBlue() {
+function isPushingBlueTag() {
   let dropItemsBlue = document.getElementsByClassName('itemBlue');
 
   Array.from(dropItemsBlue).forEach((item) => {
@@ -117,7 +116,7 @@ function recoveryValueBlue() {
   })
 };
 
-function recoveryValueGreen() {
+function isPushingGreenTag() {
   let dropItemsGreen = document.getElementsByClassName('itemGreen');
 
   Array.from(dropItemsGreen).forEach((item) => {
@@ -135,7 +134,7 @@ function recoveryValueGreen() {
   })
 };
 
-function recoveryValueRed() {
+function isPushingRedTag() {
   let dropItemsRed = document.getElementsByClassName('itemRed');
 
   Array.from(dropItemsRed).forEach((item) => {
@@ -164,9 +163,11 @@ function removeTag() {
       let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
       console.log(indexFound);
       htmlTag.splice(indexFound, 1);
+      tagValue.splice(indexFound, 1);
 
       tagList.innerHTML = htmlTag;
       console.log(htmlTag);
+      console.log(tagValue);
       removeTag();
     })
   })
@@ -187,7 +188,7 @@ function blueManager(database, filteredRecipe) {
     });
   })
   blueDisplay(blueResult, filteredRecipe, database);
-  recoveryValueBlue();
+  isPushingBlueTag();
 
   function blueDisplay(blueResult, filteredRecipe, database) {
 
@@ -197,15 +198,13 @@ function blueManager(database, filteredRecipe) {
     let blueMenu = document.getElementById('blueMenu');
     let htmlUl = '<input id="blueInput" class="inputDrop" type="text">';
 
-    console.log(filteredRecipe)
-
-    if (filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0) {
+    if (filteredRecipe.length === 0) {
       blueResult.forEach(ingredient => {
         htmlUl += templateHTML(ingredient);
       })
     } else {
       database.forEach(recette => {
-        if (filteredRecipe.filterByName.includes(recette.id) === true) {
+        if (filteredRecipe.includes(recette.id) === true) {
           recette.ingredients.forEach(elm => {
             let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
             htmlUl += templateHTML(ingredientWithoutDiacritics);
@@ -229,7 +228,7 @@ function greenManager(database, filteredRecipe) {
     }
   })
   greenDisplay(greenResult, filteredRecipe, database);
-  recoveryValueGreen();
+  isPushingGreenTag();
 
   function greenDisplay(greenResult, filteredRecipe, database) {
 
@@ -239,15 +238,13 @@ function greenManager(database, filteredRecipe) {
     let greenMenu = document.getElementById('greenMenu');
     let htmlUl = '<input id="greenInput" class="inputDrop" type="text">';
 
-    console.log(filteredRecipe)
-
-    if (filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0) {
+    if (filteredRecipe.length === 0) {
       greenResult.forEach(appliance => {
         htmlUl += templateHTML(appliance);
       })
     } else {
       database.forEach(recette => {
-        if (filteredRecipe.filterByName.includes(recette.id) === true) {
+        if (filteredRecipe.includes(recette.id) === true) {
           let applianceWithoutDiacritics = recette.appliance.removeDiacritics();
           htmlUl += templateHTML(applianceWithoutDiacritics);
         }
@@ -270,7 +267,7 @@ function redManager(database, filteredRecipe) {
     })
   })
   redDisplay(redResult, filteredRecipe, database);
-  recoveryValueRed();
+  isPushingRedTag();
 
   function redDisplay(redResult, filteredRecipe, database) {
 
@@ -280,14 +277,14 @@ function redManager(database, filteredRecipe) {
     let redMenu = document.getElementById('redMenu');
     let htmlUl = '<input id="redInput" class="inputDrop" type="text">';
 
-    if (filteredRecipe.filterByName.length === 0 && filteredRecipe.filterByDescription.length === 0) {
+    if (filteredRecipe.length === 0) {
       redResult.forEach(ustensils => {
         htmlUl += templateHTML(ustensils);
       })
     }
     else {
       database.forEach(recette => {
-        if (filteredRecipe.filterByName.includes(recette.id) === true) {
+        if (filteredRecipe.includes(recette.id) === true) {
           recette.ustensils.forEach(elm => {
             let ustensilsWithoutDiacritics = elm.removeDiacritics();
             htmlUl += templateHTML(ustensilsWithoutDiacritics);
@@ -302,7 +299,7 @@ function redManager(database, filteredRecipe) {
 
 // - - - - - - - - - - - - - - - - - - - - -
 // Gestion DOM dropdown 
-const ingredientsDropdown = (database) => {
+function ingredientsDropdown(database) {
   const blueBtn = document.getElementById('blueBtn');
   const blueMenu = document.getElementById('blueMenu');
 
@@ -319,7 +316,7 @@ const ingredientsDropdown = (database) => {
 }
 ingredientsDropdown(database);
 
-const appareilsDropdown = () => {
+function appareilsDropdown() {
   const greenBtn = document.getElementById('greenBtn');
   const greenMenu = document.getElementById('greenMenu');
 
@@ -336,7 +333,7 @@ const appareilsDropdown = () => {
 }
 appareilsDropdown(database);
 
-const ustensilsDropdown = () => {
+function ustensilsDropdown() {
   const redBtn = document.getElementById('redBtn');
   const redMenu = document.getElementById('redMenu');
 
