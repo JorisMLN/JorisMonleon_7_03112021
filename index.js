@@ -7,49 +7,105 @@ main();
 function main() {
 
   let filteredRecipe = filterDatabase;
-  console.log(filteredRecipe);
   let listOfResult = [];
-  let research = document.getElementById('searchBar');
+  console.log(filteredRecipe);
 
   displayProcess(filteredRecipe);
-  console.log('1');
 
+  // Algo coté general input value
+  let research = document.getElementById('searchBar');
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
-        if (targetValue === actualInputValue) {
+        if (targetValue === actualInputValue && listOfResult.length === 0) {
 
-          // result loop with id
           listOfResult = filteredRecipe.filter(filterOptions);
-
-          function filterOptions(elm) {
-            if (elm.name.indexOf(targetValue) > -1) {
-              return true
-
-            } else if (elm.ingredients.indexOf(targetValue) > -1) {
-              return true
-
-            } else if (elm.description.indexOf(targetValue) > -1) {
-              return true
-            }
-          }
           console.log(listOfResult);
+
+        } else {
+
+          listOfResult = listOfResult.filter(filterOptions);
+          console.log(listOfResult);
+
         }
 
         // display condition of result
         displayProcess(listOfResult)
-        console.log('2');
-
       }, 200);
     }
 
-    console.log('3');
+    function filterOptions(elm) {
+      if (elm.name.indexOf(targetValue) > -1) {
+        return true
+
+      } else if (elm.ingredients.indexOf(targetValue) > -1) {
+        return true
+
+      } else if (elm.description.indexOf(targetValue) > -1) {
+        return true
+      }
+    }
+
     filteredRecipe = filterDatabase;
     displayProcess(filteredRecipe);
   });
+
+  // Algo coté dropdown tag value
+  let tagValue = [];
+
+  let dropdownItem = document.getElementsByClassName('dropdown-item');
+  Array.from(dropdownItem).forEach((button) => {
+    button.addEventListener('click', function (event) {
+      console.log(event.target.textContent);
+      tagValue.push(event.target.textContent)
+      console.log(tagValue);
+
+      if (listOfResult.length === 0) {
+
+        listOfResult = filteredRecipe.filter(filterTagOptions);
+        console.log(listOfResult);
+
+      } else {
+
+        listOfResult = listOfResult.filter(filterTagOptions);
+        console.log(listOfResult);
+
+      }
+
+      function filterTagOptions(elm) {
+        if (elm.name.indexOf(event.target.textContent) > -1) {
+          return true
+
+        } else if (elm.ingredients.indexOf(event.target.textContent) > -1) {
+          return true
+
+        } else if (elm.description.indexOf(event.target.textContent) > -1) {
+          return true
+        }
+      }
+
+      // display condition of result
+      displayProcess(listOfResult)
+      removeTheValueSelected();
+    })
+  });
+
+  function removeTheValueSelected() {
+    let closeBtn = document.getElementsByClassName('closeBtn');
+    Array.from(closeBtn).forEach((button) => {
+      button.addEventListener('click', function (event) {
+        let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
+        tagValue.splice(indexFound, 1);
+        console.log(tagValue);
+        displayProcess(filteredRecipe);
+
+        removeTheValueSelected();
+      })
+    })
+  }
 }
 
 // display process function
@@ -91,7 +147,6 @@ function resultDisplay(elementList) {
 //Appel de l'algo principale avec variables de tag
 let tagList = document.getElementById('tagList');
 let htmlTag = [];
-let tagValue = [];
 
 
 /*##### D R O P D O W N S ###############################################################################################################################*/
@@ -103,12 +158,7 @@ function isPushingBlueTag() {
   Array.from(dropItemsBlue).forEach((item) => {
     item.addEventListener('click', function (event) {
 
-      tagValue.push(event.target.textContent);
-      console.log(tagValue);
-
       htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      console.log(htmlTag);
-
       tagList.innerHTML = htmlTag;
       removeTag();
     });
@@ -121,12 +171,7 @@ function isPushingGreenTag() {
   Array.from(dropItemsGreen).forEach((item) => {
     item.addEventListener('click', function (event) {
 
-      tagValue.push(event.target.textContent);
-      console.log(tagValue);
-
       htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      console.log(htmlTag);
-
       tagList.innerHTML = htmlTag;
       removeTag();
     });
@@ -139,12 +184,7 @@ function isPushingRedTag() {
   Array.from(dropItemsRed).forEach((item) => {
     item.addEventListener('click', function (event) {
 
-      tagValue.push(event.target.textContent);
-      console.log(tagValue);
-
       htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      console.log(htmlTag)
-
       tagList.innerHTML = htmlTag;
       removeTag();
     });
@@ -156,17 +196,10 @@ function removeTag() {
   Array.from(closeBtn).forEach((button) => {
     button.addEventListener('click', function (event) {
 
-      console.log(event.target.parentElement.outerHTML);
-      console.log(htmlTag.length)
-
       let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
       console.log(indexFound);
       htmlTag.splice(indexFound, 1);
-      tagValue.splice(indexFound, 1);
-
       tagList.innerHTML = htmlTag;
-      console.log(htmlTag);
-      console.log(tagValue);
       removeTag();
     })
   })
