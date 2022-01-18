@@ -1,21 +1,18 @@
 import database from './database.js';
-import filteredDatabase from './filteredData.js';
+import filterDatabase from './filteredData.js';
 
 main();
 
 // Main Algo
 function main() {
 
-  let filteredRecipe = [];
-  filteredDatabase.forEach(element => {
-    filteredRecipe.push(element);
-  })
+  let filteredRecipe = filterDatabase;
   console.log(filteredRecipe);
-  displayProcess(database, filteredRecipe);
-
+  let listOfResult = [];
   let research = document.getElementById('searchBar');
 
-
+  displayProcess(filteredRecipe);
+  console.log('1');
 
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
@@ -26,66 +23,68 @@ function main() {
         if (targetValue === actualInputValue) {
 
           // result loop with id
-          filteredDatabase.forEach(recette => {
-            if (recette.name.indexOf(targetValue) > -1) {
-              filteredRecipe.push(recette.id);
+          listOfResult = filteredRecipe.filter(filterOptions);
 
-              // } else if (recette.ingredients.indexOf(targetValue) > -1) {
-              //   filteredRecipe.push(recette.id);
+          function filterOptions(elm) {
+            if (elm.name.indexOf(targetValue) > -1) {
+              return true
 
-            } else if (recette.description.indexOf(targetValue) > -1) {
-              filteredRecipe.push(recette.id);
+            } else if (elm.ingredients.indexOf(targetValue) > -1) {
+              return true
+
+            } else if (elm.description.indexOf(targetValue) > -1) {
+              return true
             }
-          });
-          console.log(filteredRecipe)
+          }
+          console.log(listOfResult);
         }
-        displayProcess(database, filteredRecipe);
-      }, 500);
+
+        // display condition of result
+        displayProcess(listOfResult)
+        console.log('2');
+
+      }, 200);
     }
-    displayProcess(database, filteredRecipe);
-    filteredRecipe.length = 0;
+
+    console.log('3');
+    filteredRecipe = filterDatabase;
+    displayProcess(filteredRecipe);
   });
 }
 
 // display process function
-function displayProcess(database, filteredRecipe) {
-  resultDisplay(database, filteredRecipe);
-  blueManager(database, filteredRecipe);
-  greenManager(database, filteredRecipe);
-  redManager(database, filteredRecipe);
+function displayProcess(elementList) {
+  resultDisplay(elementList);
+  blueManager(elementList);
+  greenManager(elementList);
+  redManager(elementList);
 }
 
 // General display
-function resultDisplay(database, filteredRecipe) {
+function resultDisplay(elementList) {
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
 
-  // template HTML du bloc vignette
-  const templateHTML = (element) => {
-    return `
-    <div class="card" style="width: 18rem;">
-      <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
-      <div class="card__body">
-        <h5 class="card-title">${element.name}</h5>
-        <p class="body-text">${element.description}</p>
-      </div>
-    </div>
-    `
-  }
-
-  filteredRecipe.length === 0
+  elementList.length === 0
     ?
-    database.forEach(element => {
-      htmlString += templateHTML(element);
-    })
+    htmlString = ` <h1> Aucune recette ne correspond à votre critère de recherche ! </h1>`
     :
-    database.forEach(element => {
-      if (filteredRecipe.includes(element.id) === true) {
-        htmlString += templateHTML(element);
-      }
-    });
+    elementList.map(templateHTML);
 
+  //insertion du bloc HTML
   htmlDisplayBloc.innerHTML = htmlString;
+
+  // template HTML du bloc vignette
+  function templateHTML(element) {
+    return htmlString += ` <div class="card" style="width: 18rem;">
+        <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
+        <div class="card__body">
+          <h5 class="card-title">${element.name}</h5>
+          <p class="body-text">${element.description}</p>
+        </div>
+      </div>
+      `
+  }
 };
 
 //  - - - - - - - - - - - - - - - - - - - - -
@@ -175,62 +174,52 @@ function removeTag() {
 
 // - - - - - - - - - - - - - - - - - - - - -
 // Dropdown display
-function blueManager(database, filteredRecipe) {
+function blueManager(elementList) {
 
   let blueResult = new Set([]);
 
-  database.forEach(recette => {
+  elementList.forEach(recette => {
     recette.ingredients.forEach(elm => {
-      let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
+      let ingredientWithoutDiacritics = elm.removeDiacritics();
       if (isValid(ingredientWithoutDiacritics) === true) {
         blueResult.add(ingredientWithoutDiacritics)
       };
     });
   })
-  blueDisplay(blueResult, filteredRecipe, database);
+  blueDisplay(blueResult);
   isPushingBlueTag();
 
-  function blueDisplay(blueResult, filteredRecipe, database) {
+  function blueDisplay(blueResult) {
 
     const templateHTML = (ingredient) => {
       return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
     }
+
     let blueMenu = document.getElementById('blueMenu');
     let htmlUl = '<input id="blueInput" class="inputDrop" type="text">';
 
-    if (filteredRecipe.length === 0) {
-      blueResult.forEach(ingredient => {
-        htmlUl += templateHTML(ingredient);
-      })
-    } else {
-      database.forEach(recette => {
-        if (filteredRecipe.includes(recette.id) === true) {
-          recette.ingredients.forEach(elm => {
-            let ingredientWithoutDiacritics = elm.ingredient.removeDiacritics();
-            htmlUl += templateHTML(ingredientWithoutDiacritics);
-          })
-        }
-      })
-    }
+    blueResult.forEach(ingredient => {
+      htmlUl += templateHTML(ingredient);
+    });
 
     blueMenu.innerHTML = htmlUl;
   }
 }
 
-function greenManager(database, filteredRecipe) {
+function greenManager(elementList) {
 
   let greenResult = new Set([]);
 
-  database.forEach(recette => {
-    let applianceWithoutDiacritics = recette.appliance.removeDiacritics();
+  elementList.forEach(recette => {
+    let applianceWithoutDiacritics = recette.appareils;
     if (isValid(applianceWithoutDiacritics) === true) {
       greenResult.add(applianceWithoutDiacritics)
     }
   })
-  greenDisplay(greenResult, filteredRecipe, database);
+  greenDisplay(greenResult);
   isPushingGreenTag();
 
-  function greenDisplay(greenResult, filteredRecipe, database) {
+  function greenDisplay(greenResult) {
 
     const templateHTML = (appliance) => {
       return `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
@@ -238,38 +227,29 @@ function greenManager(database, filteredRecipe) {
     let greenMenu = document.getElementById('greenMenu');
     let htmlUl = '<input id="greenInput" class="inputDrop" type="text">';
 
-    if (filteredRecipe.length === 0) {
-      greenResult.forEach(appliance => {
-        htmlUl += templateHTML(appliance);
-      })
-    } else {
-      database.forEach(recette => {
-        if (filteredRecipe.includes(recette.id) === true) {
-          let applianceWithoutDiacritics = recette.appliance.removeDiacritics();
-          htmlUl += templateHTML(applianceWithoutDiacritics);
-        }
-      })
-    }
+    greenResult.forEach(appareils => {
+      htmlUl += templateHTML(appareils);
+    });
 
     greenMenu.innerHTML = htmlUl;
   }
 }
 
-function redManager(database, filteredRecipe) {
+function redManager(elementList) {
 
   let redResult = new Set([]);
 
-  database.forEach(recette => {
+  elementList.forEach(recette => {
     recette.ustensils.forEach(elm => {
       if (isValid(elm) === true) {
         redResult.add(elm)
       }
     })
   })
-  redDisplay(redResult, filteredRecipe, database);
+  redDisplay(redResult);
   isPushingRedTag();
 
-  function redDisplay(redResult, filteredRecipe, database) {
+  function redDisplay(redResult) {
 
     const templateHTML = (ustensils) => {
       return `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
@@ -277,21 +257,9 @@ function redManager(database, filteredRecipe) {
     let redMenu = document.getElementById('redMenu');
     let htmlUl = '<input id="redInput" class="inputDrop" type="text">';
 
-    if (filteredRecipe.length === 0) {
-      redResult.forEach(ustensils => {
-        htmlUl += templateHTML(ustensils);
-      })
-    }
-    else {
-      database.forEach(recette => {
-        if (filteredRecipe.includes(recette.id) === true) {
-          recette.ustensils.forEach(elm => {
-            let ustensilsWithoutDiacritics = elm.removeDiacritics();
-            htmlUl += templateHTML(ustensilsWithoutDiacritics);
-          })
-        }
-      })
-    }
+    redResult.forEach(appareils => {
+      htmlUl += templateHTML(appareils);
+    });
 
     redMenu.innerHTML = htmlUl;
   }

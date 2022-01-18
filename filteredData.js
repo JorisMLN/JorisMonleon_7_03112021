@@ -6,15 +6,15 @@ const filtered = (database) => {
   database.forEach(recette => {
     let payloadObjet = {};
 
-    payloadObjet.name = recette.name.removeDiacritics();
-
-    payloadObjet.description = recette.description.removeDiacritics();
-
     payloadObjet.id = recette.id;
+    payloadObjet.name = recette.name.removeDiacritics();
+    payloadObjet.description = recette.description.removeDiacritics();
+    payloadObjet.appareils = recette.appliance.removeDiacritics();
+    payloadObjet.ustensils = recette.ustensils;
 
     payloadObjet.ingredients = [];
     recette.ingredients.forEach(elm => {
-      payloadObjet.ingredients.push(elm.ingredient);
+      payloadObjet.ingredients.push(elm.ingredient)
     })
 
     arrayData.push(payloadObjet);
