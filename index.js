@@ -284,27 +284,52 @@ function greenManager(elementList) {
   let greenResult = new Set([]);
 
   elementList.forEach(recette => {
-    let applianceWithoutDiacritics = recette.appareils;
+    let applianceWithoutDiacritics = recette.appareils.removeDiacritics();;
     if (isValid(applianceWithoutDiacritics) === true) {
       greenResult.add(applianceWithoutDiacritics)
     }
   })
 
   // Green Input Manager
-  let greenInput = document.getElementById('greenInput');
-  greenInput.addEventListener('input', (bar) => {
+  
+  let greenButton = document.getElementById('greenBtn');
+  greenButton.addEventListener('click', greenDynamicInput);
 
-    if(greenInput.value.length > 0){
-      greenResult = greenResult.filter(ColorInputOptions);
-      greenDisplay(greenResult);
-    }
+  function greenDynamicInput(){
+    let greenInput = document.getElementById('greenInput');
 
-    function ColorInputOptions(elm){
-      if (elm.indexOf(bar.target.textContent) > -1) {
-        return true
+    greenInput.addEventListener('input', (bar) => {
+      console.log('test');
+
+      if(greenInput.value.length >= 3){
+        console.log('test2');
+        
+
+        greenResult.clear();
+        // greenResult = greenResult.filter(ColorInputOptions);
+        elementList.forEach(recette => {
+
+          if(recette.appareils.indexOf(bar.target.textContent) > -1){
+            let applianceWithoutDiacritics = recette.appareils.removeDiacritics();
+            greenResult.add(applianceWithoutDiacritics);
+            console.log(greenResult);
+            console.log(greenResult.length);
+          }
+        })
+        
       }
-    }
-  });
+      // greenDisplay(greenResult);
+      
+      // function ColorInputOptions(elm){
+      //   if (elm.indexOf(bar.target.textContent) > -1) {
+      //     greenResult.add(elm)
+      //   }
+      // }
+
+    });
+  }
+
+  
 
   greenDisplay(greenResult);
   isPushingGreenTag();

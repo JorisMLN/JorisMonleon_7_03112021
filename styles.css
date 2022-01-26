@@ -181,7 +181,7 @@ body .search {
   border-color: #68D9A4;
 }
 
-.filtres .btn-group #greenMenu .inputDrop {
+.filtres .btn-group #greenMenu #greenInput {
   height: 30px;
   width: 150px;
   margin-left: 10px;
