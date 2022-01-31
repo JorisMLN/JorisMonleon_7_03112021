@@ -281,17 +281,24 @@ function blueManager(elementList) {
 
 function greenManager(elementList) {
 
-  let greenResult = new Set([]);
+  // let greenResult = new Set([]);
+  let greenResult = [];
 
-  elementList.forEach(recette => {
-    let applianceWithoutDiacritics = recette.appareils.removeDiacritics();;
-    if (isValid(applianceWithoutDiacritics) === true) {
-      greenResult.add(applianceWithoutDiacritics)
-    }
-  })
+  isCompletingGreenResult(elementList);
+
+  function isCompletingGreenResult(elementList){
+    elementList.forEach(recette => {
+      let applianceWithoutDiacritics = recette.appareils.removeDiacritics();
+      if (isValid(applianceWithoutDiacritics) === true && greenResult.includes(applianceWithoutDiacritics) === false) {
+        greenResult.push(applianceWithoutDiacritics)
+      }
+    })
+  }
+  
+
+  console.log('greenResultBefore', greenResult);
 
   // Green Input Manager
-  
   let greenButton = document.getElementById('greenBtn');
   greenButton.addEventListener('click', greenDynamicInput);
 
@@ -299,54 +306,45 @@ function greenManager(elementList) {
     let greenInput = document.getElementById('greenInput');
 
     greenInput.addEventListener('input', (bar) => {
-      console.log('test');
-
+      console.log('test', bar.target.value);
       if(greenInput.value.length >= 3){
         console.log('test2');
-        
+        greenResult = greenResult.filter(colorResultFilterOptions);
 
-        greenResult.clear();
-        // greenResult = greenResult.filter(ColorInputOptions);
-        elementList.forEach(recette => {
+        function colorResultFilterOptions (elm){
+          let inputwithoutDiacritics = bar.target.value.removeDiacritics();
+          console.log(inputwithoutDiacritics);
 
-          if(recette.appareils.indexOf(bar.target.textContent) > -1){
-            let applianceWithoutDiacritics = recette.appareils.removeDiacritics();
-            greenResult.add(applianceWithoutDiacritics);
-            console.log(greenResult);
-            console.log(greenResult.length);
+          if (elm.indexOf(inputwithoutDiacritics) > -1) {
+            return true
+          } else {
+            return false
           }
-        })
-        
+        }
+        greenDisplay(greenResult);
+        console.log('greenResultAfter', greenResult);
+      } else {
+        isCompletingGreenResult(elementList);
+        greenDisplay(greenResult);
       }
-      // greenDisplay(greenResult);
-      
-      // function ColorInputOptions(elm){
-      //   if (elm.indexOf(bar.target.textContent) > -1) {
-      //     greenResult.add(elm)
-      //   }
-      // }
-
     });
   }
-
-  
 
   greenDisplay(greenResult);
   isPushingGreenTag();
 
   function greenDisplay(greenResult) {
+    let greenMenu = document.getElementById('greenMenuDisplay');
+    let htmlUl = '';
 
-    const templateHTML = (appliance) => {
-      return `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
-    }
-    
-    let greenMenu = document.getElementById('greenMenu');
-    let htmlUl = '<input id="greenInput" class="inputDrop" type="text">';
     greenResult.forEach(appareils => {
       htmlUl += templateHTML(appareils);
     });
-
     greenMenu.innerHTML = htmlUl;
+
+    function templateHTML(appliance) {
+      return `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
+    }
   }
 }
 
@@ -379,7 +377,6 @@ function redManager(elementList) {
     redMenu.innerHTML = htmlUl;
   }
 }
-
 
 // - - - - - - - - - - - - - - - - - - - - -
 // Gestion DOM dropdown 
