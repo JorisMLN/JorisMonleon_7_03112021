@@ -280,10 +280,7 @@ function blueManager(elementList) {
 }
 
 function greenManager(elementList) {
-
-  // let greenResult = new Set([]);
   let greenResult = [];
-
   isCompletingGreenResult(elementList);
 
   function isCompletingGreenResult(elementList){
@@ -295,20 +292,18 @@ function greenManager(elementList) {
     })
   }
   
-
-  console.log('greenResultBefore', greenResult);
-
   // Green Input Manager
   let greenButton = document.getElementById('greenBtn');
   greenButton.addEventListener('click', greenDynamicInput);
+  console.log('greenResultBefore', greenResult);
 
   function greenDynamicInput(){
     let greenInput = document.getElementById('greenInput');
 
     greenInput.addEventListener('input', (bar) => {
-      console.log('test', bar.target.value);
+      console.log(bar.target.value);
       if(greenInput.value.length >= 3){
-        console.log('test2');
+        console.log('testGreen');
         greenResult = greenResult.filter(colorResultFilterOptions);
 
         function colorResultFilterOptions (elm){
@@ -322,10 +317,12 @@ function greenManager(elementList) {
           }
         }
         greenDisplay(greenResult);
+        isPushingGreenTag();
         console.log('greenResultAfter', greenResult);
       } else {
         isCompletingGreenResult(elementList);
         greenDisplay(greenResult);
+        isPushingGreenTag();
       }
     });
   }
@@ -350,31 +347,70 @@ function greenManager(elementList) {
 
 function redManager(elementList) {
 
-  let redResult = new Set([]);
+  let redResult = [];
+  isCompletingRedResult(elementList);
 
-  elementList.forEach(recette => {
-    recette.ustensils.forEach(elm => {
-      if (isValid(elm) === true) {
-        redResult.add(elm)
-      }
+  function isCompletingRedResult(elementList){
+    elementList.forEach(recette => {
+      recette.ustensils.forEach(elm => {
+        let ustensilsWithoutDiacritics = elm.removeDiacritics();
+        if (isValid(ustensilsWithoutDiacritics) === true && redResult.includes(ustensilsWithoutDiacritics) === false) {
+          redResult.push(ustensilsWithoutDiacritics);
+        }
+      })
     })
-  })
+  }
+
+  let redButton = document.getElementById('redBtn');
+  redButton.addEventListener('click', redDynamicInput);
+  console.log('redResultBefore', redResult);
+
+  function redDynamicInput(){
+    let redInput = document.getElementById('redInput');
+
+    redInput.addEventListener('input', (bar) => {
+      console.log(bar.target.value);
+      if(redInput.value.length >= 3){
+        console.log('testRed');
+        redResult = redResult.filter(colorResultFilterOptions);
+
+        function colorResultFilterOptions (elm){
+          let inputwithoutDiacritics = bar.target.value.removeDiacritics();
+          console.log(inputwithoutDiacritics);
+
+          if (elm.indexOf(inputwithoutDiacritics) > -1) {
+            return true
+          } else {
+            return false
+          }
+        }
+        redDisplay(redResult);
+        isPushingRedTag();
+        console.log('redResultAfter', redResult);
+      } else {
+        isCompletingRedResult(elementList);
+        isPushingRedTag();
+        redDisplay(redResult);
+      }
+    });
+  }
+
   redDisplay(redResult);
   isPushingRedTag();
 
   function redDisplay(redResult) {
 
-    const templateHTML = (ustensils) => {
+    let redMenu = document.getElementById('redMenuDisplay');
+    let htmlUl = '';
+
+    redResult.forEach(ustensils => {
+      htmlUl += templateHTML(ustensils);
+    });
+    redMenu.innerHTML = htmlUl;
+
+    function templateHTML(ustensils) {
       return `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
     }
-    let redMenu = document.getElementById('redMenu');
-    let htmlUl = '<input id="redInput" class="inputDrop" type="text">';
-
-    redResult.forEach(appareils => {
-      htmlUl += templateHTML(appareils);
-    });
-
-    redMenu.innerHTML = htmlUl;
   }
 }
 
