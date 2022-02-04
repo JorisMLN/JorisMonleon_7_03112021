@@ -249,33 +249,73 @@ function removeTag() {
 // Dropdown display
 function blueManager(elementList) {
 
-  let blueResult = new Set([]);
+  let blueResult = [];
+  isCompletingBlueResult(elementList);
 
-  elementList.forEach(recette => {
-    recette.ingredients.forEach(elm => {
-      let ingredientWithoutDiacritics = elm.removeDiacritics();
-      if (isValid(ingredientWithoutDiacritics) === true) {
-        blueResult.add(ingredientWithoutDiacritics)
-      };
+  function isCompletingBlueResult(elementList){
+
+    elementList.forEach(recette => {
+      recette.ingredients.forEach(elm => {
+        let ingredientWithoutDiacritics = elm.removeDiacritics();
+        if (isValid(ingredientWithoutDiacritics) === true && blueResult.includes(ingredientWithoutDiacritics) === false) {
+          blueResult.push(ingredientWithoutDiacritics)
+        };
+      });
+    })
+  }
+
+  // Green Input Manager
+  let blueButton = document.getElementById('blueBtn');
+  blueButton.addEventListener('click', blueDynamicInput);
+  console.log('blueResultBefore', blueResult);
+
+  function blueDynamicInput(){
+    let blueInput = document.getElementById('blueInput');
+
+    blueInput.addEventListener('input', (bar) => {
+      console.log(bar.target.value);
+      if(blueInput.value.length >= 3){
+        console.log('testBlue');
+        blueResult = blueResult.filter(colorResultFilterOptions);
+
+        function colorResultFilterOptions (elm){
+          let inputwithoutDiacritics = bar.target.value.removeDiacritics();
+          console.log(inputwithoutDiacritics);
+
+          if (elm.indexOf(inputwithoutDiacritics) > -1) {
+            return true
+          } else {
+            return false
+          }
+        }
+
+        blueDisplay(blueResult);
+        isPushingBlueTag();
+        console.log('blueResultAfter', blueResult);
+      } else {
+        isCompletingBlueResult(elementList);
+        blueDisplay(blueResult);
+        isPushingBlueTag();
+      }
     });
-  })
+  }
+
   blueDisplay(blueResult);
   isPushingBlueTag();
 
   function blueDisplay(blueResult) {
 
-    const templateHTML = (ingredient) => {
-      return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
-    }
-
-    let blueMenu = document.getElementById('blueMenu');
-    let htmlUl = '<input id="blueInput" class="inputDrop" type="text">';
+    let blueMenu = document.getElementById('blueMenuDisplay');
+    let htmlUl = '';
 
     blueResult.forEach(ingredient => {
       htmlUl += templateHTML(ingredient);
     });
-
     blueMenu.innerHTML = htmlUl;
+
+    function templateHTML(ingredient) {
+      return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
+    }
   }
 }
 
