@@ -1,29 +1,24 @@
 import database from './database.js';
 
 const filtered = (database) => {
-
-
   let newDatabase = [];
-  const iteratorData = database.keys();
 
-  for (const key of iteratorData) {
+  for (const recipe of database) {
     let element = {};
 
-    element.id = database[key].id;
-    element.name = database[key].name.removeDiacritics();
-    element.description = database[key].description.removeDiacritics();
-    element.appareil = database[key].appliance.removeDiacritics();
+    element.id = recipe.id;
+    element.name = recipe.name.removeDiacritics();
+    element.description = recipe.description.removeDiacritics();
+    element.appareil = recipe.appliance.removeDiacritics();
     element.ustensils = [];
     element.ingredients = [];
 
-    const iteratorUstensils = database[key].ustensils.keys();
-    for (const keyUstensil of iteratorUstensils) {
-      element.ustensils.push(database[key].ustensils[keyUstensil].removeDiacritics());
+    for (const ustensil of recipe.ustensils) {
+      element.ustensils.push(ustensil.removeDiacritics());
     }
 
-    const iteratorIngredients = database[key].ingredients.keys();
-    for (const keyIngredient of iteratorIngredients) {
-      element.ingredients.push(database[key].ingredients[keyIngredient].ingredient.removeDiacritics());
+    for (const ingredient of recipe.ingredients) {
+      element.ingredients.push(ingredient.ingredient.removeDiacritics());
     }
 
     newDatabase.push(element);

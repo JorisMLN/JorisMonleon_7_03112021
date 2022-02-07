@@ -1,4 +1,4 @@
-import database from './database.js';
+import dropDownUi from './dropdownUI.js';
 import filterDatabase from './filteredData.js';
 
 main();
@@ -22,11 +22,11 @@ function main() {
     let research = document.getElementById('searchBar');
     console.log('BEFORE listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-    if(research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0){
+    if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
 
       listOfResult.length = 0;
 
-      listOfResult = filteredRecipe.filter(function (elm){
+      listOfResult = filteredRecipe.filter(function (elm) {
         if (elm.name.indexOf(research.value) > -1) {
           return true
 
@@ -82,7 +82,7 @@ function main() {
           displayProcess(listOfResult)
           isManagingDropdownAlgo()
         }, 500);
-      } else if (tagValue.length === 0){
+      } else if (tagValue.length === 0) {
         listOfResult.length = 0;
         console.log('ELSE IF 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
         console.log('ELSE IF 1 filteredRecipe.length', filteredRecipe.length);
@@ -116,7 +116,7 @@ function main() {
           if (elm.ingredients.indexOf(event.target.textContent) > -1) {
             return true
 
-          } else if (elm.appareils.indexOf(event.target.textContent) > -1) {
+          } else if (elm.appareil.indexOf(event.target.textContent) > -1) {
             return true
 
           } else if (elm.ustensils.indexOf(event.target.textContent) > -1) {
@@ -252,7 +252,7 @@ function blueManager(elementList) {
   let blueResult = [];
   isCompletingBlueResult(elementList);
 
-  function isCompletingBlueResult(elementList){
+  function isCompletingBlueResult(elementList) {
 
     elementList.forEach(recette => {
       recette.ingredients.forEach(elm => {
@@ -269,16 +269,16 @@ function blueManager(elementList) {
   blueButton.addEventListener('click', blueDynamicInput);
   console.log('blueResultBefore', blueResult);
 
-  function blueDynamicInput(){
+  function blueDynamicInput() {
     let blueInput = document.getElementById('blueInput');
 
     blueInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
-      if(blueInput.value.length >= 3){
+      if (blueInput.value.length >= 3) {
         console.log('testBlue');
         blueResult = blueResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions (elm){
+        function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
           console.log(inputwithoutDiacritics);
 
@@ -323,30 +323,30 @@ function greenManager(elementList) {
   let greenResult = [];
   isCompletingGreenResult(elementList);
 
-  function isCompletingGreenResult(elementList){
+  function isCompletingGreenResult(elementList) {
     elementList.forEach(recette => {
-      let applianceWithoutDiacritics = recette.appareils.removeDiacritics();
+      let applianceWithoutDiacritics = recette.appareil.removeDiacritics();
       if (isValid(applianceWithoutDiacritics) === true && greenResult.includes(applianceWithoutDiacritics) === false) {
         greenResult.push(applianceWithoutDiacritics)
       }
     })
   }
-  
+
   // Green Input Manager
   let greenButton = document.getElementById('greenBtn');
   greenButton.addEventListener('click', greenDynamicInput);
   console.log('greenResultBefore', greenResult);
 
-  function greenDynamicInput(){
+  function greenDynamicInput() {
     let greenInput = document.getElementById('greenInput');
 
     greenInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
-      if(greenInput.value.length >= 3){
+      if (greenInput.value.length >= 3) {
         console.log('testGreen');
         greenResult = greenResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions (elm){
+        function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
           console.log(inputwithoutDiacritics);
 
@@ -390,7 +390,7 @@ function redManager(elementList) {
   let redResult = [];
   isCompletingRedResult(elementList);
 
-  function isCompletingRedResult(elementList){
+  function isCompletingRedResult(elementList) {
     elementList.forEach(recette => {
       recette.ustensils.forEach(elm => {
         let ustensilsWithoutDiacritics = elm.removeDiacritics();
@@ -405,16 +405,16 @@ function redManager(elementList) {
   redButton.addEventListener('click', redDynamicInput);
   console.log('redResultBefore', redResult);
 
-  function redDynamicInput(){
+  function redDynamicInput() {
     let redInput = document.getElementById('redInput');
 
     redInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
-      if(redInput.value.length >= 3){
+      if (redInput.value.length >= 3) {
         console.log('testRed');
         redResult = redResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions (elm){
+        function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
           console.log(inputwithoutDiacritics);
 
@@ -453,59 +453,6 @@ function redManager(elementList) {
     }
   }
 }
-
-// - - - - - - - - - - - - - - - - - - - - -
-// Gestion DOM dropdown 
-function ingredientsDropdown(database) {
-  const blueBtn = document.getElementById('blueBtn');
-  const blueMenu = document.getElementById('blueMenu');
-
-  const intoInputIngredients = () => {
-    blueMenu.classList.add('show');
-    blueBtn.classList.add('bluePush');
-  }
-  const intoSwitchIngredients = () => {
-    blueBtn.classList.remove('bluePush');
-    blueMenu.classList.remove('show');
-  }
-  blueBtn.addEventListener('click', intoInputIngredients);
-  blueMenu.addEventListener('focusout', intoSwitchIngredients)
-}
-ingredientsDropdown(database);
-
-function appareilsDropdown() {
-  const greenBtn = document.getElementById('greenBtn');
-  const greenMenu = document.getElementById('greenMenu');
-
-  const intoInputAppliances = () => {
-    greenBtn.classList.add('greenPush');
-    greenMenu.classList.add('show');
-  }
-  const intoButtonAppliances = () => {
-    greenBtn.classList.remove('greenPush');
-    greenMenu.classList.remove('show');
-  }
-  greenBtn.addEventListener('click', intoInputAppliances);
-  greenMenu.addEventListener('focusout', intoButtonAppliances)
-}
-appareilsDropdown(database);
-
-function ustensilsDropdown() {
-  const redBtn = document.getElementById('redBtn');
-  const redMenu = document.getElementById('redMenu');
-
-  const intoInputUstensils = () => {
-    redBtn.classList.add('hidden');
-    redMenu.classList.add('show');
-  }
-  const intoButtonUstensils = () => {
-    redBtn.classList.remove('hidden');
-    redMenu.classList.remove('show');
-  }
-  redBtn.addEventListener('click', intoInputUstensils);
-  redMenu.addEventListener('focusout', intoButtonUstensils)
-}
-ustensilsDropdown();
 
 
 /*##### S E R V I C E S ###############################################################################################################################*/
