@@ -1,18 +1,18 @@
 import dropDownUi from './dropdownUI.js';
-import filterDatabase from './filteredData.js';
+import filteredDatabase from './filteredData.js';
 
 main();
 
 // Main Algo
 function main() {
 
-  let filteredRecipe = filterDatabase;
+  const DATABASE_RECIPE = filteredDatabase;
+  console.log(DATABASE_RECIPE);
+
   let listOfResult = [];
   let tagValue = [];
-  console.log(filteredRecipe);
-  console.log(listOfResult);
 
-  displayProcess(filteredRecipe);
+  displayProcess(DATABASE_RECIPE);
 
   isManagingInputAlgo();
   isManagingDropdownAlgo();
@@ -20,23 +20,35 @@ function main() {
   // Algo coté general input value
   function isManagingInputAlgo() {
     let research = document.getElementById('searchBar');
-    console.log('BEFORE listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
     if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
 
       listOfResult.length = 0;
 
-      listOfResult = filteredRecipe.filter(function (elm) {
-        if (elm.name.indexOf(research.value) > -1) {
-          return true
+      for (const recipe of DATABASE_RECIPE) {
+        if (recipe.name.indexOf(research.value) > -1) {
+          listOfResult.push(recipe);
 
-        } else if (elm.ingredients.indexOf(research.value) > -1) {
-          return true
+        } else if (recipe.ingredients.indexOf(research.value) > -1) {
+          listOfResult.push(recipe);
 
-        } else if (elm.description.indexOf(research.value) > -1) {
-          return true
+        } else if (recipe.description.indexOf(research.value) > -1) {
+          listOfResult.push(recipe);
         }
-      });
+      }
+
+
+      // listOfResult = DATABASE_RECIPE.filter(function (elm) {
+      //   if (elm.name.indexOf(research.value) > -1) {
+      //     return true
+
+      //   } else if (elm.ingredients.indexOf(research.value) > -1) {
+      //     return true
+
+      //   } else if (elm.description.indexOf(research.value) > -1) {
+      //     return true
+      //   }
+      // });
 
       displayProcess(listOfResult)
       // isManagingDropdownAlgo()
@@ -52,12 +64,12 @@ function main() {
           let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
           if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
-            listOfResult = filteredRecipe.filter(filterOptions);
+            listOfResult = DATABASE_RECIPE.filter(filterOptions);
             console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
             listOfResult.length = 0;
-            listOfResult = filteredRecipe.filter(filterOptions);
+            listOfResult = DATABASE_RECIPE.filter(filterOptions);
             console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
@@ -85,9 +97,9 @@ function main() {
       } else if (tagValue.length === 0) {
         listOfResult.length = 0;
         console.log('ELSE IF 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-        console.log('ELSE IF 1 filteredRecipe.length', filteredRecipe.length);
+        console.log('ELSE IF 1 DATABASE_RECIPE.length', DATABASE_RECIPE.length);
       }
-      displayProcess(filteredRecipe);
+      displayProcess(DATABASE_RECIPE);
       isManagingDropdownAlgo()
     });
   }
@@ -101,7 +113,7 @@ function main() {
         console.log(tagValue);
 
         if (listOfResult.length === 0) {
-          listOfResult = filteredRecipe.filter(filterTagOptions);
+          listOfResult = DATABASE_RECIPE.filter(filterTagOptions);
           console.log('DD1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
         } else if (listOfResult.length > 0) {
@@ -141,7 +153,7 @@ function main() {
         let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
         tagValue.splice(indexFound, 1);
         console.log(tagValue);
-        displayProcess(filteredRecipe);
+        displayProcess(DATABASE_RECIPE);
 
         isManagingInputAlgo();
         isManagingDropdownAlgo();
@@ -187,7 +199,7 @@ function resultDisplay(elementList) {
 };
 
 
-/*##### D R O P D O W N S ###############################################################################################################################*/
+/*##### D R O P D O W N S #########################################################*/
 // Recupération click dropdown
 let tagList = document.getElementById('tagList');
 let htmlTag = [];
@@ -248,7 +260,6 @@ function removeTag() {
 // - - - - - - - - - - - - - - - - - - - - -
 // Dropdown display
 function blueManager(elementList) {
-
   let blueResult = [];
   isCompletingBlueResult(elementList);
 
@@ -275,12 +286,10 @@ function blueManager(elementList) {
     blueInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (blueInput.value.length >= 3) {
-        console.log('testBlue');
         blueResult = blueResult.filter(colorResultFilterOptions);
 
         function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-          console.log(inputwithoutDiacritics);
 
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
             return true
@@ -291,7 +300,7 @@ function blueManager(elementList) {
 
         blueDisplay(blueResult);
         isPushingBlueTag();
-        console.log('blueResultAfter', blueResult);
+
       } else {
         isCompletingBlueResult(elementList);
         blueDisplay(blueResult);
@@ -308,10 +317,18 @@ function blueManager(elementList) {
     let blueMenu = document.getElementById('blueMenuDisplay');
     let htmlUl = '';
 
-    blueResult.forEach(ingredient => {
-      htmlUl += templateHTML(ingredient);
-    });
-    blueMenu.innerHTML = htmlUl;
+    setTimeout(() => {
+      let actualBlueResult = blueResult;
+      if (blueResult === actualBlueResult) {
+        console.log('blueResultAfter', blueResult);
+
+        blueResult.forEach(ingredient => {
+          htmlUl += templateHTML(ingredient);
+        });
+        blueMenu.innerHTML = htmlUl;
+
+      }
+    }, 500)
 
     function templateHTML(ingredient) {
       return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
@@ -343,12 +360,10 @@ function greenManager(elementList) {
     greenInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (greenInput.value.length >= 3) {
-        console.log('testGreen');
         greenResult = greenResult.filter(colorResultFilterOptions);
 
         function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-          console.log(inputwithoutDiacritics);
 
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
             return true
@@ -358,7 +373,7 @@ function greenManager(elementList) {
         }
         greenDisplay(greenResult);
         isPushingGreenTag();
-        console.log('greenResultAfter', greenResult);
+
       } else {
         isCompletingGreenResult(elementList);
         greenDisplay(greenResult);
@@ -374,10 +389,20 @@ function greenManager(elementList) {
     let greenMenu = document.getElementById('greenMenuDisplay');
     let htmlUl = '';
 
-    greenResult.forEach(appareils => {
-      htmlUl += templateHTML(appareils);
-    });
-    greenMenu.innerHTML = htmlUl;
+    setTimeout(() => {
+      let actualGreenResult = greenResult;
+      if (greenResult === actualGreenResult) {
+        console.log('greenResultAfter', greenResult);
+
+        greenResult.forEach(appareils => {
+          htmlUl += templateHTML(appareils);
+        });
+        greenMenu.innerHTML = htmlUl;
+
+      }
+    }, 500)
+
+
 
     function templateHTML(appliance) {
       return `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
@@ -411,12 +436,10 @@ function redManager(elementList) {
     redInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (redInput.value.length >= 3) {
-        console.log('testRed');
         redResult = redResult.filter(colorResultFilterOptions);
 
         function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-          console.log(inputwithoutDiacritics);
 
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
             return true
@@ -426,7 +449,7 @@ function redManager(elementList) {
         }
         redDisplay(redResult);
         isPushingRedTag();
-        console.log('redResultAfter', redResult);
+
       } else {
         isCompletingRedResult(elementList);
         isPushingRedTag();
@@ -443,10 +466,20 @@ function redManager(elementList) {
     let redMenu = document.getElementById('redMenuDisplay');
     let htmlUl = '';
 
-    redResult.forEach(ustensils => {
-      htmlUl += templateHTML(ustensils);
-    });
-    redMenu.innerHTML = htmlUl;
+    setTimeout(() => {
+      let actualRedResult = redResult;
+      if (redResult === actualRedResult) {
+        console.log('redResultAfter', redResult);
+
+        redResult.forEach(ustensils => {
+          htmlUl += templateHTML(ustensils);
+        });
+        redMenu.innerHTML = htmlUl;
+
+      }
+    }, 500)
+
+
 
     function templateHTML(ustensils) {
       return `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
@@ -455,8 +488,7 @@ function redManager(elementList) {
 }
 
 
-/*##### S E R V I C E S ###############################################################################################################################*/
-//  - - - - - - - - - - - - - - - - - - - - -
+/*##### S E R V I C E S #########################################################*/
 // Regex de validation
 function isValid(tester) {
   return !/[~`!#$%\^&*+=\-\[\]\\'.;,/{}|\\":<>\?]/g.test(tester);

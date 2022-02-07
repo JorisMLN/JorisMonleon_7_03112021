@@ -1,6 +1,6 @@
 import database from './database.js';
 
-const filtered = (database) => {
+const isFilteringDatabase = (database) => {
   let newDatabase = [];
 
   for (const recipe of database) {
@@ -24,7 +24,6 @@ const filtered = (database) => {
     newDatabase.push(element);
   }
 
-  console.log(newDatabase);
   return newDatabase;
 }
 
@@ -37,6 +36,6 @@ String.prototype.removeDiacritics = function () {
 
 //  - - - - - - - - - - - - - - - - - - - - -
 
-let filterDatabase = filtered(database);
+let filteredDatabase = isFilteringDatabase(database);
 
-export default filterDatabase;
+export default filteredDatabase;
