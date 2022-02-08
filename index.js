@@ -37,21 +37,7 @@ function main() {
         }
       }
 
-
-      // listOfResult = DATABASE_RECIPE.filter(function (elm) {
-      //   if (elm.name.indexOf(research.value) > -1) {
-      //     return true
-
-      //   } else if (elm.ingredients.indexOf(research.value) > -1) {
-      //     return true
-
-      //   } else if (elm.description.indexOf(research.value) > -1) {
-      //     return true
-      //   }
-      // });
-
       displayProcess(listOfResult)
-      // isManagingDropdownAlgo()
       console.log('AFTER listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
     }
 
@@ -107,6 +93,7 @@ function main() {
   // Algo coté dropdown tag value
   function isManagingDropdownAlgo() {
     let dropdownItem = document.getElementsByClassName('dropdown-item');
+
     Array.from(dropdownItem).forEach((button) => {
       button.addEventListener('click', function (event) {
         tagValue.push(event.target.textContent)
@@ -200,64 +187,6 @@ function resultDisplay(elementList) {
 
 
 /*##### D R O P D O W N S #########################################################*/
-// Recupération click dropdown
-let tagList = document.getElementById('tagList');
-let htmlTag = [];
-
-function isPushingBlueTag() {
-  let dropItemsBlue = document.getElementsByClassName('itemBlue');
-
-  Array.from(dropItemsBlue).forEach((item) => {
-    item.addEventListener('click', function (event) {
-
-      htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    });
-  })
-};
-
-function isPushingGreenTag() {
-  let dropItemsGreen = document.getElementsByClassName('itemGreen');
-
-  Array.from(dropItemsGreen).forEach((item) => {
-    item.addEventListener('click', function (event) {
-
-      htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    });
-  })
-};
-
-function isPushingRedTag() {
-  let dropItemsRed = document.getElementsByClassName('itemRed');
-
-  Array.from(dropItemsRed).forEach((item) => {
-    item.addEventListener('click', function (event) {
-
-      htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    });
-  })
-}
-
-function removeTag() {
-  let closeBtn = document.getElementsByClassName('closeBtn');
-  Array.from(closeBtn).forEach((button) => {
-    button.addEventListener('click', function (event) {
-
-      let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
-      console.log('index de la suppression', indexFound);
-      htmlTag.splice(indexFound, 1);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    })
-  })
-}
-
-// - - - - - - - - - - - - - - - - - - - - -
 // Dropdown display
 function blueManager(elementList) {
   let blueResult = [];
@@ -317,19 +246,17 @@ function blueManager(elementList) {
     let blueMenu = document.getElementById('blueMenuDisplay');
     let htmlUl = '';
 
-    setTimeout(() => {
-      let actualBlueResult = blueResult;
-      if (blueResult === actualBlueResult) {
-        console.log('blueResultAfter', blueResult);
+    let actualBlueResult = blueResult;
+    if (blueResult === actualBlueResult) {
+      console.log('blueResultAfter', blueResult);
 
-        blueResult.forEach(ingredient => {
-          htmlUl += templateHTML(ingredient);
-        });
-        blueMenu.innerHTML = htmlUl;
+      blueResult.forEach(ingredient => {
+        htmlUl += templateHTML(ingredient);
+      });
+      blueMenu.innerHTML = htmlUl;
 
-      }
-    }, 500)
-
+    }
+    
     function templateHTML(ingredient) {
       return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
     }
@@ -389,20 +316,16 @@ function greenManager(elementList) {
     let greenMenu = document.getElementById('greenMenuDisplay');
     let htmlUl = '';
 
-    setTimeout(() => {
-      let actualGreenResult = greenResult;
-      if (greenResult === actualGreenResult) {
-        console.log('greenResultAfter', greenResult);
+    let actualGreenResult = greenResult;
+    if (greenResult === actualGreenResult) {
+      console.log('greenResultAfter', greenResult);
 
-        greenResult.forEach(appareils => {
-          htmlUl += templateHTML(appareils);
-        });
-        greenMenu.innerHTML = htmlUl;
+      greenResult.forEach(appareils => {
+        htmlUl += templateHTML(appareils);
+      });
+      greenMenu.innerHTML = htmlUl;
 
-      }
-    }, 500)
-
-
+    }
 
     function templateHTML(appliance) {
       return `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
@@ -466,25 +389,84 @@ function redManager(elementList) {
     let redMenu = document.getElementById('redMenuDisplay');
     let htmlUl = '';
 
-    setTimeout(() => {
-      let actualRedResult = redResult;
-      if (redResult === actualRedResult) {
-        console.log('redResultAfter', redResult);
+    let actualRedResult = redResult;
+    if (redResult === actualRedResult) {
+      console.log('redResultAfter', redResult);
 
-        redResult.forEach(ustensils => {
-          htmlUl += templateHTML(ustensils);
-        });
-        redMenu.innerHTML = htmlUl;
+      redResult.forEach(ustensils => {
+        htmlUl += templateHTML(ustensils);
+      });
+      redMenu.innerHTML = htmlUl;
 
-      }
-    }, 500)
-
-
-
+    }
+    
     function templateHTML(ustensils) {
       return `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
     }
   }
+}
+
+// - - - - - - - - - - - - - - - - - - - - -
+// Recupération click dropdown
+
+let tagList = document.getElementById('tagList');
+let htmlTag = [];
+
+function isPushingBlueTag() {
+  let dropItemsBlue = document.getElementsByClassName('itemBlue');
+
+  Array.from(dropItemsBlue).forEach((item) => {
+    item.addEventListener('click', function (event) {
+
+      htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      tagList.innerHTML = htmlTag;
+      removeTag();
+    });
+  })
+};
+
+function isPushingGreenTag() {
+  let dropItemsGreen = document.getElementsByClassName('itemGreen');
+  console.log('dropdown', dropItemsGreen)
+
+  Array.from(dropItemsGreen).forEach((item) => {
+    console.log('item', item);
+
+    item.addEventListener('click', function (event) {
+      console.log('testclick')
+
+      htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      tagList.innerHTML = htmlTag;
+      removeTag();
+    });
+  })
+};
+
+function isPushingRedTag() {
+  let dropItemsRed = document.getElementsByClassName('itemRed');
+
+  Array.from(dropItemsRed).forEach((item) => {
+    item.addEventListener('click', function (event) {
+
+      htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      tagList.innerHTML = htmlTag;
+      removeTag();
+    });
+  })
+}
+
+function removeTag() {
+  let closeBtn = document.getElementsByClassName('closeBtn');
+  Array.from(closeBtn).forEach((button) => {
+    button.addEventListener('click', function (event) {
+
+      let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
+      console.log('index de la suppression', indexFound);
+      htmlTag.splice(indexFound, 1);
+      tagList.innerHTML = htmlTag;
+      removeTag();
+    })
+  })
 }
 
 
