@@ -43,37 +43,49 @@ function main() {
 
     research.addEventListener('input', (bar) => {
       let targetValue = bar.target.value.removeDiacritics();
-      console.log('TEST LISTENER')
 
       if (targetValue.length >= 3) {
         setTimeout(() => {
           let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
           if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
-            listOfResult = DATABASE_RECIPE.filter(filterOptions);
+            for (const elm of DATABASE_RECIPE) {
+              if (elm.name.indexOf(targetValue) > -1) {
+                listOfResult.push(elm);
+              } else if (elm.ingredients.indexOf(targetValue) > -1) {
+                listOfResult.push(elm);
+              } else if (elm.description.indexOf(targetValue) > -1) {
+                listOfResult.push(elm);
+              }
+            }
             console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
             listOfResult.length = 0;
-            listOfResult = DATABASE_RECIPE.filter(filterOptions);
+            for (const elm of DATABASE_RECIPE) {
+              if (elm.name.indexOf(targetValue) > -1) {
+                listOfResult.push(elm);
+              } else if (elm.ingredients.indexOf(targetValue) > -1) {
+                listOfResult.push(elm);
+              } else if (elm.description.indexOf(targetValue) > -1) {
+                listOfResult.push(elm);
+              }
+            }
             console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
-            listOfResult = listOfResult.filter(filterOptions);
-            console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-          }
-
-          function filterOptions(elm) {
-            if (elm.name.indexOf(targetValue) > -1) {
-              return true
-
-            } else if (elm.ingredients.indexOf(targetValue) > -1) {
-              return true
-
-            } else if (elm.description.indexOf(targetValue) > -1) {
-              return true
+            let newResult = [];
+            for (const elm of listOfResult) {
+              if (elm.name.indexOf(targetValue) > -1) {
+                newResult.push(elm);
+              } else if (elm.ingredients.indexOf(targetValue) > -1) {
+                newResult.push(elm);
+              } else if (elm.description.indexOf(targetValue) > -1) {
+                newResult.push(elm);
+              }
             }
-            return false
+            listOfResult = newResult;
+            console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
           }
 
           // display condition of result
@@ -82,8 +94,6 @@ function main() {
         }, 500);
       } else if (tagValue.length === 0) {
         listOfResult.length = 0;
-        console.log('ELSE IF 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-        console.log('ELSE IF 1 DATABASE_RECIPE.length', DATABASE_RECIPE.length);
       }
       displayProcess(DATABASE_RECIPE);
       isManagingDropdownAlgo()
@@ -115,8 +125,6 @@ function main() {
             }
           }
 
-          console.log('DD1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-
         } else if (listOfResult.length > 0) {
           let newResult = [];
 
@@ -134,8 +142,6 @@ function main() {
           }
 
           listOfResult = newResult;
-
-          console.log('DD2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
         }
 
         // display condition of result
@@ -223,24 +229,11 @@ function blueManager(elementList) {
         }
       }
     }
-
-    //8888888888888888888888888888888888888888888888888888888888
-    // elementList.forEach(recette => {
-
-    //   recette.ingredients.forEach(elm => {
-    //     let ingredientWithoutDiacritics = elm.removeDiacritics();
-    //     if (isValid(ingredientWithoutDiacritics) === true && blueResult.includes(ingredientWithoutDiacritics) === false) {
-    //       blueResult.push(ingredientWithoutDiacritics)
-    //     };
-    //   });
-    // })
-    //8888888888888888888888888888888888888888888888888888888888888
   }
 
   // Green Input Manager
   let blueButton = document.getElementById('blueBtn');
   blueButton.addEventListener('click', blueDynamicInput);
-  console.log('blueResultBefore', blueResult);
 
   function blueDynamicInput() {
     let blueInput = document.getElementById('blueInput');
@@ -258,20 +251,6 @@ function blueManager(elementList) {
           }
         }
         blueResult = newResult;
-
-        //888888888888888888888888888888888888
-        // blueResult = blueResult.filter(colorResultFilterOptions);
-
-        // function colorResultFilterOptions(elm) {
-        //   let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-
-        //   if (elm.indexOf(inputwithoutDiacritics) > -1) {
-        //     return true
-        //   } else {
-        //     return false
-        //   }
-        // }
-        //888888888888888888888888888888888888888888888
 
         blueDisplay(blueResult);
         isPushingBlueTag();
@@ -300,12 +279,6 @@ function blueManager(elementList) {
         htmlUl += templateHTML(ingredient);
       }
 
-      //88888888888888888888888888888888888888888888888
-      // blueResult.forEach(ingredient => {
-      //   htmlUl += templateHTML(ingredient);
-      // });
-      //888888888888888888888888888888888888888888888888
-
       blueMenu.innerHTML = htmlUl;
     }
 
@@ -327,21 +300,11 @@ function greenManager(elementList) {
         greenResult.push(appareil)
       }
     }
-
-    //88888888888888888888888888888888888888888888888888888
-    // elementList.forEach(recette => {
-    //   let applianceWithoutDiacritics = recette.appareil.removeDiacritics();
-    //   if (isValid(applianceWithoutDiacritics) === true && greenResult.includes(applianceWithoutDiacritics) === false) {
-    //     greenResult.push(applianceWithoutDiacritics)
-    //   }
-    // })
-    //8888888888888888888888888888888888888888888888888888
   }
 
   // Green Input Manager
   let greenButton = document.getElementById('greenBtn');
   greenButton.addEventListener('click', greenDynamicInput);
-  console.log('greenResultBefore', greenResult);
 
   function greenDynamicInput() {
     let greenInput = document.getElementById('greenInput');
@@ -359,20 +322,6 @@ function greenManager(elementList) {
           }
         }
         greenResult = newResult;
-
-        //8888888888888888888888888888888888888888888888888888888888888888888888888
-        // greenResult = greenResult.filter(colorResultFilterOptions);
-
-        // function colorResultFilterOptions(elm) {
-        //   let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-
-        //   if (elm.indexOf(inputwithoutDiacritics) > -1) {
-        //     return true
-        //   } else {
-        //     return false
-        //   }
-        // }
-        //8888888888888888888888888888888888888888888888888888888888888888888888888
 
         greenDisplay(greenResult);
         isPushingGreenTag();
@@ -400,12 +349,6 @@ function greenManager(elementList) {
         htmlUl += templateHTML(appareil);
       }
 
-      //888888888888888888888888888888888888888888888888888
-      // greenResult.forEach(appareils => {
-      //   htmlUl += templateHTML(appareils);
-      // });
-      //888888888888888888888888888888888888888888888888888
-
       greenMenu.innerHTML = htmlUl;
 
     }
@@ -432,22 +375,10 @@ function redManager(elementList) {
         }
       }
     }
-
-    //8888888888888888888888888888888888888888888888888888888
-    // elementList.forEach(recette => {
-    //   recette.ustensils.forEach(elm => {
-    //     let ustensilsWithoutDiacritics = elm.removeDiacritics();
-    //     if (isValid(ustensilsWithoutDiacritics) === true && redResult.includes(ustensilsWithoutDiacritics) === false) {
-    //       redResult.push(ustensilsWithoutDiacritics);
-    //     }
-    //   })
-    // })
-    //88888888888888888888888888888888888888888888888888888888
   }
 
   let redButton = document.getElementById('redBtn');
   redButton.addEventListener('click', redDynamicInput);
-  console.log('redResultBefore', redResult);
 
   function redDynamicInput() {
     let redInput = document.getElementById('redInput');
@@ -465,20 +396,6 @@ function redManager(elementList) {
           }
         }
         redResult = newResult;
-
-        //8888888888888888888888888888888888888888888888888888888888888888
-        // redResult = redResult.filter(colorResultFilterOptions);
-
-        // function colorResultFilterOptions(elm) {
-        //   let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-
-        //   if (elm.indexOf(inputwithoutDiacritics) > -1) {
-        //     return true
-        //   } else {
-        //     return false
-        //   }
-        // }
-        //8888888888888888888888888888888888888888888888888888888888888888
 
         redDisplay(redResult);
         isPushingRedTag();
@@ -506,12 +423,6 @@ function redManager(elementList) {
       for (const ustensil of redResult) {
         htmlUl += templateHTML(ustensil);
       }
-
-      //88888888888888888888888888888888888888888888888888888888
-      // redResult.forEach(ustensils => {
-      //   htmlUl += templateHTML(ustensils);
-      // });
-      //888888888888888888888888888888888888888888888888888888888
 
       redMenu.innerHTML = htmlUl;
 
@@ -571,7 +482,6 @@ function removeTag() {
   for (const btn of closeBtn) {
     btn.addEventListener('click', function (event) {
       let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
-      console.log('index de la suppression', indexFound);
       htmlTag.splice(indexFound, 1);
       tagList.innerHTML = htmlTag;
       removeTag();
