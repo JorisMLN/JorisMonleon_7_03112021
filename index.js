@@ -195,7 +195,6 @@ function blueManager(elementList) {
 
     for (const elm of elementList) {
       let ingredients = elm.ingredients;
-
       for (const subElm of ingredients) {
         if (isValid(subElm) === true && blueResult.includes(subElm) === false) {
           blueResult.push(subElm);
@@ -214,51 +213,28 @@ function blueManager(elementList) {
     blueInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (blueInput.value.length >= 3) {
-
         let newResult = [];
+
         for (const elm of blueResult) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
             newResult.push(elm);
           }
         }
         blueResult = newResult;
-
-        blueDisplay(blueResult);
+        colorDisplay(blueResult, 'blue', 'Blue');
         isPushingColorTag('Blue');
 
       } else {
         isCompletingBlueResult(elementList);
-        blueDisplay(blueResult);
+        colorDisplay(blueResult, 'blue', 'Blue');
         isPushingColorTag('Blue');
       }
     });
   }
 
-  blueDisplay(blueResult);
+  colorDisplay(blueResult, 'blue', 'Blue');
   isPushingColorTag('Blue');
-
-  function blueDisplay(blueResult) {
-
-    let blueMenu = document.getElementById('blueMenuDisplay');
-    let htmlUl = '';
-
-    let actualBlueResult = blueResult;
-    if (blueResult === actualBlueResult) {
-      console.log('blueResultAfter', blueResult);
-
-      for (const ingredient of blueResult) {
-        htmlUl += templateHTML(ingredient);
-      }
-
-      blueMenu.innerHTML = htmlUl;
-    }
-
-    function templateHTML(ingredient) {
-      return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
-    }
-  }
 }
 
 function greenManager(elementList) {
@@ -285,55 +261,32 @@ function greenManager(elementList) {
     greenInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (greenInput.value.length >= 3) {
-
         let newResult = [];
+
         for (const elm of greenResult) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
             newResult.push(elm);
           }
         }
         greenResult = newResult;
 
-        greenDisplay(greenResult);
+        colorDisplay(greenResult, 'green', 'Green');
         isPushingColorTag('Green');
 
       } else {
         isCompletingGreenResult(elementList);
-        greenDisplay(greenResult);
+        colorDisplay(greenResult, 'green', 'Green');
         isPushingColorTag('Green');
       }
     });
   }
 
-  greenDisplay(greenResult);
+  colorDisplay(greenResult, 'green', 'Green');
   isPushingColorTag('Green');
-
-  function greenDisplay(greenResult) {
-    let greenMenu = document.getElementById('greenMenuDisplay');
-    let htmlUl = '';
-
-    let actualGreenResult = greenResult;
-    if (greenResult === actualGreenResult) {
-      console.log('greenResultAfter', greenResult);
-
-      for (const appareil of greenResult) {
-        htmlUl += templateHTML(appareil);
-      }
-
-      greenMenu.innerHTML = htmlUl;
-
-    }
-
-    function templateHTML(appareil) {
-      return `<li><a class="dropdown-item itemGreen" href="#">${appareil}</a></li>`
-    }
-  }
 }
 
 function redManager(elementList) {
-
   let redResult = [];
   isCompletingRedResult(elementList);
 
@@ -341,7 +294,6 @@ function redManager(elementList) {
 
     for (const elm of elementList) {
       let ustensils = elm.ustensils;
-
       for (const subElm of ustensils) {
         if (isValid(subElm) === true && redResult.includes(subElm) === false) {
           redResult.push(subElm);
@@ -359,57 +311,46 @@ function redManager(elementList) {
     redInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (redInput.value.length >= 3) {
-
         let newResult = [];
+
         for (const elm of redResult) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
-
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
             newResult.push(elm);
           }
         }
         redResult = newResult;
-
-        redDisplay(redResult);
+        colorDisplay(redResult, 'red', 'Red');
         isPushingColorTag('Red')
 
       } else {
-        redDisplay(redResult);
+        colorDisplay(redResult, 'red', 'Red');
         isPushingColorTag('Red');
         isCompletingRedResult(elementList);
       }
     });
   }
 
-  redDisplay(redResult);
+  colorDisplay(redResult, 'red', 'Red');
   isPushingColorTag('Red')
+}
 
-  function redDisplay(redResult) {
+function colorDisplay(result, color, colorTag) {
+  let Menu = document.getElementById(color + 'MenuDisplay');
+  let htmlUl = '';
 
-    let redMenu = document.getElementById('redMenuDisplay');
-    let htmlUl = '';
-
-    let actualRedResult = redResult;
-    if (redResult === actualRedResult) {
-      console.log('redResultAfter', redResult);
-
-      for (const ustensil of redResult) {
-        htmlUl += templateHTML(ustensil);
-      }
-
-      redMenu.innerHTML = htmlUl;
-
-    }
-
-    function templateHTML(ustensils) {
-      return `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
-    }
+  for (const item of result) {
+    htmlUl += templateHTML(item, colorTag);
   }
+  Menu.innerHTML = htmlUl;
+}
+
+function templateHTML(item, colorTag) {
+  return `<li><a class="dropdown-item item${colorTag}" href="#">${item}</a></li>`
 }
 
 // - - - - - - - - - - - - - - - - - - - - -
 // Recupération click dropdown
-
 let tagList = document.getElementById('tagList');
 let htmlTag = [];
 
