@@ -135,18 +135,21 @@ function main() {
 
   function removeTheValueSelected() {
     let closeBtn = document.getElementsByClassName('closeBtn');
-    Array.from(closeBtn).forEach((button) => {
-      button.addEventListener('click', function (event) {
+    let closeBtnArray = Array.from(closeBtn);
+
+    for (const btn of closeBtnArray) {
+
+      btn.addEventListener('click', function (event) {
         let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
         tagValue.splice(indexFound, 1);
         console.log(tagValue);
-        displayProcess(DATABASE_RECIPE);
 
+        displayProcess(DATABASE_RECIPE);
         isManagingInputAlgo();
         isManagingDropdownAlgo();
         removeTheValueSelected();
       })
-    })
+    }
   }
 }
 
@@ -188,6 +191,7 @@ function resultDisplay(elementList) {
 
 /*##### D R O P D O W N S #########################################################*/
 // Dropdown display
+
 function blueManager(elementList) {
   let blueResult = [];
   isCompletingBlueResult(elementList);
@@ -256,7 +260,7 @@ function blueManager(elementList) {
       blueMenu.innerHTML = htmlUl;
 
     }
-    
+
     function templateHTML(ingredient) {
       return `<li><a class="dropdown-item itemBlue" href="#">${ingredient}</a></li>`
     }
@@ -399,7 +403,7 @@ function redManager(elementList) {
       redMenu.innerHTML = htmlUl;
 
     }
-    
+
     function templateHTML(ustensils) {
       return `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
     }
@@ -417,7 +421,6 @@ function isPushingBlueTag() {
 
   Array.from(dropItemsBlue).forEach((item) => {
     item.addEventListener('click', function (event) {
-
       htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       tagList.innerHTML = htmlTag;
       removeTag();
@@ -427,14 +430,9 @@ function isPushingBlueTag() {
 
 function isPushingGreenTag() {
   let dropItemsGreen = document.getElementsByClassName('itemGreen');
-  console.log('dropdown', dropItemsGreen)
 
   Array.from(dropItemsGreen).forEach((item) => {
-    console.log('item', item);
-
     item.addEventListener('click', function (event) {
-      console.log('testclick')
-
       htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       tagList.innerHTML = htmlTag;
       removeTag();
@@ -447,7 +445,6 @@ function isPushingRedTag() {
 
   Array.from(dropItemsRed).forEach((item) => {
     item.addEventListener('click', function (event) {
-
       htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       tagList.innerHTML = htmlTag;
       removeTag();
@@ -457,9 +454,9 @@ function isPushingRedTag() {
 
 function removeTag() {
   let closeBtn = document.getElementsByClassName('closeBtn');
+
   Array.from(closeBtn).forEach((button) => {
     button.addEventListener('click', function (event) {
-
       let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
       console.log('index de la suppression', indexFound);
       htmlTag.splice(indexFound, 1);

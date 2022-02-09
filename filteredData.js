@@ -29,13 +29,10 @@ const isFilteringDatabase = (database) => {
 
 //  - - - - - - - - - - - - - - - - - - - - -
 // Remove Diacritics
-
 String.prototype.removeDiacritics = function () {
   return this.toLocaleLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
 }
 
 //  - - - - - - - - - - - - - - - - - - - - -
-
 let filteredDatabase = isFilteringDatabase(database);
-
 export default filteredDatabase;
