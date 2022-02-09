@@ -200,14 +200,27 @@ function blueManager(elementList) {
 
   function isCompletingBlueResult(elementList) {
 
-    elementList.forEach(recette => {
-      recette.ingredients.forEach(elm => {
-        let ingredientWithoutDiacritics = elm.removeDiacritics();
-        if (isValid(ingredientWithoutDiacritics) === true && blueResult.includes(ingredientWithoutDiacritics) === false) {
-          blueResult.push(ingredientWithoutDiacritics)
-        };
-      });
-    })
+    for (const elm of elementList) {
+      let ingredients = elm.ingredients;
+
+      for (const subElm of ingredients) {
+        if (isValid(subElm) === true && blueResult.includes(subElm) === false) {
+          blueResult.push(subElm);
+        }
+      }
+    }
+
+    //8888888888888888888888888888888888888888888888888888888888
+    // elementList.forEach(recette => {
+
+    //   recette.ingredients.forEach(elm => {
+    //     let ingredientWithoutDiacritics = elm.removeDiacritics();
+    //     if (isValid(ingredientWithoutDiacritics) === true && blueResult.includes(ingredientWithoutDiacritics) === false) {
+    //       blueResult.push(ingredientWithoutDiacritics)
+    //     };
+    //   });
+    // })
+    //8888888888888888888888888888888888888888888888888888888888888
   }
 
   // Green Input Manager
@@ -221,17 +234,30 @@ function blueManager(elementList) {
     blueInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (blueInput.value.length >= 3) {
-        blueResult = blueResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions(elm) {
+        let newResult = [];
+        for (const elm of blueResult) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
 
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
-            return true
-          } else {
-            return false
+            newResult.push(elm);
           }
         }
+        blueResult = newResult;
+
+        //888888888888888888888888888888888888
+        // blueResult = blueResult.filter(colorResultFilterOptions);
+
+        // function colorResultFilterOptions(elm) {
+        //   let inputwithoutDiacritics = bar.target.value.removeDiacritics();
+
+        //   if (elm.indexOf(inputwithoutDiacritics) > -1) {
+        //     return true
+        //   } else {
+        //     return false
+        //   }
+        // }
+        //888888888888888888888888888888888888888888888
 
         blueDisplay(blueResult);
         isPushingBlueTag();
@@ -256,11 +282,17 @@ function blueManager(elementList) {
     if (blueResult === actualBlueResult) {
       console.log('blueResultAfter', blueResult);
 
-      blueResult.forEach(ingredient => {
+      for (const ingredient of blueResult) {
         htmlUl += templateHTML(ingredient);
-      });
-      blueMenu.innerHTML = htmlUl;
+      }
 
+      //88888888888888888888888888888888888888888888888
+      // blueResult.forEach(ingredient => {
+      //   htmlUl += templateHTML(ingredient);
+      // });
+      //888888888888888888888888888888888888888888888888
+
+      blueMenu.innerHTML = htmlUl;
     }
 
     function templateHTML(ingredient) {
@@ -274,12 +306,22 @@ function greenManager(elementList) {
   isCompletingGreenResult(elementList);
 
   function isCompletingGreenResult(elementList) {
-    elementList.forEach(recette => {
-      let applianceWithoutDiacritics = recette.appareil.removeDiacritics();
-      if (isValid(applianceWithoutDiacritics) === true && greenResult.includes(applianceWithoutDiacritics) === false) {
-        greenResult.push(applianceWithoutDiacritics)
+
+    for (const elm of elementList) {
+      let appareil = elm.appareil;
+      if (isValid(appareil) === true && greenResult.includes(appareil) === false) {
+        greenResult.push(appareil)
       }
-    })
+    }
+
+    //88888888888888888888888888888888888888888888888888888
+    // elementList.forEach(recette => {
+    //   let applianceWithoutDiacritics = recette.appareil.removeDiacritics();
+    //   if (isValid(applianceWithoutDiacritics) === true && greenResult.includes(applianceWithoutDiacritics) === false) {
+    //     greenResult.push(applianceWithoutDiacritics)
+    //   }
+    // })
+    //8888888888888888888888888888888888888888888888888888
   }
 
   // Green Input Manager
@@ -293,17 +335,31 @@ function greenManager(elementList) {
     greenInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (greenInput.value.length >= 3) {
-        greenResult = greenResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions(elm) {
+        let newResult = [];
+        for (const elm of greenResult) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
 
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
-            return true
-          } else {
-            return false
+            newResult.push(elm);
           }
         }
+        greenResult = newResult;
+
+        //8888888888888888888888888888888888888888888888888888888888888888888888888
+        // greenResult = greenResult.filter(colorResultFilterOptions);
+
+        // function colorResultFilterOptions(elm) {
+        //   let inputwithoutDiacritics = bar.target.value.removeDiacritics();
+
+        //   if (elm.indexOf(inputwithoutDiacritics) > -1) {
+        //     return true
+        //   } else {
+        //     return false
+        //   }
+        // }
+        //8888888888888888888888888888888888888888888888888888888888888888888888888
+
         greenDisplay(greenResult);
         isPushingGreenTag();
 
@@ -326,15 +382,22 @@ function greenManager(elementList) {
     if (greenResult === actualGreenResult) {
       console.log('greenResultAfter', greenResult);
 
-      greenResult.forEach(appareils => {
-        htmlUl += templateHTML(appareils);
-      });
+      for (const appareil of greenResult) {
+        htmlUl += templateHTML(appareil);
+      }
+
+      //888888888888888888888888888888888888888888888888888
+      // greenResult.forEach(appareils => {
+      //   htmlUl += templateHTML(appareils);
+      // });
+      //888888888888888888888888888888888888888888888888888
+
       greenMenu.innerHTML = htmlUl;
 
     }
 
-    function templateHTML(appliance) {
-      return `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
+    function templateHTML(appareil) {
+      return `<li><a class="dropdown-item itemGreen" href="#">${appareil}</a></li>`
     }
   }
 }
@@ -345,14 +408,27 @@ function redManager(elementList) {
   isCompletingRedResult(elementList);
 
   function isCompletingRedResult(elementList) {
-    elementList.forEach(recette => {
-      recette.ustensils.forEach(elm => {
-        let ustensilsWithoutDiacritics = elm.removeDiacritics();
-        if (isValid(ustensilsWithoutDiacritics) === true && redResult.includes(ustensilsWithoutDiacritics) === false) {
-          redResult.push(ustensilsWithoutDiacritics);
+
+    for (const elm of elementList) {
+      let ustensils = elm.ustensils;
+
+      for (const subElm of ustensils) {
+        if (isValid(subElm) === true && redResult.includes(subElm) === false) {
+          redResult.push(subElm);
         }
-      })
-    })
+      }
+    }
+
+    //8888888888888888888888888888888888888888888888888888888
+    // elementList.forEach(recette => {
+    //   recette.ustensils.forEach(elm => {
+    //     let ustensilsWithoutDiacritics = elm.removeDiacritics();
+    //     if (isValid(ustensilsWithoutDiacritics) === true && redResult.includes(ustensilsWithoutDiacritics) === false) {
+    //       redResult.push(ustensilsWithoutDiacritics);
+    //     }
+    //   })
+    // })
+    //88888888888888888888888888888888888888888888888888888888
   }
 
   let redButton = document.getElementById('redBtn');
@@ -365,17 +441,31 @@ function redManager(elementList) {
     redInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (redInput.value.length >= 3) {
-        redResult = redResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions(elm) {
+        let newResult = [];
+        for (const elm of redResult) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
 
           if (elm.indexOf(inputwithoutDiacritics) > -1) {
-            return true
-          } else {
-            return false
+            newResult.push(elm);
           }
         }
+        redResult = newResult;
+
+        //8888888888888888888888888888888888888888888888888888888888888888
+        // redResult = redResult.filter(colorResultFilterOptions);
+
+        // function colorResultFilterOptions(elm) {
+        //   let inputwithoutDiacritics = bar.target.value.removeDiacritics();
+
+        //   if (elm.indexOf(inputwithoutDiacritics) > -1) {
+        //     return true
+        //   } else {
+        //     return false
+        //   }
+        // }
+        //8888888888888888888888888888888888888888888888888888888888888888
+
         redDisplay(redResult);
         isPushingRedTag();
 
@@ -399,9 +489,16 @@ function redManager(elementList) {
     if (redResult === actualRedResult) {
       console.log('redResultAfter', redResult);
 
-      redResult.forEach(ustensils => {
-        htmlUl += templateHTML(ustensils);
-      });
+      for (const ustensil of redResult) {
+        htmlUl += templateHTML(ustensil);
+      }
+
+      //88888888888888888888888888888888888888888888888888888888
+      // redResult.forEach(ustensils => {
+      //   htmlUl += templateHTML(ustensils);
+      // });
+      //888888888888888888888888888888888888888888888888888888888
+
       redMenu.innerHTML = htmlUl;
 
     }
