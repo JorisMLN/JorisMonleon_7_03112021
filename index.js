@@ -89,7 +89,6 @@ function main() {
 
   // Algo coté dropdown tag value
   function isManagingDropdownAlgo() {
-
     let dropdownItems = Array.from(document.getElementsByClassName('dropdown-item'));
 
     for (const item of dropdownItems) {
@@ -130,11 +129,9 @@ function main() {
   }
 
   function removeTheValueSelected() {
-    let closeBtn = document.getElementsByClassName('closeBtn');
-    let closeBtnArray = Array.from(closeBtn);
+    let closeBtn = Array.from(document.getElementsByClassName('closeBtn'));
 
-    for (const btn of closeBtnArray) {
-
+    for (const btn of closeBtn) {
       btn.addEventListener('click', function (event) {
         let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
         tagValue.splice(indexFound, 1);
@@ -229,18 +226,18 @@ function blueManager(elementList) {
         blueResult = newResult;
 
         blueDisplay(blueResult);
-        isPushingBlueTag();
+        isPushingColorTag('Blue');
 
       } else {
         isCompletingBlueResult(elementList);
         blueDisplay(blueResult);
-        isPushingBlueTag();
+        isPushingColorTag('Blue');
       }
     });
   }
 
   blueDisplay(blueResult);
-  isPushingBlueTag();
+  isPushingColorTag('Blue');
 
   function blueDisplay(blueResult) {
 
@@ -300,18 +297,18 @@ function greenManager(elementList) {
         greenResult = newResult;
 
         greenDisplay(greenResult);
-        isPushingGreenTag();
+        isPushingColorTag('Green');
 
       } else {
         isCompletingGreenResult(elementList);
         greenDisplay(greenResult);
-        isPushingGreenTag();
+        isPushingColorTag('Green');
       }
     });
   }
 
   greenDisplay(greenResult);
-  isPushingGreenTag();
+  isPushingColorTag('Green');
 
   function greenDisplay(greenResult) {
     let greenMenu = document.getElementById('greenMenuDisplay');
@@ -374,18 +371,18 @@ function redManager(elementList) {
         redResult = newResult;
 
         redDisplay(redResult);
-        isPushingRedTag();
+        isPushingColorTag('Red')
 
       } else {
-        isCompletingRedResult(elementList);
-        isPushingRedTag();
         redDisplay(redResult);
+        isPushingColorTag('Red');
+        isCompletingRedResult(elementList);
       }
     });
   }
 
   redDisplay(redResult);
-  isPushingRedTag();
+  isPushingColorTag('Red')
 
   function redDisplay(redResult) {
 
@@ -416,36 +413,12 @@ function redManager(elementList) {
 let tagList = document.getElementById('tagList');
 let htmlTag = [];
 
-function isPushingBlueTag() {
-  let dropItemsBlue = Array.from(document.getElementsByClassName('itemBlue'));
+function isPushingColorTag(color) {
+  let dropItems = Array.from(document.getElementsByClassName('item' + color));
 
-  for (const elm of dropItemsBlue) {
+  for (const elm of dropItems) {
     elm.addEventListener('click', function (event) {
-      htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    });
-  }
-};
-
-function isPushingGreenTag() {
-  let dropItemsGreen = Array.from(document.getElementsByClassName('itemGreen'));
-
-  for (const elm of dropItemsGreen) {
-    elm.addEventListener('click', function (event) {
-      htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    });
-  }
-};
-
-function isPushingRedTag() {
-  let dropItemsRed = Array.from(document.getElementsByClassName('itemRed'));
-
-  for (const elm of dropItemsRed) {
-    elm.addEventListener('click', function (event) {
-      htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      htmlTag.push(`<div class="tag ${color}">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       tagList.innerHTML = htmlTag;
       removeTag();
     });
