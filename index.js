@@ -166,11 +166,13 @@ function resultDisplay(elementList) {
   let htmlDisplayBloc = document.getElementById('result');
   let htmlString = '';
 
-  elementList.length === 0
-    ?
+  if (elementList.length === 0) {
     htmlString = ` <h1> Aucune recette ne correspond à votre critère de recherche ! </h1>`
-    :
-    elementList.map(templateHTML);
+  } else {
+    for (const elm of elementList) {
+      templateHTML(elm);
+    }
+  }
 
   //insertion du bloc HTML
   htmlDisplayBloc.innerHTML = htmlString;
@@ -184,7 +186,7 @@ function resultDisplay(elementList) {
           <p class="body-text">${element.description}</p>
         </div>
       </div>
-      `
+    `
   }
 };
 
