@@ -48,22 +48,22 @@ function main() {
           let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
           if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
-            isFiltering(DATABASE_RECIPE, listOfResult);
+            isFilteringInput(DATABASE_RECIPE, listOfResult);
             console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
             listOfResult.length = 0;
-            isFiltering(DATABASE_RECIPE, listOfResult);
+            isFilteringInput(DATABASE_RECIPE, listOfResult);
             console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
             let newResult = [];
-            isFiltering(listOfResult, newResult);
+            isFilteringInput(listOfResult, newResult);
             listOfResult = newResult;
             console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
           }
 
-          function isFiltering(originList, targetList) {
+          function isFilteringInput(originList, targetList) {
             for (const elm of originList) {
               if (elm.name.indexOf(targetValue) > -1) {
                 targetList.push(elm);
@@ -96,39 +96,28 @@ function main() {
       item.addEventListener('click', function (event) {
         tagValue.push(event.target.textContent)
         console.log(tagValue);
-
         if (listOfResult.length === 0) {
-
-          for (const recipe of DATABASE_RECIPE) {
-
-            if (recipe.ingredients.indexOf(event.target.textContent) > -1) {
-              listOfResult.push(recipe);
-
-            } else if (recipe.appareil.indexOf(event.target.textContent) > -1) {
-              listOfResult.push(recipe);
-
-            } else if (recipe.ustensils.indexOf(event.target.textContent) > -1) {
-              listOfResult.push(recipe);
-            }
-          }
+          isFilteringTag(DATABASE_RECIPE, listOfResult);
 
         } else if (listOfResult.length > 0) {
           let newResult = [];
+          isFilteringTag(listOfResult, newResult);
+          listOfResult = newResult;
 
-          for (const recipe of listOfResult) {
+        }
 
+        function isFilteringTag(originList, targetList) {
+          for (const recipe of originList) {
             if (recipe.ingredients.indexOf(event.target.textContent) > -1) {
-              newResult.push(recipe);
+              targetList.push(recipe);
 
             } else if (recipe.appareil.indexOf(event.target.textContent) > -1) {
-              newResult.push(recipe);
+              targetList.push(recipe);
 
             } else if (recipe.ustensils.indexOf(event.target.textContent) > -1) {
-              newResult.push(recipe);
+              targetList.push(recipe);
             }
           }
-
-          listOfResult = newResult;
         }
 
         // display condition of result
