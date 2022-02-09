@@ -516,53 +516,53 @@ let tagList = document.getElementById('tagList');
 let htmlTag = [];
 
 function isPushingBlueTag() {
-  let dropItemsBlue = document.getElementsByClassName('itemBlue');
+  let dropItemsBlue = Array.from(document.getElementsByClassName('itemBlue'));
 
-  Array.from(dropItemsBlue).forEach((item) => {
-    item.addEventListener('click', function (event) {
+  for (const elm of dropItemsBlue) {
+    elm.addEventListener('click', function (event) {
       htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       tagList.innerHTML = htmlTag;
       removeTag();
     });
-  })
+  }
 };
 
 function isPushingGreenTag() {
-  let dropItemsGreen = document.getElementsByClassName('itemGreen');
+  let dropItemsGreen = Array.from(document.getElementsByClassName('itemGreen'));
 
-  Array.from(dropItemsGreen).forEach((item) => {
-    item.addEventListener('click', function (event) {
+  for (const elm of dropItemsGreen) {
+    elm.addEventListener('click', function (event) {
       htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       tagList.innerHTML = htmlTag;
       removeTag();
     });
-  })
+  }
 };
 
 function isPushingRedTag() {
-  let dropItemsRed = document.getElementsByClassName('itemRed');
+  let dropItemsRed = Array.from(document.getElementsByClassName('itemRed'));
 
-  Array.from(dropItemsRed).forEach((item) => {
-    item.addEventListener('click', function (event) {
+  for (const elm of dropItemsRed) {
+    elm.addEventListener('click', function (event) {
       htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       tagList.innerHTML = htmlTag;
       removeTag();
     });
-  })
+  }
 }
 
 function removeTag() {
-  let closeBtn = document.getElementsByClassName('closeBtn');
+  let closeBtn = Array.from(document.getElementsByClassName('closeBtn'));
 
-  Array.from(closeBtn).forEach((button) => {
-    button.addEventListener('click', function (event) {
+  for (const btn of closeBtn) {
+    btn.addEventListener('click', function (event) {
       let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
       console.log('index de la suppression', indexFound);
       htmlTag.splice(indexFound, 1);
       tagList.innerHTML = htmlTag;
       removeTag();
     })
-  })
+  }
 }
 
 
