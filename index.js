@@ -22,7 +22,6 @@ function main() {
     let research = document.getElementById('searchBar');
 
     if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
-
       listOfResult.length = 0;
 
       for (const recipe of DATABASE_RECIPE) {
@@ -49,43 +48,31 @@ function main() {
           let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
           if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
-            for (const elm of DATABASE_RECIPE) {
-              if (elm.name.indexOf(targetValue) > -1) {
-                listOfResult.push(elm);
-              } else if (elm.ingredients.indexOf(targetValue) > -1) {
-                listOfResult.push(elm);
-              } else if (elm.description.indexOf(targetValue) > -1) {
-                listOfResult.push(elm);
-              }
-            }
+            isFiltering(DATABASE_RECIPE, listOfResult);
             console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
             listOfResult.length = 0;
-            for (const elm of DATABASE_RECIPE) {
-              if (elm.name.indexOf(targetValue) > -1) {
-                listOfResult.push(elm);
-              } else if (elm.ingredients.indexOf(targetValue) > -1) {
-                listOfResult.push(elm);
-              } else if (elm.description.indexOf(targetValue) > -1) {
-                listOfResult.push(elm);
-              }
-            }
+            isFiltering(DATABASE_RECIPE, listOfResult);
             console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
             let newResult = [];
-            for (const elm of listOfResult) {
-              if (elm.name.indexOf(targetValue) > -1) {
-                newResult.push(elm);
-              } else if (elm.ingredients.indexOf(targetValue) > -1) {
-                newResult.push(elm);
-              } else if (elm.description.indexOf(targetValue) > -1) {
-                newResult.push(elm);
-              }
-            }
+            isFiltering(listOfResult, newResult);
             listOfResult = newResult;
             console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+          }
+
+          function isFiltering(originList, targetList) {
+            for (const elm of originList) {
+              if (elm.name.indexOf(targetValue) > -1) {
+                targetList.push(elm);
+              } else if (elm.ingredients.indexOf(targetValue) > -1) {
+                targetList.push(elm);
+              } else if (elm.description.indexOf(targetValue) > -1) {
+                targetList.push(elm);
+              }
+            }
           }
 
           // display condition of result
