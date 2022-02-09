@@ -92,35 +92,50 @@ function main() {
 
   // Algo coté dropdown tag value
   function isManagingDropdownAlgo() {
-    let dropdownItem = document.getElementsByClassName('dropdown-item');
 
-    Array.from(dropdownItem).forEach((button) => {
-      button.addEventListener('click', function (event) {
+    let dropdownItems = Array.from(document.getElementsByClassName('dropdown-item'));
+
+    for (const item of dropdownItems) {
+      item.addEventListener('click', function (event) {
         tagValue.push(event.target.textContent)
         console.log(tagValue);
 
         if (listOfResult.length === 0) {
-          listOfResult = DATABASE_RECIPE.filter(filterTagOptions);
+
+          for (const recipe of DATABASE_RECIPE) {
+
+            if (recipe.ingredients.indexOf(event.target.textContent) > -1) {
+              listOfResult.push(recipe);
+
+            } else if (recipe.appareil.indexOf(event.target.textContent) > -1) {
+              listOfResult.push(recipe);
+
+            } else if (recipe.ustensils.indexOf(event.target.textContent) > -1) {
+              listOfResult.push(recipe);
+            }
+          }
+
           console.log('DD1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
         } else if (listOfResult.length > 0) {
-          listOfResult = listOfResult.filter(filterTagOptions);
-          console.log('DD2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+          let newResult = [];
 
-        }
+          for (const recipe of listOfResult) {
 
-        function filterTagOptions(elm) {
-          console.log(elm.ingredients.indexOf(event.target.textContent));
+            if (recipe.ingredients.indexOf(event.target.textContent) > -1) {
+              newResult.push(recipe);
 
-          if (elm.ingredients.indexOf(event.target.textContent) > -1) {
-            return true
+            } else if (recipe.appareil.indexOf(event.target.textContent) > -1) {
+              newResult.push(recipe);
 
-          } else if (elm.appareil.indexOf(event.target.textContent) > -1) {
-            return true
-
-          } else if (elm.ustensils.indexOf(event.target.textContent) > -1) {
-            return true
+            } else if (recipe.ustensils.indexOf(event.target.textContent) > -1) {
+              newResult.push(recipe);
+            }
           }
+
+          listOfResult = newResult;
+
+          console.log('DD2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
         }
 
         // display condition of result
@@ -129,8 +144,7 @@ function main() {
         isManagingDropdownAlgo()
         isManagingInputAlgo();
       })
-    });
-
+    }
   }
 
   function removeTheValueSelected() {
