@@ -1,17 +1,15 @@
 import dropDownUi from './dropdownUI.js';
 import filteredDatabase from './filteredData.js';
 
+const DATABASE_RECIPE = filteredDatabase;
+console.log(DATABASE_RECIPE);
+let listOfResult = [];
+let tagValue = [];
+
 main();
 
 // Main Algo
 function main() {
-
-  const DATABASE_RECIPE = filteredDatabase;
-  console.log(DATABASE_RECIPE);
-
-  let listOfResult = [];
-  let tagValue = [];
-
   displayProcess(DATABASE_RECIPE);
 
   isManagingInputAlgo();
@@ -49,18 +47,18 @@ function main() {
 
           if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
             isFilteringInput(DATABASE_RECIPE, listOfResult);
-            console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+            console.log('INPUT 1 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
             listOfResult.length = 0;
             isFilteringInput(DATABASE_RECIPE, listOfResult);
-            console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+            console.log('INPUT 2 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
           } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
             let newResult = [];
             isFilteringInput(listOfResult, newResult);
             listOfResult = newResult;
-            console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+            console.log('INPUT 3 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
           }
 
           function isFilteringInput(originList, targetList) {
@@ -78,9 +76,13 @@ function main() {
           // display condition of result
           displayProcess(listOfResult)
           isManagingDropdownAlgo()
-        }, 500);
-      } else if (tagValue.length === 0) {
+        }, 200);
+
+      } else if (research.value.length === 0 && tagValue.length === 0 && listOfResult.length > 0) {
         listOfResult.length = 0;
+        displayProcess(DATABASE_RECIPE);
+        isManagingDropdownAlgo()
+
       }
       displayProcess(DATABASE_RECIPE);
       isManagingDropdownAlgo()
@@ -91,10 +93,17 @@ function main() {
   function isManagingDropdownAlgo() {
     let dropdownItems = Array.from(document.getElementsByClassName('dropdown-item'));
 
+    // if (tagValue.length > 0) {
+    //   let newResult = [];
+    //   isFilteringTag(listOfResult, newResult);
+    //   listOfResult = newResult;
+    // }
+
     for (const item of dropdownItems) {
       item.addEventListener('click', function (event) {
         tagValue.push(event.target.textContent)
         console.log(tagValue);
+
         if (listOfResult.length === 0) {
           isFilteringTag(DATABASE_RECIPE, listOfResult);
 
@@ -102,7 +111,6 @@ function main() {
           let newResult = [];
           isFilteringTag(listOfResult, newResult);
           listOfResult = newResult;
-
         }
 
         function isFilteringTag(originList, targetList) {
@@ -119,17 +127,19 @@ function main() {
           }
         }
 
+        console.log('DD | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
         // display condition of result
         displayProcess(listOfResult)
         removeTheValueSelected();
-        isManagingDropdownAlgo()
         isManagingInputAlgo();
+        isManagingDropdownAlgo()
       })
     }
   }
 
   function removeTheValueSelected() {
     let closeBtn = Array.from(document.getElementsByClassName('closeBtn'));
+    let research = document.getElementById('searchBar').value;
 
     for (const btn of closeBtn) {
       btn.addEventListener('click', function (event) {
@@ -137,9 +147,17 @@ function main() {
         tagValue.splice(indexFound, 1);
         console.log(tagValue);
 
-        displayProcess(DATABASE_RECIPE);
-        isManagingInputAlgo();
+        console.log('AFTER REMOTE TAG | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length, 'research.length', research.length);
+
+        if (tagValue.length === 0 && research.length === 0) {
+          listOfResult.length = 0;
+          displayProcess(DATABASE_RECIPE);
+        } else {
+          displayProcess(listOfResult);
+        }
+
         isManagingDropdownAlgo();
+        isManagingInputAlgo();
         removeTheValueSelected();
       })
     }
@@ -340,7 +358,9 @@ function colorDisplay(result, color, colorTag) {
   let htmlUl = '';
 
   for (const item of result) {
-    htmlUl += templateHTML(item, colorTag);
+    if (tagValue.includes(item) === false) {
+      htmlUl += templateHTML(item, colorTag);
+    }
   }
   Menu.innerHTML = htmlUl;
 }
