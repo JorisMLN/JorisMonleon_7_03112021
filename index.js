@@ -11,156 +11,185 @@ main();
 // Main Algo
 function main() {
   displayProcess(DATABASE_RECIPE);
-
   isManagingInputAlgo();
   isManagingDropdownAlgo();
+}
 
-  // Algo coté general input value
-  function isManagingInputAlgo() {
-    let research = document.getElementById('searchBar');
+// Algo coté general input value
+function isManagingInputAlgo() {
+  let research = document.getElementById('searchBar');
 
-    if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
-      listOfResult.length = 0;
+  if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
+    listOfResult.length = 0;
 
-      for (const recipe of DATABASE_RECIPE) {
-        if (recipe.name.indexOf(research.value) > -1) {
-          listOfResult.push(recipe);
+    for (const recipe of DATABASE_RECIPE) {
 
-        } else if (recipe.ingredients.indexOf(research.value) > -1) {
-          listOfResult.push(recipe);
+      if (recipe.name.indexOf(research.value) > -1) {
+        listOfResult.push(recipe);
 
-        } else if (recipe.description.indexOf(research.value) > -1) {
-          listOfResult.push(recipe);
-        }
+      } else if (recipe.ingredients.indexOf(research.value) > -1) {
+        listOfResult.push(recipe);
+
+      } else if (recipe.description.indexOf(research.value) > -1) {
+        listOfResult.push(recipe);
       }
-
-      displayProcess(listOfResult)
-      console.log('AFTER listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
     }
 
-    research.addEventListener('input', (bar) => {
-      let targetValue = bar.target.value.removeDiacritics();
+    console.log('test')
 
-      if (targetValue.length >= 3) {
-        setTimeout(() => {
-          let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
+    displayProcess(listOfResult)
+    console.log('AFTER listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-          if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
-            isFilteringInput(DATABASE_RECIPE, listOfResult);
-            console.log('INPUT 1 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-
-          } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
-            listOfResult.length = 0;
-            isFilteringInput(DATABASE_RECIPE, listOfResult);
-            console.log('INPUT 2 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-
-          } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
-            let newResult = [];
-            isFilteringInput(listOfResult, newResult);
-            listOfResult = newResult;
-            console.log('INPUT 3 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-          }
-
-          function isFilteringInput(originList, targetList) {
-            for (const elm of originList) {
-              if (elm.name.indexOf(targetValue) > -1) {
-                targetList.push(elm);
-              } else if (elm.ingredients.indexOf(targetValue) > -1) {
-                targetList.push(elm);
-              } else if (elm.description.indexOf(targetValue) > -1) {
-                targetList.push(elm);
-              }
-            }
-          }
-
-          // display condition of result
-          displayProcess(listOfResult)
-          isManagingDropdownAlgo()
-        }, 200);
-
-      } else if (research.value.length === 0 && tagValue.length === 0 && listOfResult.length > 0) {
-        listOfResult.length = 0;
-        displayProcess(DATABASE_RECIPE);
-        isManagingDropdownAlgo()
-
-      }
-      displayProcess(DATABASE_RECIPE);
-      isManagingDropdownAlgo()
-    });
   }
 
-  // Algo coté dropdown tag value
-  function isManagingDropdownAlgo() {
-    let dropdownItems = Array.from(document.getElementsByClassName('dropdown-item'));
+  research.addEventListener('input', (bar) => {
+    let targetValue = bar.target.value.removeDiacritics();
 
-    // if (tagValue.length > 0) {
-    //   let newResult = [];
-    //   isFilteringTag(listOfResult, newResult);
-    //   listOfResult = newResult;
-    // }
+    if (targetValue.length >= 3) {
+      setTimeout(() => {
+        let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
-    for (const item of dropdownItems) {
-      item.addEventListener('click', function (event) {
-        tagValue.push(event.target.textContent)
-        console.log(tagValue);
+        if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
+          isFilteringInput(DATABASE_RECIPE, listOfResult);
+          console.log('INPUT 1 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-        if (listOfResult.length === 0) {
-          isFilteringTag(DATABASE_RECIPE, listOfResult);
+        } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
+          listOfResult.length = 0;
+          isFilteringInput(DATABASE_RECIPE, listOfResult);
+          console.log('INPUT 2 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-        } else if (listOfResult.length > 0) {
+        } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
           let newResult = [];
-          isFilteringTag(listOfResult, newResult);
+          isFilteringInput(listOfResult, newResult);
           listOfResult = newResult;
+          console.log('INPUT 3 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+
         }
 
-        function isFilteringTag(originList, targetList) {
-          for (const recipe of originList) {
-            if (recipe.ingredients.indexOf(event.target.textContent) > -1) {
-              targetList.push(recipe);
-
-            } else if (recipe.appareil.indexOf(event.target.textContent) > -1) {
-              targetList.push(recipe);
-
-            } else if (recipe.ustensils.indexOf(event.target.textContent) > -1) {
-              targetList.push(recipe);
+        function isFilteringInput(originList, targetList) {
+          for (const elm of originList) {
+            if (elm.name.indexOf(targetValue) > -1) {
+              targetList.push(elm);
+            } else if (elm.ingredients.indexOf(targetValue) > -1) {
+              targetList.push(elm);
+            } else if (elm.description.indexOf(targetValue) > -1) {
+              targetList.push(elm);
             }
           }
         }
 
-        console.log('DD | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
         // display condition of result
         displayProcess(listOfResult)
-        removeTheValueSelected();
-        isManagingInputAlgo();
         isManagingDropdownAlgo()
-      })
+      }, 200);
+
+    } else if (research.value.length === 0 && tagValue.length === 0 && listOfResult.length > 0) {
+      listOfResult.length = 0;
+      displayProcess(DATABASE_RECIPE);
+      isManagingDropdownAlgo()
+
     }
-  }
+    displayProcess(DATABASE_RECIPE);
+    isManagingDropdownAlgo()
+  });
+}
 
-  function removeTheValueSelected() {
-    let closeBtn = Array.from(document.getElementsByClassName('closeBtn'));
-    let research = document.getElementById('searchBar').value;
+// Algo coté dropdown tag value
+function isManagingDropdownAlgo() {
+  let dropdownItems = Array.from(document.getElementsByClassName('dropdown-item'));
 
-    for (const btn of closeBtn) {
-      btn.addEventListener('click', function (event) {
-        let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
-        tagValue.splice(indexFound, 1);
-        console.log(tagValue);
+  for (const item of dropdownItems) {
+    item.addEventListener('click', function (event) {
+      tagValue.push(event.target.textContent)
+      console.log(tagValue);
 
-        console.log('AFTER REMOTE TAG | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length, 'research.length', research.length);
+      if (listOfResult.length === 0) {
+        isFilteringTag(DATABASE_RECIPE, listOfResult);
 
-        if (tagValue.length === 0 && research.length === 0) {
-          listOfResult.length = 0;
-          displayProcess(DATABASE_RECIPE);
-        } else {
-          displayProcess(listOfResult);
+      } else if (listOfResult.length > 0) {
+        let newResult = [];
+
+        console.log(listOfResult);
+        isFilteringTag(listOfResult, newResult);
+        console.log(newResult);
+
+        listOfResult = newResult;
+      }
+
+      function isFilteringTag(originList, targetList) {
+        for (const recipe of originList) {
+          if (recipe.ingredients.indexOf(event.target.textContent) > -1) {
+            targetList.push(recipe);
+
+          } else if (recipe.appareil.indexOf(event.target.textContent) > -1) {
+            targetList.push(recipe);
+
+          } else if (recipe.ustensils.indexOf(event.target.textContent) > -1) {
+            targetList.push(recipe);
+          }
         }
+      }
 
-        isManagingDropdownAlgo();
+      console.log('DD | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+      displayProcess(listOfResult)
+
+      removeTheValueSelected();
+      isManagingInputAlgo();
+      isManagingDropdownAlgo();
+    })
+  }
+}
+
+function removeTheValueSelected() {
+  let closeBtn = Array.from(document.getElementsByClassName('closeBtn'));
+  let research = document.getElementById('searchBar').value;
+
+  for (const btn of closeBtn) {
+    btn.addEventListener('click', function (event) {
+      let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
+      tagValue.splice(indexFound, 1);
+
+      console.log('AFTER REMOTE TAG | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length, 'research.length', research.length);
+      console.log(tagValue);
+      console.log(research);
+
+      if (tagValue.length > 0) {
+        let newResult = [];
+
+        for (const recipe of DATABASE_RECIPE) {
+          for (const tag of tagValue) {
+            if (recipe.name.indexOf(tag) > -1) {
+              newResult.push(recipe);
+
+            } else if (recipe.ingredients.indexOf(tag) > -1) {
+              newResult.push(recipe);
+
+            } else if (recipe.description.indexOf(tag) > -1) {
+              newResult.push(recipe);
+            }
+          }
+
+          if (recipe.name.indexOf(research.value) > -1 && newResult.includes(recipe) === false) {
+            newResult.push(recipe);
+
+          } else if (recipe.ingredients.indexOf(research.value) > -1 && newResult.includes(recipe) === false) {
+            newResult.push(recipe);
+
+          } else if (recipe.description.indexOf(research.value) > -1 && newResult.includes(recipe) === false) {
+            newResult.push(recipe);
+          }
+        }
+        console.log('newResult', newResult);
+        listOfResult = newResult;
+        displayProcess(listOfResult);
+
+      } else {
         isManagingInputAlgo();
-        removeTheValueSelected();
-      })
-    }
+        isManagingDropdownAlgo();
+      }
+
+      removeTheValueSelected();
+    })
   }
 }
 
@@ -394,7 +423,9 @@ function removeTag() {
       let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
       htmlTag.splice(indexFound, 1);
       tagList.innerHTML = htmlTag;
+
       removeTag();
+      isManagingDropdownAlgo();
     })
   }
 }
