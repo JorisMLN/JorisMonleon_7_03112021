@@ -11,7 +11,6 @@ main();
 
 // Main Algo
 function main() {
-
   displayProcess(DATABASE_RECIPE);
   isManagingInputAlgo();
   isManagingDropdownAlgo();
@@ -20,10 +19,8 @@ function main() {
 // Algo coté general input value
 function isManagingInputAlgo() {
   let research = document.getElementById('searchBar');
-  console.log('BEFORE listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
   if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
-
     listOfResult.length = 0;
 
     listOfResult = DATABASE_RECIPE.filter(function (elm) {
@@ -39,13 +36,12 @@ function isManagingInputAlgo() {
     });
 
     displayProcess(listOfResult)
-    // isManagingDropdownAlgo()
     console.log('AFTER listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
   }
 
   research.addEventListener('input', (bar) => {
     let targetValue = bar.target.value.removeDiacritics();
-    console.log('TEST LISTENER')
+    console.log(targetValue)
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
@@ -81,13 +77,11 @@ function isManagingInputAlgo() {
         // display condition of result
         displayProcess(listOfResult)
         isManagingDropdownAlgo()
-      }, 500);
+      }, 200);
+
     } else if (tagValue.length === 0) {
       listOfResult.length = 0;
-      console.log('ELSE IF 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-      console.log('ELSE IF 1 DATABASE_RECIPE.length', DATABASE_RECIPE.length);
       isManagingDropdownAlgo();
-
     }
     displayProcess(DATABASE_RECIPE);
 
@@ -96,20 +90,19 @@ function isManagingInputAlgo() {
 
 // Algo coté dropdown tag value
 function isManagingDropdownAlgo() {
-  let dropdownItem = document.getElementsByClassName('dropdown-item');
+  let dropdownItem = Array.from(document.getElementsByClassName('dropdown-item'));
 
-  Array.from(dropdownItem).forEach((button) => {
+  dropdownItem.forEach((button) => {
     button.addEventListener('click', function (event) {
       tagValue.push(event.target.textContent)
       console.log(tagValue);
 
       if (listOfResult.length === 0) {
         listOfResult = DATABASE_RECIPE.filter(filterTagOptions);
-        console.log('DD1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
       } else if (listOfResult.length > 0) {
         listOfResult = listOfResult.filter(filterTagOptions);
-        console.log('DD2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+        console.log('listOfResult', listOfResult);
 
       }
 
@@ -236,12 +229,10 @@ function resultDisplay(elementList) {
 /*##### D R O P D O W N S ###############################################################################################################################*/
 // Dropdown display
 function blueManager(elementList) {
-
   let blueResult = [];
   isCompletingBlueResult(elementList);
 
   function isCompletingBlueResult(elementList) {
-
     elementList.forEach(recette => {
       recette.ingredients.forEach(ingredient => {
         if (isValid(ingredient) === true && blueResult.includes(ingredient) === false) {
@@ -277,20 +268,18 @@ function blueManager(elementList) {
         }
 
         blueDisplay(blueResult);
-        // isPushingBlueTag();
         isPushingColorTag('Blue');
         console.log('blueResultAfter', blueResult);
+
       } else {
         isCompletingBlueResult(elementList);
         blueDisplay(blueResult);
-        // isPushingBlueTag();
         isPushingColorTag('Blue');
       }
     });
   }
 
   blueDisplay(blueResult);
-  // isPushingBlueTag();
   isPushingColorTag('Blue');
 
   function blueDisplay(blueResult) {
@@ -325,7 +314,6 @@ function greenManager(elementList) {
   // Green Input Manager
   let greenButton = document.getElementById('greenBtn');
   greenButton.addEventListener('click', greenDynamicInput);
-  console.log('greenResultBefore', greenResult);
 
   function greenDynamicInput() {
     let greenInput = document.getElementById('greenInput');
@@ -347,20 +335,18 @@ function greenManager(elementList) {
           }
         }
         greenDisplay(greenResult);
-        // isPushingGreenTag();
         isPushingColorTag('Green');
         console.log('greenResultAfter', greenResult);
+
       } else {
         isCompletingGreenResult(elementList);
         greenDisplay(greenResult);
-        // isPushingGreenTag();
         isPushingColorTag('Green');
       }
     });
   }
 
   greenDisplay(greenResult);
-  // isPushingGreenTag();
   isPushingColorTag('Green');
 
   function greenDisplay(greenResult) {
@@ -379,7 +365,6 @@ function greenManager(elementList) {
 }
 
 function redManager(elementList) {
-
   let redResult = [];
   isCompletingRedResult(elementList);
 
@@ -395,7 +380,6 @@ function redManager(elementList) {
 
   let redButton = document.getElementById('redBtn');
   redButton.addEventListener('click', redDynamicInput);
-  console.log('redResultBefore', redResult);
 
   function redDynamicInput() {
     let redInput = document.getElementById('redInput');
@@ -417,12 +401,11 @@ function redManager(elementList) {
           }
         }
         redDisplay(redResult);
-        // isPushingRedTag();
         isPushingColorTag('Red');
         console.log('redResultAfter', redResult);
+
       } else {
         isCompletingRedResult(elementList);
-        // isPushingRedTag();
         isPushingColorTag('Red');
         redDisplay(redResult);
       }
@@ -430,7 +413,6 @@ function redManager(elementList) {
   }
 
   redDisplay(redResult);
-  // isPushingRedTag();
   isPushingColorTag('Red');
 
   function redDisplay(redResult) {
