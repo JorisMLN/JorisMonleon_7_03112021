@@ -19,6 +19,8 @@ function main() {
 function isManagingInputAlgo() {
   let research = document.getElementById('searchBar');
 
+  console.log('without test')
+
   if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
     listOfResult.length = 0;
 
@@ -84,7 +86,6 @@ function isManagingInputAlgo() {
         }
 
         // display condition of result
-        console.log('AFTER INPUT | listOfResult', listOfResult);
         displayProcess(listOfResult)
         isManagingDropdownAlgo()
       }, 200);
@@ -157,7 +158,7 @@ function removeTheValueSelected() {
       let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
       tagValue.splice(indexFound, 1);
 
-      console.log('AFTER REMOTE TAG 2 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length, 'research.length', research.length);
+      console.log('AFTER REMOTE TAG 2 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
       console.log('tagValue --- ', tagValue);
       console.log('research --- ', research);
 
@@ -183,7 +184,6 @@ function removeTheValueSelected() {
         console.log('newResultBeforeConsiderTag', newResultBeforeConsiderTag);
 
         for (const recipe of newResultBeforeConsiderTag) {
-
           for (const tag of tagValue) {
             console.log(tag);
 
@@ -201,16 +201,15 @@ function removeTheValueSelected() {
         console.log('listOfResult', listOfResult)
 
         displayProcess(listOfResult);
-        isManagingInputAlgo();
-        isManagingDropdownAlgo();
-        removeTheValueSelected();
+
 
       } else if (tagValue.length === 0 && research.length === 0) {
         displayProcess(DATABASE_RECIPE);
-        isManagingInputAlgo();
-        isManagingDropdownAlgo();
-        removeTheValueSelected();
+
       }
+      isManagingInputAlgo();
+      isManagingDropdownAlgo();
+      removeTheValueSelected();
     })
   }
 }
