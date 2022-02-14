@@ -1,26 +1,30 @@
 import database from './database.js';
 
-const filtered = (database) => {
-  let arrayData = [];
+const isFilteringDatabase = (database) => {
+  let newDatabase = [];
 
   database.forEach(recette => {
-    let payloadObjet = {};
+    let element = {};
 
-    payloadObjet.id = recette.id;
-    payloadObjet.name = recette.name.removeDiacritics();
-    payloadObjet.description = recette.description.removeDiacritics();
-    payloadObjet.appareils = recette.appliance.removeDiacritics();
-    payloadObjet.ustensils = recette.ustensils;
+    element.id = recette.id;
+    element.name = recette.name.removeDiacritics();
+    element.description = recette.description.removeDiacritics();
+    element.appareil = recette.appliance.removeDiacritics();
+    element.ingredients = [];
+    element.ustensils = [];
 
-    payloadObjet.ingredients = [];
     recette.ingredients.forEach(elm => {
-      payloadObjet.ingredients.push(elm.ingredient)
-    })
+      element.ingredients.push(elm.ingredient);
+    });
 
-    arrayData.push(payloadObjet);
+    recette.ustensils.forEach(ustensil => {
+      element.ustensils.push(ustensil.removeDiacritics());
+    });
+
+    newDatabase.push(element);
   });
 
-  return arrayData;
+  return newDatabase;
 }
 
 //  - - - - - - - - - - - - - - - - - - - - -
@@ -32,6 +36,6 @@ String.prototype.removeDiacritics = function () {
 
 //  - - - - - - - - - - - - - - - - - - - - -
 
-let filterDatabase = filtered(database);
+let filteredDatabase = isFilteringDatabase(database);
 
-export default filterDatabase;
+export default filteredDatabase;
