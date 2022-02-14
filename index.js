@@ -1,156 +1,201 @@
 import dropDownUi from './dropdownUI.js';
-import database from './database.js';
-import filterDatabase from './filteredData.js';
+import filteredDatabase from './filteredData.js';
+
+
+let DATABASE_RECIPE = filteredDatabase;
+console.log(DATABASE_RECIPE);
+let listOfResult = [];
+let tagValue = [];
 
 main();
 
 // Main Algo
 function main() {
 
-  let filteredRecipe = filterDatabase;
-  let listOfResult = [];
-  let tagValue = [];
-  console.log(filteredRecipe);
-  console.log(listOfResult);
-
-  displayProcess(filteredRecipe);
-
+  displayProcess(DATABASE_RECIPE);
   isManagingInputAlgo();
   isManagingDropdownAlgo();
+}
 
-  // Algo coté general input value
-  function isManagingInputAlgo() {
-    let research = document.getElementById('searchBar');
-    console.log('BEFORE listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+// Algo coté general input value
+function isManagingInputAlgo() {
+  let research = document.getElementById('searchBar');
+  console.log('BEFORE listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-    if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
+  if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
 
-      listOfResult.length = 0;
+    listOfResult.length = 0;
 
-      listOfResult = filteredRecipe.filter(function (elm) {
-        if (elm.name.indexOf(research.value) > -1) {
-          return true
+    listOfResult = DATABASE_RECIPE.filter(function (elm) {
+      if (elm.name.indexOf(research.value) > -1) {
+        return true
 
-        } else if (elm.ingredients.indexOf(research.value) > -1) {
-          return true
+      } else if (elm.ingredients.indexOf(research.value) > -1) {
+        return true
 
-        } else if (elm.description.indexOf(research.value) > -1) {
-          return true
-        }
-      });
-
-      displayProcess(listOfResult)
-      // isManagingDropdownAlgo()
-      console.log('AFTER listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-    }
-
-    research.addEventListener('input', (bar) => {
-      let targetValue = bar.target.value.removeDiacritics();
-      console.log('TEST LISTENER')
-
-      if (targetValue.length >= 3) {
-        setTimeout(() => {
-          let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
-
-          if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
-            listOfResult = filteredRecipe.filter(filterOptions);
-            console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-
-          } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
-            listOfResult.length = 0;
-            listOfResult = filteredRecipe.filter(filterOptions);
-            console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-
-          } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
-            listOfResult = listOfResult.filter(filterOptions);
-            console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-          }
-
-          function filterOptions(elm) {
-            if (elm.name.indexOf(targetValue) > -1) {
-              return true
-
-            } else if (elm.ingredients.indexOf(targetValue) > -1) {
-              return true
-
-            } else if (elm.description.indexOf(targetValue) > -1) {
-              return true
-            }
-            return false
-          }
-
-          // display condition of result
-          displayProcess(listOfResult)
-          isManagingDropdownAlgo()
-        }, 500);
-      } else if (tagValue.length === 0) {
-        listOfResult.length = 0;
-        console.log('ELSE IF 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-        console.log('ELSE IF 1 filteredRecipe.length', filteredRecipe.length);
+      } else if (elm.description.indexOf(research.value) > -1) {
+        return true
       }
-      displayProcess(filteredRecipe);
-      isManagingDropdownAlgo()
     });
+
+    displayProcess(listOfResult)
+    // isManagingDropdownAlgo()
+    console.log('AFTER listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
   }
 
-  // Algo coté dropdown tag value
-  function isManagingDropdownAlgo() {
-    let dropdownItem = document.getElementsByClassName('dropdown-item');
-    Array.from(dropdownItem).forEach((button) => {
-      button.addEventListener('click', function (event) {
-        tagValue.push(event.target.textContent)
-        console.log(tagValue);
+  research.addEventListener('input', (bar) => {
+    let targetValue = bar.target.value.removeDiacritics();
+    console.log('TEST LISTENER')
 
-        if (listOfResult.length === 0) {
-          listOfResult = filteredRecipe.filter(filterTagOptions);
-          console.log('DD1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+    if (targetValue.length >= 3) {
+      setTimeout(() => {
+        let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
-        } else if (listOfResult.length > 0) {
-          listOfResult = listOfResult.filter(filterTagOptions);
-          console.log('DD2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+        if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
+          listOfResult = DATABASE_RECIPE.filter(filterOptions);
+          console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
+        } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
+          listOfResult.length = 0;
+          listOfResult = DATABASE_RECIPE.filter(filterOptions);
+          console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+
+        } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
+          listOfResult = listOfResult.filter(filterOptions);
+          console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
         }
 
-        function filterTagOptions(elm) {
-          console.log(elm.ingredients.indexOf(event.target.textContent));
-
-          if (elm.ingredients.indexOf(event.target.textContent) > -1) {
+        function filterOptions(elm) {
+          if (elm.name.indexOf(targetValue) > -1) {
             return true
 
-          } else if (elm.appareils.indexOf(event.target.textContent) > -1) {
+          } else if (elm.ingredients.indexOf(targetValue) > -1) {
             return true
 
-          } else if (elm.ustensils.indexOf(event.target.textContent) > -1) {
+          } else if (elm.description.indexOf(targetValue) > -1) {
             return true
           }
+          return false
         }
 
         // display condition of result
         displayProcess(listOfResult)
-        removeTheValueSelected();
         isManagingDropdownAlgo()
-        isManagingInputAlgo();
-      })
-    });
+      }, 500);
+    } else if (tagValue.length === 0) {
+      listOfResult.length = 0;
+      console.log('ELSE IF 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+      console.log('ELSE IF 1 DATABASE_RECIPE.length', DATABASE_RECIPE.length);
+      isManagingDropdownAlgo();
 
-  }
+    }
+    displayProcess(DATABASE_RECIPE);
 
-  function removeTheValueSelected() {
-    let closeBtn = document.getElementsByClassName('closeBtn');
-    Array.from(closeBtn).forEach((button) => {
-      button.addEventListener('click', function (event) {
-        let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
-        tagValue.splice(indexFound, 1);
-        console.log(tagValue);
-        displayProcess(filteredRecipe);
-
-        isManagingInputAlgo();
-        isManagingDropdownAlgo();
-        removeTheValueSelected();
-      })
-    })
-  }
+  });
 }
+
+// Algo coté dropdown tag value
+function isManagingDropdownAlgo() {
+  let dropdownItem = document.getElementsByClassName('dropdown-item');
+
+  Array.from(dropdownItem).forEach((button) => {
+    button.addEventListener('click', function (event) {
+      tagValue.push(event.target.textContent)
+      console.log(tagValue);
+
+      if (listOfResult.length === 0) {
+        listOfResult = DATABASE_RECIPE.filter(filterTagOptions);
+        console.log('DD1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+
+      } else if (listOfResult.length > 0) {
+        listOfResult = listOfResult.filter(filterTagOptions);
+        console.log('DD2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+
+      }
+
+      function filterTagOptions(elm) {
+        console.log(elm.ingredients.indexOf(event.target.textContent));
+
+        if (elm.ingredients.indexOf(event.target.textContent) > -1) {
+          return true
+
+        } else if (elm.appareil.indexOf(event.target.textContent) > -1) {
+          return true
+
+        } else if (elm.ustensils.indexOf(event.target.textContent) > -1) {
+          return true
+        }
+      }
+
+      // display condition of result
+      displayProcess(listOfResult)
+      removeTheValueSelected();
+      isManagingDropdownAlgo()
+      isManagingInputAlgo();
+    })
+  });
+
+}
+
+function removeTheValueSelected() {
+  let closeBtn = Array.from(document.getElementsByClassName('closeBtn'));
+  let research = document.getElementById('searchBar').value;
+
+  closeBtn.forEach((button) => {
+    button.addEventListener('click', function (event) {
+      let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
+      tagValue.splice(indexFound, 1);
+
+      console.log('tagValue --- ', tagValue);
+      console.log('research --- ', research);
+
+      let newResultBeforeConsiderTag = [];
+
+      if (tagValue.length > 0) {
+        listOfResult.length = 0;
+
+        DATABASE_RECIPE.forEach((recipe) => {
+          if (recipe.name.indexOf(research) > -1) {
+            newResultBeforeConsiderTag.push(recipe);
+
+          } else if (recipe.ingredients.indexOf(research) > -1) {
+            newResultBeforeConsiderTag.push(recipe);
+
+          } else if (recipe.description.indexOf(research) > -1) {
+            newResultBeforeConsiderTag.push(recipe);
+          }
+        });
+        console.log('newResultBeforeConsiderTag', newResultBeforeConsiderTag);
+
+        newResultBeforeConsiderTag.forEach((recipe) => {
+          tagValue.forEach((tag) => {
+            if (recipe.ingredients.indexOf(tag) > -1) {
+              listOfResult.push(recipe);
+
+            } else if (recipe.appareil.indexOf(tag) > -1) {
+              listOfResult.push(recipe);
+
+            } else if (recipe.ustensils.indexOf(tag) > -1) {
+              listOfResult.push(recipe);
+            }
+          })
+        });
+
+        console.log('listOfResult', listOfResult)
+        displayProcess(listOfResult);
+
+      } else if (tagValue.length === 0 && research.length === 0) {
+        displayProcess(DATABASE_RECIPE);
+
+      }
+
+      isManagingInputAlgo();
+      isManagingDropdownAlgo();
+      removeTheValueSelected();
+    })
+  })
+}
+
 
 // display process function
 function displayProcess(elementList) {
@@ -198,19 +243,17 @@ function blueManager(elementList) {
   function isCompletingBlueResult(elementList) {
 
     elementList.forEach(recette => {
-      recette.ingredients.forEach(elm => {
-        let ingredientWithoutDiacritics = elm.removeDiacritics();
-        if (isValid(ingredientWithoutDiacritics) === true && blueResult.includes(ingredientWithoutDiacritics) === false) {
-          blueResult.push(ingredientWithoutDiacritics)
+      recette.ingredients.forEach(ingredient => {
+        if (isValid(ingredient) === true && blueResult.includes(ingredient) === false) {
+          blueResult.push(ingredient)
         };
       });
     })
   }
 
-  // Green Input Manager
+  // Blue Input Manager
   let blueButton = document.getElementById('blueBtn');
   blueButton.addEventListener('click', blueDynamicInput);
-  console.log('blueResultBefore', blueResult);
 
   function blueDynamicInput() {
     let blueInput = document.getElementById('blueInput');
@@ -218,6 +261,7 @@ function blueManager(elementList) {
     blueInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
       if (blueInput.value.length >= 3) {
+
         console.log('testBlue');
         blueResult = blueResult.filter(colorResultFilterOptions);
 
@@ -271,9 +315,9 @@ function greenManager(elementList) {
 
   function isCompletingGreenResult(elementList) {
     elementList.forEach(recette => {
-      let applianceWithoutDiacritics = recette.appareils.removeDiacritics();
-      if (isValid(applianceWithoutDiacritics) === true && greenResult.includes(applianceWithoutDiacritics) === false) {
-        greenResult.push(applianceWithoutDiacritics)
+      let appareil = recette.appareil;
+      if (isValid(appareil) === true && greenResult.includes(appareil) === false) {
+        greenResult.push(appareil)
       }
     })
   }
@@ -323,13 +367,13 @@ function greenManager(elementList) {
     let greenMenu = document.getElementById('greenMenuDisplay');
     let htmlUl = '';
 
-    greenResult.forEach(appareils => {
-      htmlUl += templateHTML(appareils);
+    greenResult.forEach(appareil => {
+      htmlUl += templateHTML(appareil);
     });
     greenMenu.innerHTML = htmlUl;
 
-    function templateHTML(appliance) {
-      return `<li><a class="dropdown-item itemGreen" href="#">${appliance}</a></li>`
+    function templateHTML(appareil) {
+      return `<li><a class="dropdown-item itemGreen" href="#">${appareil}</a></li>`
     }
   }
 }
@@ -341,10 +385,9 @@ function redManager(elementList) {
 
   function isCompletingRedResult(elementList) {
     elementList.forEach(recette => {
-      recette.ustensils.forEach(elm => {
-        let ustensilsWithoutDiacritics = elm.removeDiacritics();
-        if (isValid(ustensilsWithoutDiacritics) === true && redResult.includes(ustensilsWithoutDiacritics) === false) {
-          redResult.push(ustensilsWithoutDiacritics);
+      recette.ustensils.forEach(ustensil => {
+        if (isValid(ustensil) === true && redResult.includes(ustensil) === false) {
+          redResult.push(ustensil);
         }
       })
     })
@@ -395,13 +438,13 @@ function redManager(elementList) {
     let redMenu = document.getElementById('redMenuDisplay');
     let htmlUl = '';
 
-    redResult.forEach(ustensils => {
-      htmlUl += templateHTML(ustensils);
+    redResult.forEach(ustensil => {
+      htmlUl += templateHTML(ustensil);
     });
     redMenu.innerHTML = htmlUl;
 
-    function templateHTML(ustensils) {
-      return `<li><a class="dropdown-item itemRed" href="#">${ustensils}</a></li>`
+    function templateHTML(ustensil) {
+      return `<li><a class="dropdown-item itemRed" href="#">${ustensil}</a></li>`
     }
   }
 }
