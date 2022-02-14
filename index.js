@@ -1,3 +1,4 @@
+import dropDownUi from './dropdownUI.js';
 import database from './database.js';
 import filterDatabase from './filteredData.js';
 
@@ -188,40 +189,6 @@ function resultDisplay(elementList) {
 
 
 /*##### D R O P D O W N S ###############################################################################################################################*/
-// Recupération click dropdown
-let tagList = document.getElementById('tagList');
-let htmlTag = [];
-
-function isPushingColorTag(color) {
-  let dropItems = Array.from(document.getElementsByClassName('item' + color));
-
-  dropItems.forEach((item) => {
-    item.addEventListener('click', function (event) {
-      htmlTag.push(`<div class="tag ${color}">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    })
-  })
-}
-
-function removeTag() {
-  let closeBtn = document.getElementsByClassName('closeBtn');
-
-  Array.from(closeBtn).forEach((button) => {
-    button.addEventListener('click', function (event) {
-
-      let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
-      console.log('index de la suppression', indexFound);
-      htmlTag.splice(indexFound, 1);
-      tagList.innerHTML = htmlTag;
-
-      removeTag();
-      isManagingDropdownAlgo();
-    })
-  })
-}
-
-// - - - - - - - - - - - - - - - - - - - - -
 // Dropdown display
 function blueManager(elementList) {
 
@@ -440,57 +407,38 @@ function redManager(elementList) {
 }
 
 // - - - - - - - - - - - - - - - - - - - - -
-// Gestion DOM dropdown 
-function ingredientsDropdown(database) {
-  const blueBtn = document.getElementById('blueBtn');
-  const blueMenu = document.getElementById('blueMenu');
+// Recupération click dropdown
+let tagList = document.getElementById('tagList');
+let htmlTag = [];
 
-  const intoInputIngredients = () => {
-    blueMenu.classList.add('show');
-    blueBtn.classList.add('bluePush');
-  }
-  const intoSwitchIngredients = () => {
-    blueBtn.classList.remove('bluePush');
-    blueMenu.classList.remove('show');
-  }
-  blueBtn.addEventListener('click', intoInputIngredients);
-  blueMenu.addEventListener('focusout', intoSwitchIngredients)
+function isPushingColorTag(color) {
+  let dropItems = Array.from(document.getElementsByClassName('item' + color));
+
+  dropItems.forEach((item) => {
+    item.addEventListener('click', function (event) {
+      htmlTag.push(`<div class="tag ${color}">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      tagList.innerHTML = htmlTag;
+      removeTag();
+    })
+  })
 }
-ingredientsDropdown(database);
 
-function appareilsDropdown() {
-  const greenBtn = document.getElementById('greenBtn');
-  const greenMenu = document.getElementById('greenMenu');
+function removeTag() {
+  let closeBtn = document.getElementsByClassName('closeBtn');
 
-  const intoInputAppliances = () => {
-    greenBtn.classList.add('greenPush');
-    greenMenu.classList.add('show');
-  }
-  const intoButtonAppliances = () => {
-    greenBtn.classList.remove('greenPush');
-    greenMenu.classList.remove('show');
-  }
-  greenBtn.addEventListener('click', intoInputAppliances);
-  greenMenu.addEventListener('focusout', intoButtonAppliances)
+  Array.from(closeBtn).forEach((button) => {
+    button.addEventListener('click', function (event) {
+
+      let indexFound = htmlTag.findIndex(tag => tag === event.target.parentElement.outerHTML);
+      console.log('index de la suppression', indexFound);
+      htmlTag.splice(indexFound, 1);
+      tagList.innerHTML = htmlTag;
+
+      removeTag();
+      isManagingDropdownAlgo();
+    })
+  })
 }
-appareilsDropdown(database);
-
-function ustensilsDropdown() {
-  const redBtn = document.getElementById('redBtn');
-  const redMenu = document.getElementById('redMenu');
-
-  const intoInputUstensils = () => {
-    redBtn.classList.add('hidden');
-    redMenu.classList.add('show');
-  }
-  const intoButtonUstensils = () => {
-    redBtn.classList.remove('hidden');
-    redMenu.classList.remove('show');
-  }
-  redBtn.addEventListener('click', intoInputUstensils);
-  redMenu.addEventListener('focusout', intoButtonUstensils)
-}
-ustensilsDropdown();
 
 
 /*##### S E R V I C E S ###############################################################################################################################*/
