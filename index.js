@@ -84,6 +84,7 @@ function isManagingInputAlgo() {
         }
 
         // display condition of result
+        console.log('AFTER INPUT | listOfResult', listOfResult);
         displayProcess(listOfResult)
         isManagingDropdownAlgo()
       }, 200);
@@ -95,30 +96,31 @@ function isManagingInputAlgo() {
 
     }
     displayProcess(DATABASE_RECIPE);
-    isManagingDropdownAlgo()
   });
 }
 
 // Algo coté dropdown tag value
 function isManagingDropdownAlgo() {
   let dropdownItems = Array.from(document.getElementsByClassName('dropdown-item'));
+  console.log('test after click DD1');
 
   for (const item of dropdownItems) {
     item.addEventListener('click', function (event) {
-      tagValue.push(event.target.textContent)
+      tagValue.push(event.target.textContent);
+
+      console.log('test after click DD2 ----- ', 'BEFORE ADD TAG | ', listOfResult);
       console.log(tagValue);
 
       if (listOfResult.length === 0) {
         isFilteringTag(DATABASE_RECIPE, listOfResult);
 
       } else if (listOfResult.length > 0) {
-        let newResult = [];
+        let newResultWithTag = [];
 
-        console.log(listOfResult);
-        isFilteringTag(listOfResult, newResult);
-        console.log(newResult);
+        isFilteringTag(listOfResult, newResultWithTag);
+        console.log('newResultWithTag', newResultWithTag);
 
-        listOfResult = newResult;
+        listOfResult = newResultWithTag;
       }
 
       function isFilteringTag(originList, targetList) {
@@ -148,23 +150,25 @@ function isManagingDropdownAlgo() {
 function removeTheValueSelected() {
   let closeBtn = Array.from(document.getElementsByClassName('closeBtn'));
   let research = document.getElementById('searchBar').value;
+  console.log('AFTER REMOVE TAG 1');
 
   for (const btn of closeBtn) {
     btn.addEventListener('click', function (event) {
       let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
       tagValue.splice(indexFound, 1);
 
-      console.log('AFTER REMOTE TAG | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length, 'research.length', research.length);
-      console.log('tagValue', tagValue);
-      console.log('research', research);
+      console.log('AFTER REMOTE TAG 2 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length, 'research.length', research.length);
+      console.log('tagValue --- ', tagValue);
+      console.log('research --- ', research);
 
       let newResultBeforeConsiderTag = [];
-      let newResult = [];
-      // listOfResult.length = 0;
 
       if (tagValue.length > 0) {
-        
-        //Loop with input before consider tag
+        console.log('AFTER REMOVE TAG 3');
+
+        listOfResult.length = 0;
+
+        // Loop with input before consider tag
         for (const recipe of DATABASE_RECIPE) {
           if (recipe.name.indexOf(research) > -1) {
             newResultBeforeConsiderTag.push(recipe);
@@ -176,38 +180,37 @@ function removeTheValueSelected() {
             newResultBeforeConsiderTag.push(recipe);
           }
         }
-
         console.log('newResultBeforeConsiderTag', newResultBeforeConsiderTag);
 
-        for(const recipe of newResultBeforeConsiderTag){
+        for (const recipe of newResultBeforeConsiderTag) {
+
           for (const tag of tagValue) {
-            if (recipe.name.indexOf(tag) > -1) {
-              newResult.push(recipe);
-  
-            } else if (recipe.ingredients.indexOf(tag) > -1) {
-              newResult.push(recipe);
-  
-            } else if (recipe.description.indexOf(tag) > -1) {
-              newResult.push(recipe);
+            console.log(tag);
+
+            if (recipe.ingredients.indexOf(tag) > -1) {
+              listOfResult.push(recipe);
+
+            } else if (recipe.appareil.indexOf(tag) > -1) {
+              listOfResult.push(recipe);
+
+            } else if (recipe.ustensils.indexOf(tag) > -1) {
+              listOfResult.push(recipe);
             }
           }
         }
-
-        console.log('newResultBeforeConsiderTag', newResultBeforeConsiderTag);
-        console.log('newResult', newResult);
         console.log('listOfResult', listOfResult)
-        listOfResult = newResult;
+
         displayProcess(listOfResult);
+        isManagingInputAlgo();
+        isManagingDropdownAlgo();
+        removeTheValueSelected();
 
-      } else if(tagValue.length === 0 && research.length === 0) {
+      } else if (tagValue.length === 0 && research.length === 0) {
         displayProcess(DATABASE_RECIPE);
+        isManagingInputAlgo();
+        isManagingDropdownAlgo();
+        removeTheValueSelected();
       }
-
-      
-
-      isManagingInputAlgo();
-      isManagingDropdownAlgo();
-      removeTheValueSelected();
     })
   }
 }
