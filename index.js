@@ -22,11 +22,11 @@ function main() {
     let research = document.getElementById('searchBar');
     console.log('BEFORE listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-    if(research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0){
+    if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
 
       listOfResult.length = 0;
 
-      listOfResult = filteredRecipe.filter(function (elm){
+      listOfResult = filteredRecipe.filter(function (elm) {
         if (elm.name.indexOf(research.value) > -1) {
           return true
 
@@ -82,7 +82,7 @@ function main() {
           displayProcess(listOfResult)
           isManagingDropdownAlgo()
         }, 500);
-      } else if (tagValue.length === 0){
+      } else if (tagValue.length === 0) {
         listOfResult.length = 0;
         console.log('ELSE IF 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
         console.log('ELSE IF 1 filteredRecipe.length', filteredRecipe.length);
@@ -192,47 +192,21 @@ function resultDisplay(elementList) {
 let tagList = document.getElementById('tagList');
 let htmlTag = [];
 
-function isPushingBlueTag() {
-  let dropItemsBlue = document.getElementsByClassName('itemBlue');
+function isPushingColorTag(color) {
+  let dropItems = Array.from(document.getElementsByClassName('item' + color));
 
-  Array.from(dropItemsBlue).forEach((item) => {
+  dropItems.forEach((item) => {
     item.addEventListener('click', function (event) {
-
-      htmlTag.push(`<div class="tag Blue">${event.target.textContent}<div class="closeBtn">x</div></div>`);
+      htmlTag.push(`<div class="tag ${color}">${event.target.textContent}<div class="closeBtn">x</div></div>`);
       tagList.innerHTML = htmlTag;
       removeTag();
-    });
-  })
-};
-
-function isPushingGreenTag() {
-  let dropItemsGreen = document.getElementsByClassName('itemGreen');
-
-  Array.from(dropItemsGreen).forEach((item) => {
-    item.addEventListener('click', function (event) {
-
-      htmlTag.push(`<div class="tag Green">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    });
-  })
-};
-
-function isPushingRedTag() {
-  let dropItemsRed = document.getElementsByClassName('itemRed');
-
-  Array.from(dropItemsRed).forEach((item) => {
-    item.addEventListener('click', function (event) {
-
-      htmlTag.push(`<div class="tag Red">${event.target.textContent}<div class="closeBtn">x</div></div>`);
-      tagList.innerHTML = htmlTag;
-      removeTag();
-    });
+    })
   })
 }
 
 function removeTag() {
   let closeBtn = document.getElementsByClassName('closeBtn');
+
   Array.from(closeBtn).forEach((button) => {
     button.addEventListener('click', function (event) {
 
@@ -240,7 +214,9 @@ function removeTag() {
       console.log('index de la suppression', indexFound);
       htmlTag.splice(indexFound, 1);
       tagList.innerHTML = htmlTag;
+
       removeTag();
+      isManagingDropdownAlgo();
     })
   })
 }
@@ -252,7 +228,7 @@ function blueManager(elementList) {
   let blueResult = [];
   isCompletingBlueResult(elementList);
 
-  function isCompletingBlueResult(elementList){
+  function isCompletingBlueResult(elementList) {
 
     elementList.forEach(recette => {
       recette.ingredients.forEach(elm => {
@@ -269,16 +245,16 @@ function blueManager(elementList) {
   blueButton.addEventListener('click', blueDynamicInput);
   console.log('blueResultBefore', blueResult);
 
-  function blueDynamicInput(){
+  function blueDynamicInput() {
     let blueInput = document.getElementById('blueInput');
 
     blueInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
-      if(blueInput.value.length >= 3){
+      if (blueInput.value.length >= 3) {
         console.log('testBlue');
         blueResult = blueResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions (elm){
+        function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
           console.log(inputwithoutDiacritics);
 
@@ -290,18 +266,21 @@ function blueManager(elementList) {
         }
 
         blueDisplay(blueResult);
-        isPushingBlueTag();
+        // isPushingBlueTag();
+        isPushingColorTag('Blue');
         console.log('blueResultAfter', blueResult);
       } else {
         isCompletingBlueResult(elementList);
         blueDisplay(blueResult);
-        isPushingBlueTag();
+        // isPushingBlueTag();
+        isPushingColorTag('Blue');
       }
     });
   }
 
   blueDisplay(blueResult);
-  isPushingBlueTag();
+  // isPushingBlueTag();
+  isPushingColorTag('Blue');
 
   function blueDisplay(blueResult) {
 
@@ -323,7 +302,7 @@ function greenManager(elementList) {
   let greenResult = [];
   isCompletingGreenResult(elementList);
 
-  function isCompletingGreenResult(elementList){
+  function isCompletingGreenResult(elementList) {
     elementList.forEach(recette => {
       let applianceWithoutDiacritics = recette.appareils.removeDiacritics();
       if (isValid(applianceWithoutDiacritics) === true && greenResult.includes(applianceWithoutDiacritics) === false) {
@@ -331,22 +310,22 @@ function greenManager(elementList) {
       }
     })
   }
-  
+
   // Green Input Manager
   let greenButton = document.getElementById('greenBtn');
   greenButton.addEventListener('click', greenDynamicInput);
   console.log('greenResultBefore', greenResult);
 
-  function greenDynamicInput(){
+  function greenDynamicInput() {
     let greenInput = document.getElementById('greenInput');
 
     greenInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
-      if(greenInput.value.length >= 3){
+      if (greenInput.value.length >= 3) {
         console.log('testGreen');
         greenResult = greenResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions (elm){
+        function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
           console.log(inputwithoutDiacritics);
 
@@ -357,18 +336,21 @@ function greenManager(elementList) {
           }
         }
         greenDisplay(greenResult);
-        isPushingGreenTag();
+        // isPushingGreenTag();
+        isPushingColorTag('Green');
         console.log('greenResultAfter', greenResult);
       } else {
         isCompletingGreenResult(elementList);
         greenDisplay(greenResult);
-        isPushingGreenTag();
+        // isPushingGreenTag();
+        isPushingColorTag('Green');
       }
     });
   }
 
   greenDisplay(greenResult);
-  isPushingGreenTag();
+  // isPushingGreenTag();
+  isPushingColorTag('Green');
 
   function greenDisplay(greenResult) {
     let greenMenu = document.getElementById('greenMenuDisplay');
@@ -390,7 +372,7 @@ function redManager(elementList) {
   let redResult = [];
   isCompletingRedResult(elementList);
 
-  function isCompletingRedResult(elementList){
+  function isCompletingRedResult(elementList) {
     elementList.forEach(recette => {
       recette.ustensils.forEach(elm => {
         let ustensilsWithoutDiacritics = elm.removeDiacritics();
@@ -405,16 +387,16 @@ function redManager(elementList) {
   redButton.addEventListener('click', redDynamicInput);
   console.log('redResultBefore', redResult);
 
-  function redDynamicInput(){
+  function redDynamicInput() {
     let redInput = document.getElementById('redInput');
 
     redInput.addEventListener('input', (bar) => {
       console.log(bar.target.value);
-      if(redInput.value.length >= 3){
+      if (redInput.value.length >= 3) {
         console.log('testRed');
         redResult = redResult.filter(colorResultFilterOptions);
 
-        function colorResultFilterOptions (elm){
+        function colorResultFilterOptions(elm) {
           let inputwithoutDiacritics = bar.target.value.removeDiacritics();
           console.log(inputwithoutDiacritics);
 
@@ -425,18 +407,21 @@ function redManager(elementList) {
           }
         }
         redDisplay(redResult);
-        isPushingRedTag();
+        // isPushingRedTag();
+        isPushingColorTag('Red');
         console.log('redResultAfter', redResult);
       } else {
         isCompletingRedResult(elementList);
-        isPushingRedTag();
+        // isPushingRedTag();
+        isPushingColorTag('Red');
         redDisplay(redResult);
       }
     });
   }
 
   redDisplay(redResult);
-  isPushingRedTag();
+  // isPushingRedTag();
+  isPushingColorTag('Red');
 
   function redDisplay(redResult) {
 
