@@ -4,10 +4,12 @@ function dropdownUI() {
   function ingredientsDropdown() {
     const blueBtn = document.getElementById('blueBtn');
     const blueMenu = document.getElementById('blueMenu');
+    const blueMenuDisplay = document.getElementById('blueMenuDisplay');
 
     const intoInputIngredients = () => {
       blueMenu.classList.add('show');
       blueBtn.classList.add('bluePush');
+      blueMenuDisplay.classList.add('menuDisplayON')
     }
     const intoSwitchIngredients = () => {
       blueBtn.classList.remove('bluePush');
@@ -21,10 +23,12 @@ function dropdownUI() {
   function appareilsDropdown() {
     const greenBtn = document.getElementById('greenBtn');
     const greenMenu = document.getElementById('greenMenu');
+    const greenMenuDisplay = document.getElementById('greenMenuDisplay');
 
     const intoInputAppliances = () => {
       greenBtn.classList.add('greenPush');
       greenMenu.classList.add('show');
+      // greenMenuDisplay.classList.add('menuDisplayON')
     }
     const intoButtonAppliances = () => {
       greenBtn.classList.remove('greenPush');
@@ -38,12 +42,15 @@ function dropdownUI() {
   function ustensilsDropdown() {
     const redBtn = document.getElementById('redBtn');
     const redMenu = document.getElementById('redMenu');
+    const redMenuDisplay = document.getElementById('redMenuDisplay');
 
     const intoInputUstensils = () => {
-      redBtn.classList.add('hidden');
+      redBtn.classList.add('redPush');
       redMenu.classList.add('show');
+      redMenuDisplay.classList.add('menuDisplayON')
     }
     const intoButtonUstensils = () => {
+      redBtn.classList.remove('redPush');
       redBtn.classList.remove('hidden');
       redMenu.classList.remove('show');
     }
