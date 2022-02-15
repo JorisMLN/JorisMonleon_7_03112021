@@ -93,6 +93,12 @@ body {
     margin-right: 15px;
     height: 50px;
 
+    .menuDisplayON {
+      // max-height: 300px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
     #blueBtn {
       background-color: #3282F7;
       border-color: #3282F7;
@@ -103,6 +109,7 @@ body {
     }
 
     #blueMenu {
+
       .inputDrop {
         height: 30px;
         margin-left: 10px;
@@ -120,11 +127,12 @@ body {
       flex-wrap: wrap;
       background-color: #3282F7;
       border-color: #3282F7;
-      height: 900px;
+      // height: 900px;
       width: 700px;
 
       .dropdown-item {
         color: white;
+        list-style-type: none;
 
         &:hover {
           color: black;
@@ -142,7 +150,7 @@ body {
     }
 
     #greenMenu {
-      #greenInput{
+      #greenInput {
         height: 30px;
         width: 150px;
         margin-left: 10px;
@@ -179,6 +187,10 @@ body {
       }
     }
 
+    .redPush {
+      width: 300px;
+    }
+
     #redMenu {
       .inputDrop {
         height: 30px;
@@ -189,9 +201,8 @@ body {
       .show {
         display: flex;
         flex-wrap: wrap;
-        max-height: 1000px;
+        max-height: 100px;
         width: 300px;
-        z-index: 3;
       }
 
       background-color: #ED6454;
@@ -208,6 +219,9 @@ body {
   }
 }
 
+li {
+  list-style: none;
+}
 
 // #############################################################################
 // MAIN RESULT
