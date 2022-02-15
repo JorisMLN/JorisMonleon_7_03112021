@@ -79,8 +79,9 @@ function isManagingInputAlgo() {
         isManagingDropdownAlgo()
       }, 200);
 
-    } else if (tagValue.length === 0) {
+    } else if (research.value.length === 0 && tagValue.length === 0 && listOfResult.length > 0) {
       listOfResult.length = 0;
+      displayProcess(DATABASE_RECIPE);
       isManagingDropdownAlgo();
     }
     displayProcess(DATABASE_RECIPE);
