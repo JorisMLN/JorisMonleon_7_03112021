@@ -217,7 +217,7 @@ function resultDisplay(elementList) {
   let htmlString = '';
 
   if (elementList.length === 0) {
-    htmlString = ` <h1> Aucune recette ne correspond à votre critère de recherche ! </h1>`
+    htmlString = ` <h2> Aucune recette ne correspond à votre critère de recherche ! </h2>`
   } else {
     for (const elm of elementList) {
       templateHTML(elm);
