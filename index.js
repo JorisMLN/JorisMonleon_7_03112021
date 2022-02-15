@@ -288,7 +288,9 @@ function blueManager(elementList) {
     let htmlUl = '';
 
     blueResult.forEach(ingredient => {
-      htmlUl += templateHTML(ingredient);
+      if (tagValue.includes(ingredient) === false) {
+        htmlUl += templateHTML(ingredient);
+      }
     });
     blueMenu.innerHTML = htmlUl;
 
@@ -354,7 +356,9 @@ function greenManager(elementList) {
     let htmlUl = '';
 
     greenResult.forEach(appareil => {
-      htmlUl += templateHTML(appareil);
+      if (tagValue.includes(appareil) === false) {
+        htmlUl += templateHTML(appareil);
+      }
     });
     greenMenu.innerHTML = htmlUl;
 
@@ -421,7 +425,9 @@ function redManager(elementList) {
     let htmlUl = '';
 
     redResult.forEach(ustensil => {
-      htmlUl += templateHTML(ustensil);
+      if (tagValue.includes(ustensil) === false) {
+        htmlUl += templateHTML(ustensil);
+      }
     });
     redMenu.innerHTML = htmlUl;
 
