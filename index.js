@@ -19,8 +19,6 @@ function main() {
 function isManagingInputAlgo() {
   let research = document.getElementById('searchBar');
 
-  console.log('without test')
-
   if (research.value.length > 0 && tagValue.length === 0 && listOfResult.length > 0) {
     listOfResult.length = 0;
 
@@ -37,11 +35,8 @@ function isManagingInputAlgo() {
       }
     }
 
-    console.log('test')
-
     displayProcess(listOfResult)
-    console.log('AFTER listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-
+    console.log('listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
   }
 
   research.addEventListener('input', (bar) => {
@@ -103,13 +98,12 @@ function isManagingInputAlgo() {
 // Algo coté dropdown tag value
 function isManagingDropdownAlgo() {
   let dropdownItems = Array.from(document.getElementsByClassName('dropdown-item'));
-  console.log('test after click DD1');
 
   for (const item of dropdownItems) {
     item.addEventListener('click', function (event) {
       tagValue.push(event.target.textContent);
 
-      console.log('test after click DD2 ----- ', 'BEFORE ADD TAG | ', listOfResult);
+      console.log('BEFORE ADD TAG | ', listOfResult);
       console.log(tagValue);
 
       if (listOfResult.length === 0) {
@@ -151,22 +145,19 @@ function isManagingDropdownAlgo() {
 function removeTheValueSelected() {
   let closeBtn = Array.from(document.getElementsByClassName('closeBtn'));
   let research = document.getElementById('searchBar').value;
-  console.log('AFTER REMOVE TAG 1');
 
   for (const btn of closeBtn) {
     btn.addEventListener('click', function (event) {
       let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
       tagValue.splice(indexFound, 1);
 
-      console.log('AFTER REMOTE TAG 2 | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+      console.log('listOfResult ---', listOfResult);
       console.log('tagValue --- ', tagValue);
       console.log('research --- ', research);
 
       let newResultBeforeConsiderTag = [];
 
       if (tagValue.length > 0) {
-        console.log('AFTER REMOVE TAG 3');
-
         listOfResult.length = 0;
 
         // Loop with input before consider tag
@@ -199,9 +190,7 @@ function removeTheValueSelected() {
           }
         }
         console.log('listOfResult', listOfResult)
-
         displayProcess(listOfResult);
-
 
       } else if (tagValue.length === 0 && research.length === 0) {
         displayProcess(DATABASE_RECIPE);
