@@ -221,11 +221,17 @@ function resultDisplay(elementList) {
 
   // template HTML du bloc vignette
   function templateHTML(element) {
-    return htmlString += ` <div class="card" style="width: 18rem;">
+    return htmlString += ` <div class="card">
         <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
-        <div class="card__body">
-          <h5 class="card-title">${element.name}</h5>
-          <p class="body-text">${element.description}</p>
+        <div class="cardBody">
+          <div class="cardBody__title">
+            <div class="cardBody__title--left">${element.name}</div>
+            <div class="cardBody__title--right"> Time </div>
+          </div>
+          <div class="cardBody__infos">
+            <div class="cardBody__infos--left"> test </div>
+            <div class="cardBody__infos--right">${element.description}</div>
+          </div>
         </div>
       </div>
     `
