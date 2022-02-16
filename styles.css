@@ -146,7 +146,6 @@ body .search {
       flex-wrap: wrap;
   background-color: #3282F7;
   border-color: #3282F7;
-  height: 900px;
   width: 700px;
 }
 
@@ -168,6 +167,7 @@ body .search {
 
 .filtres .btn-group #blueMenu .dropdown-item {
   color: white;
+  list-style-type: none;
 }
 
 .filtres .btn-group #blueMenu .dropdown-item:hover {
@@ -223,6 +223,10 @@ body .search {
   display: none;
 }
 
+.filtres .btn-group .redPush {
+  width: 300px;
+}
+
 .filtres .btn-group #redMenu {
   background-color: #ED6454;
   border-color: #ED6454;
@@ -240,9 +244,8 @@ body .search {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  max-height: 1000px;
+  max-height: 100px;
   width: 300px;
-  z-index: 3;
 }
 
 .filtres .btn-group #redMenu .dropdown-item {
