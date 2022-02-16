@@ -23,7 +23,6 @@ function isManagingInputAlgo() {
     listOfResult.length = 0;
 
     for (const recipe of DATABASE_RECIPE) {
-
       if (recipe.name.indexOf(research.value) > -1) {
         listOfResult.push(recipe);
 
@@ -66,7 +65,6 @@ function isManagingInputAlgo() {
 
         function isFilteringInput(originList, targetList) {
           for (const recipe of originList) {
-
             if (recipe.name.indexOf(targetValue) > -1) {
               targetList.push(recipe);
 
@@ -75,7 +73,6 @@ function isManagingInputAlgo() {
 
             } else if (recipe.description.indexOf(targetValue) > -1) {
               targetList.push(recipe);
-
             }
           }
         }
@@ -89,7 +86,6 @@ function isManagingInputAlgo() {
       listOfResult.length = 0;
       displayProcess(DATABASE_RECIPE);
       isManagingDropdownAlgo()
-
     }
     displayProcess(DATABASE_RECIPE);
   });
@@ -113,7 +109,6 @@ function isManagingDropdownAlgo() {
         let newResultWithTag = [];
 
         isFilteringTag(listOfResult, newResultWithTag);
-        console.log('newResultWithTag', newResultWithTag);
 
         listOfResult = newResultWithTag;
       }
@@ -132,9 +127,7 @@ function isManagingDropdownAlgo() {
         }
       }
 
-      console.log('DD | listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
       displayProcess(listOfResult)
-
       removeTheValueSelected();
       isManagingInputAlgo();
       isManagingDropdownAlgo();
@@ -177,7 +170,6 @@ function removeTheValueSelected() {
         for (const recipe of newResultBeforeConsiderTag) {
           for (const tag of tagValue) {
             console.log(tag);
-
             if (recipe.ingredients.indexOf(tag) > -1) {
               listOfResult.push(recipe);
 
@@ -249,7 +241,6 @@ function blueManager(elementList) {
   isCompletingBlueResult(elementList);
 
   function isCompletingBlueResult(elementList) {
-
     for (const elm of elementList) {
       let ingredients = elm.ingredients;
       for (const subElm of ingredients) {
@@ -299,7 +290,6 @@ function greenManager(elementList) {
   isCompletingGreenResult(elementList);
 
   function isCompletingGreenResult(elementList) {
-
     for (const elm of elementList) {
       let appareil = elm.appareil;
       if (isValid(appareil) === true && greenResult.includes(appareil) === false) {
@@ -348,7 +338,6 @@ function redManager(elementList) {
   isCompletingRedResult(elementList);
 
   function isCompletingRedResult(elementList) {
-
     for (const elm of elementList) {
       let ustensils = elm.ustensils;
       for (const subElm of ustensils) {
@@ -415,7 +404,6 @@ let htmlTag = [];
 
 function isPushingColorTag(color) {
   let dropItems = Array.from(document.getElementsByClassName('item' + color));
-
   for (const elm of dropItems) {
     elm.addEventListener('click', function (event) {
       htmlTag.push(`<div class="tag ${color}">${event.target.textContent}<div class="closeBtn">x</div></div>`);

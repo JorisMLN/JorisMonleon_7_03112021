@@ -184,7 +184,7 @@ body {
     }
 
     .redPush {
-      width: 300px;
+      min-width: 300px;
     }
 
     #redMenu {
@@ -201,6 +201,7 @@ body {
         width: 300px;
       }
 
+      min-width: 300px;
       background-color: #ED6454;
       border-color: #ED6454;
 

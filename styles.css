@@ -224,10 +224,11 @@ body .search {
 }
 
 .filtres .btn-group .redPush {
-  width: 300px;
+  min-width: 300px;
 }
 
 .filtres .btn-group #redMenu {
+  min-width: 300px;
   background-color: #ED6454;
   border-color: #ED6454;
 }
