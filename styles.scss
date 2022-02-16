@@ -93,6 +93,12 @@ body {
     margin-right: 15px;
     height: 50px;
 
+    .menuDisplayON {
+      // max-height: 300px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
     #blueBtn {
       background-color: #3282F7;
       border-color: #3282F7;
@@ -206,6 +212,10 @@ body {
       }
     }
   }
+}
+
+li {
+  list-style: none;
 }
 
 

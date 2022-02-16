@@ -124,6 +124,14 @@ body .search {
   height: 50px;
 }
 
+.filtres .btn-group .menuDisplayON {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
 .filtres .btn-group #blueBtn {
   background-color: #3282F7;
   border-color: #3282F7;
@@ -243,6 +251,10 @@ body .search {
 
 .filtres .btn-group #redMenu .dropdown-item:hover {
   color: black;
+}
+
+li {
+  list-style: none;
 }
 
 #result {
