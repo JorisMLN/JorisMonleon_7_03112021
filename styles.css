@@ -276,15 +276,15 @@ li {
   max-width: 1150px;
   max-height: 70vh;
   padding-top: 40px;
-  overflow-y: scroll;
 }
 
 #result .card {
   margin-bottom: 30px;
+  height: 370px;
 }
 
 #result .card .body-text {
-  overflow-y: scroll;
-  max-height: 160px;
+  overflow-y: hidden;
+  max-height: 150px;
 }
 /*# sourceMappingURL=styles.css.map */
