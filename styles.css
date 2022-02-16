@@ -340,7 +340,7 @@ li {
 #result .card .cardBody__infos--right {
   padding-left: 10px;
   width: 190px;
-  overflow: hidden;
+  overflow-y: scroll;
   font-size: 10px;
 }
 /*# sourceMappingURL=styles.css.map */

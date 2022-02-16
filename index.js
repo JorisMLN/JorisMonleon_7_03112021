@@ -221,7 +221,8 @@ function resultDisplay(elementList) {
 
   // template HTML du bloc vignette
   function templateHTML(element) {
-    return htmlString += ` <div class="card">
+    return htmlString += ` 
+      <div class="card">
         <img src="images/test.jpg" class="card-img-top" alt="chien de traineau">
         <div class="cardBody">
           <div class="cardBody__title">
