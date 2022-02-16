@@ -328,17 +328,19 @@ li {
   display: -ms-flexbox;
   display: flex;
   height: 140px;
+  padding-top: 10px;
 }
 
 #result .card .cardBody__infos--left {
   width: 190px;
   padding-left: 10px;
+  font-size: 10px;
 }
 
 #result .card .cardBody__infos--right {
   padding-left: 10px;
   width: 190px;
   overflow: hidden;
-  font-size: 12px;
+  font-size: 10px;
 }
 /*# sourceMappingURL=styles.css.map */

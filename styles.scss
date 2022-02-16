@@ -268,17 +268,19 @@ li {
       &__infos {
         display: flex;
         height: 140px;
+        padding-top: 10px;
 
         &--left {
           width: 190px;
           padding-left: 10px;
+          font-size: 10px;
         }
 
         &--right {
           padding-left: 10px;
           width: 190px;
           overflow: hidden;
-          font-size: 12px;
+          font-size: 10px;
         }
       }
     }
