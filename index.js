@@ -223,7 +223,7 @@ function resultDisplay(elementList) {
             <div class="cardBody__title--right">${element.time} min</div>
           </div>
           <div class="cardBody__infos">
-            <div class="cardBody__infos--left">${ingredientTemplate(element.ingredients)}</div>
+            <div class="cardBody__infos--left">${ingredientTemplate(element.ingredientsForUi)}</div>
             <div class="cardBody__infos--right">${element.description}</div>
           </div>
         </div>

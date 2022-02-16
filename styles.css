@@ -228,6 +228,7 @@ body .search {
 }
 
 .filtres .btn-group #redMenu {
+  width: 300px;
   background-color: #ED6454;
   border-color: #ED6454;
 }
@@ -339,7 +340,7 @@ li {
 #result .card .cardBody__infos--right {
   padding-left: 10px;
   width: 190px;
-  overflow: hidden;
+  overflow-y: scroll;
   font-size: 10px;
 }
 /*# sourceMappingURL=styles.css.map */

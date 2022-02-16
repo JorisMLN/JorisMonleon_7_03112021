@@ -11,13 +11,19 @@ const isFilteringDatabase = (database) => {
     element.description = recette.description.removeDiacritics();
     element.appareil = recette.appliance.removeDiacritics();
     element.time = recette.time;
+    element.ingredientsForUi = [];
     element.ingredients = [];
     element.ustensils = [];
 
     for (const ingredient of recette.ingredients) {
       let completIngredient = ingredient.ingredient + ' ' + (ingredient.quantity ? ': ' + ingredient.quantity : '') + ' ' + (ingredient.unit ? ingredient.unit : '');
-      element.ingredients.push(completIngredient.removeDiacritics());
+      element.ingredientsForUi.push(completIngredient.removeDiacritics());
     }
+
+    recette.ingredients.forEach(elm => {
+      element.ingredients.push(elm.ingredient);
+    });
+
 
     recette.ustensils.forEach(ustensil => {
       element.ustensils.push(ustensil.removeDiacritics());
