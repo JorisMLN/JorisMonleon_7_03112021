@@ -10,12 +10,14 @@ const isFilteringDatabase = (database) => {
     element.name = recette.name.removeDiacritics();
     element.description = recette.description.removeDiacritics();
     element.appareil = recette.appliance.removeDiacritics();
+    element.time = recette.time;
     element.ingredients = [];
     element.ustensils = [];
 
-    recette.ingredients.forEach(elm => {
-      element.ingredients.push(elm.ingredient);
-    });
+    for (const ingredient of recette.ingredients) {
+      let completIngredient = ingredient.ingredient + ' ' + (ingredient.quantity ? ': ' + ingredient.quantity : '') + ' ' + (ingredient.unit ? ingredient.unit : '');
+      element.ingredients.push(completIngredient.removeDiacritics());
+    }
 
     recette.ustensils.forEach(ustensil => {
       element.ustensils.push(ustensil.removeDiacritics());
