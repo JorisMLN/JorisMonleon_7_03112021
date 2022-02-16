@@ -232,14 +232,14 @@ li {
   max-width: 1150px;
   max-height: 70vh;
   padding-top: 40px;
-  overflow-y: scroll;
 
   .card {
     margin-bottom: 30px;
+    height: 370px;
 
     .body-text {
-      overflow-y: scroll;
-      max-height: 160px;
+      overflow-y: hidden;
+      max-height: 150px;
     }
   }
 }
