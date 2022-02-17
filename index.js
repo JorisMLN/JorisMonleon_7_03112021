@@ -45,39 +45,47 @@ function isManagingInputAlgo() {
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
+
+        let iterations = 5000;
         let t0 = performance.now();
-        let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
+        console.time('Fonction #1');
 
-        if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
-          listOfResult = DATABASE_RECIPE.filter(filterOptions);
-          console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+        for (let i = 0; i < iterations; i++) {
 
-        } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
-          listOfResult.length = 0;
-          listOfResult = DATABASE_RECIPE.filter(filterOptions);
-          console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
+          let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
-        } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
-          listOfResult = listOfResult.filter(filterOptions);
-          console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-        }
+          if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
+            listOfResult = DATABASE_RECIPE.filter(filterOptions);
+            console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-        function filterOptions(elm) {
-          if (elm.name.indexOf(targetValue) > -1) {
-            return true
+          } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
+            listOfResult.length = 0;
+            listOfResult = DATABASE_RECIPE.filter(filterOptions);
+            console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-          } else if (elm.ingredients.indexOf(targetValue) > -1) {
-            return true
-
-          } else if (elm.description.indexOf(targetValue) > -1) {
-            return true
+          } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
+            listOfResult = listOfResult.filter(filterOptions);
+            console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
           }
-          return false
-        }
 
-        // display condition of result
-        displayProcess(listOfResult)
-        isManagingDropdownAlgo()
+          function filterOptions(elm) {
+            if (elm.name.indexOf(targetValue) > -1) {
+              return true
+
+            } else if (elm.ingredients.indexOf(targetValue) > -1) {
+              return true
+
+            } else if (elm.description.indexOf(targetValue) > -1) {
+              return true
+            }
+            return false
+          }
+
+          // display condition of result
+          displayProcess(listOfResult)
+          isManagingDropdownAlgo()
+        }
+        console.timeEnd('Fonction #1')
         let t1 = performance.now();
         console.log('test performance', t1 - t0, 'ms');
       }, 200);
