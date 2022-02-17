@@ -45,6 +45,7 @@ function isManagingInputAlgo() {
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
+        let t0 = performance.now();
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
         if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
@@ -77,6 +78,8 @@ function isManagingInputAlgo() {
         // display condition of result
         displayProcess(listOfResult)
         isManagingDropdownAlgo()
+        let t1 = performance.now();
+        console.log('test performance', t1 - t0, 'ms');
       }, 200);
 
     } else if (research.value.length === 0 && tagValue.length === 0 && listOfResult.length > 0) {
