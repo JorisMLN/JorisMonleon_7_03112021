@@ -44,7 +44,7 @@ function isManagingInputAlgo() {
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
-        let t0 = performance.now();
+        // let t0 = performance.now();
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
         if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
@@ -81,8 +81,8 @@ function isManagingInputAlgo() {
         // display condition of result
         displayProcess(listOfResult)
         isManagingDropdownAlgo()
-        let t1 = performance.now();
-        console.log('performance test', t1 - t0, 'ms');
+        // let t1 = performance.now();
+        // console.log('performance test', t1 - t0, 'ms');
       }, 200);
 
     } else if (research.value.length === 0 && tagValue.length === 0 && listOfResult.length > 0) {
@@ -147,45 +147,86 @@ function removeTheValueSelected() {
       let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
       tagValue.splice(indexFound, 1);
 
-      console.log('listOfResult ---', listOfResult);
+      // console.log('listOfResult ---', listOfResult);
       console.log('tagValue --- ', tagValue);
       console.log('research --- ', research);
 
-      let newResultBeforeConsiderTag = [];
-
       if (tagValue.length > 0) {
-        listOfResult.length = 0;
+        // listOfResult.length = 0;
+
+        let newResult = [];
 
         // Loop with input before consider tag
+
+        console.log('test DATABASE_RECIPE', DATABASE_RECIPE);
         for (const recipe of DATABASE_RECIPE) {
-          if (recipe.name.indexOf(research) > -1) {
-            newResultBeforeConsiderTag.push(recipe);
-
-          } else if (recipe.ingredients.indexOf(research) > -1) {
-            newResultBeforeConsiderTag.push(recipe);
-
-          } else if (recipe.description.indexOf(research) > -1) {
-            newResultBeforeConsiderTag.push(recipe);
+          if (filterByResearch(recipe, research) && filterByTag(recipe, tagValue)) {
+            newResult.push(recipe);
           }
         }
-        console.log('newResultBeforeConsiderTag', newResultBeforeConsiderTag);
 
-        for (const recipe of newResultBeforeConsiderTag) {
-          for (const tag of tagValue) {
-            console.log(tag);
-            if (recipe.ingredients.indexOf(tag) > -1) {
-              listOfResult.push(recipe);
+        // console.log('newResult', newResult);
 
-            } else if (recipe.appareil.indexOf(tag) > -1) {
-              listOfResult.push(recipe);
+        // console.log('listOfResult', listOfResult)
+        // displayProcess(listOfResult);
+        displayProcess(newResult);
 
-            } else if (recipe.ustensils.indexOf(tag) > -1) {
-              listOfResult.push(recipe);
-            }
-          }
-        }
-        console.log('listOfResult', listOfResult)
-        displayProcess(listOfResult);
+
+        // for (const recipe of DATABASE_RECIPE) {
+        //   if (recipe.name.indexOf(research) > -1) {
+        //     newResult.push(recipe);
+
+        //   } else if (recipe.ingredients.indexOf(research) > -1) {
+        //     newResult.push(recipe);
+
+        //   } else if (recipe.description.indexOf(research) > -1) {
+        //     newResult.push(recipe);
+        //   }
+        // }
+        // console.log('newResult', newResult);
+
+        // for(const tag of tagValue){
+
+        //   for(const recipe of newResult){
+        //     console.log(tag);
+
+        //     if (recipe.ingredients.indexOf(tag) > -1) {
+        //       newResultAfter.push(recipe);
+
+        //     } else if (recipe.appareil.indexOf(tag) > -1) {
+        //       newResultAfter.push(recipe);
+
+        //     } else if (recipe.ustensils.indexOf(tag) > -1) {
+        //       newResultAfter.push(recipe);
+        //     }
+        //   }
+        // }
+        // newResult = newResultAfter;
+
+
+        
+
+
+
+        // for (const recipe of newResult) {
+        //   for (const tag of tagValue) {
+        //     console.log(tag);
+
+        //     if (recipe.ingredients.indexOf(tag) > -1) {
+        //       newResultAfter.push(recipe);
+
+        //     } else if (recipe.appareil.indexOf(tag) > -1) {
+        //       newResultAfter.push(recipe);
+
+        //     } else if (recipe.ustensils.indexOf(tag) > -1) {
+        //       newResultAfter.push(recipe);
+        //     }
+        //   }
+        // }
+
+
+
+       
 
       } else if (tagValue.length === 0 && research.length === 0) {
         displayProcess(DATABASE_RECIPE);
@@ -197,6 +238,42 @@ function removeTheValueSelected() {
     })
   }
 }
+
+
+function filterByResearch(recipe, research){
+  console.log(research);
+
+  if (recipe.name.indexOf(research) > -1) {
+    return true;
+
+  } else if (recipe.ingredients.indexOf(research) > -1) {
+    return true;
+
+  } else if (recipe.description.indexOf(research) > -1) {
+    return true;
+  } 
+  return false;
+}
+
+
+function filterByTag(recipe, tagValues){
+
+  for(const tag of tagValues){
+    console.log(tag);
+
+    if (recipe.ingredients.indexOf(tag) === -1 && recipe.appareil.indexOf(tag) === -1 && recipe.ustensils.indexOf(tag) === -1) {
+      return false
+    } 
+  }
+  
+  return true
+}
+
+
+
+
+
+
 
 // display process function
 function displayProcess(elementList) {
