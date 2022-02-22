@@ -152,81 +152,16 @@ function removeTheValueSelected() {
       console.log('research --- ', research);
 
       if (tagValue.length > 0) {
-        // listOfResult.length = 0;
-
         let newResult = [];
-
-        // Loop with input before consider tag
 
         console.log('test DATABASE_RECIPE', DATABASE_RECIPE);
         for (const recipe of DATABASE_RECIPE) {
           if (filterByResearch(recipe, research) && filterByTag(recipe, tagValue)) {
             newResult.push(recipe);
+            console.log(newResult);
           }
         }
-
-        // console.log('newResult', newResult);
-
-        // console.log('listOfResult', listOfResult)
-        // displayProcess(listOfResult);
         displayProcess(newResult);
-
-
-        // for (const recipe of DATABASE_RECIPE) {
-        //   if (recipe.name.indexOf(research) > -1) {
-        //     newResult.push(recipe);
-
-        //   } else if (recipe.ingredients.indexOf(research) > -1) {
-        //     newResult.push(recipe);
-
-        //   } else if (recipe.description.indexOf(research) > -1) {
-        //     newResult.push(recipe);
-        //   }
-        // }
-        // console.log('newResult', newResult);
-
-        // for(const tag of tagValue){
-
-        //   for(const recipe of newResult){
-        //     console.log(tag);
-
-        //     if (recipe.ingredients.indexOf(tag) > -1) {
-        //       newResultAfter.push(recipe);
-
-        //     } else if (recipe.appareil.indexOf(tag) > -1) {
-        //       newResultAfter.push(recipe);
-
-        //     } else if (recipe.ustensils.indexOf(tag) > -1) {
-        //       newResultAfter.push(recipe);
-        //     }
-        //   }
-        // }
-        // newResult = newResultAfter;
-
-
-        
-
-
-
-        // for (const recipe of newResult) {
-        //   for (const tag of tagValue) {
-        //     console.log(tag);
-
-        //     if (recipe.ingredients.indexOf(tag) > -1) {
-        //       newResultAfter.push(recipe);
-
-        //     } else if (recipe.appareil.indexOf(tag) > -1) {
-        //       newResultAfter.push(recipe);
-
-        //     } else if (recipe.ustensils.indexOf(tag) > -1) {
-        //       newResultAfter.push(recipe);
-        //     }
-        //   }
-        // }
-
-
-
-       
 
       } else if (tagValue.length === 0 && research.length === 0) {
         displayProcess(DATABASE_RECIPE);
@@ -240,7 +175,7 @@ function removeTheValueSelected() {
 }
 
 
-function filterByResearch(recipe, research){
+function filterByResearch(recipe, research) {
   console.log(research);
 
   if (recipe.name.indexOf(research) > -1) {
@@ -251,21 +186,21 @@ function filterByResearch(recipe, research){
 
   } else if (recipe.description.indexOf(research) > -1) {
     return true;
-  } 
+  }
   return false;
 }
 
 
-function filterByTag(recipe, tagValues){
+function filterByTag(recipe, tagValues) {
 
-  for(const tag of tagValues){
+  for (const tag of tagValues) {
     console.log(tag);
 
     if (recipe.ingredients.indexOf(tag) === -1 && recipe.appareil.indexOf(tag) === -1 && recipe.ustensils.indexOf(tag) === -1) {
       return false
-    } 
+    }
   }
-  
+
   return true
 }
 
