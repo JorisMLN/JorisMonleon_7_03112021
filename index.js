@@ -45,49 +45,39 @@ function isManagingInputAlgo() {
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
+        let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
-        let iterations = 5000;
-        let t0 = performance.now();
-        console.time('Fonction #1');
+        if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
+          listOfResult = DATABASE_RECIPE.filter(filterOptions);
+          console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-        for (let i = 0; i < iterations; i++) {
+        } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
+          listOfResult.length = 0;
+          listOfResult = DATABASE_RECIPE.filter(filterOptions);
+          console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
 
-          let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
-
-          if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
-            listOfResult = DATABASE_RECIPE.filter(filterOptions);
-            console.log('INPUT 1 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-
-          } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length === 0) {
-            listOfResult.length = 0;
-            listOfResult = DATABASE_RECIPE.filter(filterOptions);
-            console.log('INPUT 2 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-
-          } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
-            listOfResult = listOfResult.filter(filterOptions);
-            console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
-          }
-
-          function filterOptions(elm) {
-            if (elm.name.indexOf(targetValue) > -1) {
-              return true
-
-            } else if (elm.ingredients.indexOf(targetValue) > -1) {
-              return true
-
-            } else if (elm.description.indexOf(targetValue) > -1) {
-              return true
-            }
-            return false
-          }
-
-          // display condition of result
-          displayProcess(listOfResult)
-          isManagingDropdownAlgo()
+        } else if (targetValue === actualInputValue && listOfResult.length > 0 && tagValue.length > 0) {
+          listOfResult = listOfResult.filter(filterOptions);
+          console.log('INPUT 3 listOfResult.length', listOfResult.length, 'tagValue.length', tagValue.length);
         }
-        console.timeEnd('Fonction #1')
-        let t1 = performance.now();
-        console.log('test performance', t1 - t0, 'ms');
+
+        function filterOptions(elm) {
+          if (elm.name.indexOf(targetValue) > -1) {
+            return true
+
+          } else if (elm.ingredients.indexOf(targetValue) > -1) {
+            return true
+
+          } else if (elm.description.indexOf(targetValue) > -1) {
+            return true
+          }
+          return false
+        }
+
+        // display condition of result
+        displayProcess(listOfResult)
+        isManagingDropdownAlgo()
+
       }, 200);
 
     } else if (research.value.length === 0 && tagValue.length === 0 && listOfResult.length > 0) {
@@ -154,44 +144,49 @@ function removeTheValueSelected() {
       console.log('tagValue --- ', tagValue);
       console.log('research --- ', research);
 
-      let newResultBeforeConsiderTag = [];
-
       if (tagValue.length > 0) {
-        listOfResult.length = 0;
 
-        DATABASE_RECIPE.forEach((recipe) => {
+        console.log('test DATABASE_RECIPE', DATABASE_RECIPE);
+        let newResult = []
+
+        DATABASE_RECIPE.forEach(recipe => {
+          if (filterByResearch(recipe, research) && filterByTag(recipe, tagValue)) {
+            newResult.push(recipe);
+            console.log(newResult);
+          }
+        })
+
+        function filterByResearch(recipe, research) {
+          console.log(research);
+
           if (recipe.name.indexOf(research) > -1) {
-            newResultBeforeConsiderTag.push(recipe);
+            return true;
 
           } else if (recipe.ingredients.indexOf(research) > -1) {
-            newResultBeforeConsiderTag.push(recipe);
+            return true;
 
           } else if (recipe.description.indexOf(research) > -1) {
-            newResultBeforeConsiderTag.push(recipe);
+            return true;
           }
-        });
-        console.log('newResultBeforeConsiderTag', newResultBeforeConsiderTag);
+          return false;
+        }
 
-        newResultBeforeConsiderTag.forEach((recipe) => {
-          tagValue.forEach((tag) => {
-            if (recipe.ingredients.indexOf(tag) > -1) {
-              listOfResult.push(recipe);
+        function filterByTag(recipe, tagValues) {
+          for (const tag of tagValues) {
+            console.log(tag);
 
-            } else if (recipe.appareil.indexOf(tag) > -1) {
-              listOfResult.push(recipe);
-
-            } else if (recipe.ustensils.indexOf(tag) > -1) {
-              listOfResult.push(recipe);
+            if (recipe.ingredients.indexOf(tag) === -1 && recipe.appareil.indexOf(tag) === -1 && recipe.ustensils.indexOf(tag) === -1) {
+              return false
             }
-          })
-        });
+          }
+          return true
+        }
 
-        console.log('listOfResult', listOfResult)
-        displayProcess(listOfResult);
+        console.log('newResult', newResult)
+        displayProcess(newResult);
 
       } else if (tagValue.length === 0 && research.length === 0) {
         displayProcess(DATABASE_RECIPE);
-
       }
 
       isManagingInputAlgo();
@@ -231,7 +226,7 @@ function resultDisplay(elementList) {
         <div class="cardBody">
           <div class="cardBody__title">
             <div class="cardBody__title--left">${element.name}</div>
-            <div class="cardBody__title--right">${element.time} min</div>
+            <div class="cardBody__title--right"><img class="time" alt="clock" src='icon/clock.png'>${element.time} min</div>
           </div>
           <div class="cardBody__infos">
             <div class="cardBody__infos--left">${ingredientTemplate(element.ingredientsForUi)}</div>
