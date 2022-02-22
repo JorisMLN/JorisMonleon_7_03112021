@@ -174,7 +174,6 @@ function removeTheValueSelected() {
   }
 }
 
-
 function filterByResearch(recipe, research) {
   console.log(research);
 
@@ -190,9 +189,7 @@ function filterByResearch(recipe, research) {
   return false;
 }
 
-
 function filterByTag(recipe, tagValues) {
-
   for (const tag of tagValues) {
     console.log(tag);
 
@@ -200,14 +197,8 @@ function filterByTag(recipe, tagValues) {
       return false
     }
   }
-
   return true
 }
-
-
-
-
-
 
 
 // display process function
@@ -242,7 +233,7 @@ function resultDisplay(elementList) {
         <div class="cardBody">
           <div class="cardBody__title">
             <div class="cardBody__title--left">${element.name}</div>
-            <div class="cardBody__title--right">${element.time} min</div>
+            <div class="cardBody__title--right"><img class="time" alt="clock" src='icon/clock.png'> ${element.time} min</div>
           </div>
           <div class="cardBody__infos">
             <div class="cardBody__infos--left">${ingredientTemplate(element.ingredientsForUi)}</div>
