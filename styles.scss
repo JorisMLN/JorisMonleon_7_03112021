@@ -254,7 +254,6 @@ li {
       &__title {
         display: flex;
         height: 40px;
-        border-bottom: 1px solid black;
 
         &--left {
           display: flex;
@@ -279,20 +278,25 @@ li {
 
       &__infos {
         display: flex;
+        flex-direction: row;
         height: 140px;
         padding-top: 10px;
 
         &--left {
           width: 190px;
           padding-left: 10px;
-          font-size: 10px;
+          font-size: 11px;
         }
 
         &--right {
           padding-left: 10px;
           width: 190px;
-          overflow-y: scroll;
-          font-size: 10px;
+          font-size: 11px;
+          max-height: 120px;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 7;
+          -webkit-box-orient: vertical;
         }
       }
     }

@@ -81,8 +81,6 @@ function isManagingInputAlgo() {
         // display condition of result
         displayProcess(listOfResult)
         isManagingDropdownAlgo()
-        // let t1 = performance.now();
-        // console.log('performance test', t1 - t0, 'ms');
       }, 200);
 
     } else if (research.value.length === 0 && tagValue.length === 0 && listOfResult.length > 0) {
@@ -215,7 +213,7 @@ function resultDisplay(elementList) {
   let htmlString = '';
 
   if (elementList.length === 0) {
-    htmlString = ` <h2> Aucune recette ne correspond à votre critère de recherche ! </h2>`
+    htmlString = `<h2> Aucune recette ne correspond à votre critère de recherche ! </h2>`
   } else {
     for (const elm of elementList) {
       templateHTML(elm);

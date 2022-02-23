@@ -303,7 +303,6 @@ li {
   display: -ms-flexbox;
   display: flex;
   height: 40px;
-  border-bottom: 1px solid black;
 }
 
 #result .card .cardBody__title--left {
@@ -338,6 +337,10 @@ li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   height: 140px;
   padding-top: 10px;
 }
@@ -345,13 +348,17 @@ li {
 #result .card .cardBody__infos--left {
   width: 190px;
   padding-left: 10px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 #result .card .cardBody__infos--right {
   padding-left: 10px;
   width: 190px;
-  overflow-y: scroll;
-  font-size: 10px;
+  font-size: 11px;
+  max-height: 120px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
 }
 /*# sourceMappingURL=styles.css.map */
