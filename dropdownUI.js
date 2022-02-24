@@ -28,7 +28,6 @@ function dropdownUI() {
     const intoInputAppliances = () => {
       greenBtn.classList.add('greenPush');
       greenMenu.classList.add('show');
-      // greenMenuDisplay.classList.add('menuDisplayON')
     }
     const intoButtonAppliances = () => {
       greenBtn.classList.remove('greenPush');

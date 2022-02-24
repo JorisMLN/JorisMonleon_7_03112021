@@ -44,7 +44,6 @@ function isManagingInputAlgo() {
 
     if (targetValue.length >= 3) {
       setTimeout(() => {
-        // let t0 = performance.now();
         let actualInputValue = document.getElementById('searchBar').value.removeDiacritics();
 
         if (targetValue === actualInputValue && listOfResult.length === 0 && tagValue.length === 0) {
@@ -78,7 +77,6 @@ function isManagingInputAlgo() {
           }
         }
 
-        // display condition of result
         displayProcess(listOfResult)
         isManagingDropdownAlgo()
       }, 200);
@@ -145,7 +143,6 @@ function removeTheValueSelected() {
       let indexFound = tagValue.findIndex(tag => tag === event.target.parentElement.outerHTML);
       tagValue.splice(indexFound, 1);
 
-      // console.log('listOfResult ---', listOfResult);
       console.log('tagValue --- ', tagValue);
       console.log('research --- ', research);
 
