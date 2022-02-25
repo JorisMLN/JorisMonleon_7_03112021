@@ -25,34 +25,37 @@
   </header>
 
   <!-- Search -->
-  <section class="search">
+  <div class="search">
     <div class="input-group mb-3">
       <input id="searchBar" value="" type="text" class="form-control"
-        placeholder="Rechercher dans ingrédients, appareil, ustensiles ou une recette" aria-label="all in database"
-        aria-describedby="basic-addon2">
+        placeholder="Rechercher dans ingrédients, appareil, ustensiles ou une recette">
       <span class="input-group-text" id="basic-addon1">
         <img class="logoGlass" alt="magnifying glass" src='icon/search.png'>
       </span>
     </div>
-  </section>
+  </div>
 
   <!-- Tags -->
   <div id="tagList"></div>
 
   <!-- Filtres -->
-  <section class="filtres">
+  <div class="filtres">
 
     <div class="btn-group">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="blueBtn" data-bs-toggle="dropdown"
         data-bs-auto-close="false" aria-expanded="false">
         Ingredients
       </button>
-      <ul id="blueMenu" class="dropdown-menu hidden" aria-labelledby="defaultDropdown">
-        <input id="blueInput" class="inputDrop" type="text">
-        <ul id="blueMenuDisplay" aria-labelledby="defaultDropdown">
-
+      <div id="blueMenu" class="dropdown-menu hidden">
+        <div>
+          <input id="greenInput" class="inputDrop" type="text" placeholder="Rechercher un ingredients">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+          </svg>
+        </div>
+        <ul id="blueMenuDisplay">
         </ul>
-      </ul>
+      </div>
     </div>
 
     <div class="btn-group">
@@ -60,12 +63,17 @@
         data-bs-auto-close="false" aria-expanded="false">
         Appareil
       </button>
-      <ul id="greenMenu" class="dropdown-menu hidden" aria-labelledby="defaultDropdown">
-        <input id="greenInput" class="inputDrop" type="text">
-        <ul id="greenMenuDisplay" aria-labelledby="defaultDropdown">
-
+      <div id="greenMenu" class="dropdown-menu hidden">
+        <div>
+          <input id="greenInput" class="inputDrop" type="text" placeholder="Rechercher un appareil">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+          </svg>
+        </div>
+        
+        <ul id="greenMenuDisplay">
         </ul>
-      </ul>
+      </div>
     </div>
 
     <div class="btn-group">
@@ -73,19 +81,23 @@
         data-bs-auto-close="false" aria-expanded="false">
         Ustensiles
       </button>
-      <ul id="redMenu" class="dropdown-menu hidden" aria-labelledby="defaultDropdown">
-        <input id="redInput" class="inputDrop" type="text">
-        <ul id="redMenuDisplay" aria-labelledby="defaultDropdown">
-
+      <div id="redMenu" class="dropdown-menu hidden">
+        <div>
+          <input id="redInput" class="inputDrop" type="text" placeholder="Rechercher un ustensils">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+          </svg>
+        </div>
+        <ul id="redMenuDisplay">
         </ul>
-      </ul>
+      </div>
     </div>
 
-  </section>
+  </div>
 
   <!-- Result -->
-  <section id="result">
-  </section>
+  <div id="result">
+  </div>
 
   <script type="module" src="database.js"></script>
   <script type="module" src="index.js"></script>

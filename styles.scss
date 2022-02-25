@@ -102,6 +102,8 @@ body {
     .menuDisplayON {
       display: flex;
       flex-wrap: wrap;
+      flex-direction: column;
+      max-height: 150vh;
     }
 
     #blueBtn {
@@ -118,6 +120,10 @@ body {
       .inputDrop {
         height: 30px;
         margin-left: 10px;
+        background-color: #3282F7;
+        color: white;
+        opacity: 0.8;
+        border: none;
       }
 
       .show {
@@ -137,6 +143,7 @@ body {
         color: white;
         list-style-type: none;
 
+
         &:hover {
           color: black;
         }
@@ -149,14 +156,18 @@ body {
     }
 
     .greenPush {
-      width: 180px;
+      width: 210px;
     }
 
     #greenMenu {
       #greenInput {
         height: 30px;
-        width: 150px;
+        width: 85%;
         margin-left: 10px;
+        background-color: #68D9A4;
+        color: white;
+        opacity: 0.8;
+        border: none;
       }
 
       .show {
@@ -167,7 +178,7 @@ body {
         z-index: 3;
       }
 
-      width: 180px;
+      width: 210px;
       background-color: #68D9A4;
       border-color: #68D9A4;
 
@@ -190,14 +201,18 @@ body {
     }
 
     .redPush {
-      min-width: 300px;
+      min-width: 225px;
     }
 
     #redMenu {
       .inputDrop {
         height: 30px;
-        width: 150px;
+        width: 85%;
         margin-left: 10px;
+        background-color: #ED6454;
+        color: white;
+        opacity: 0.8;
+        border: none;
       }
 
       .show {
@@ -207,7 +222,7 @@ body {
         width: 300px;
       }
 
-      min-width: 300px;
+      min-width: 225px;
       background-color: #ED6454;
       border-color: #ED6454;
 
@@ -226,6 +241,10 @@ li {
   list-style: none;
 }
 
+.bi{
+  color: white;
+}
+
 
 // #############################################################################
 // MAIN RESULT
@@ -235,12 +254,13 @@ li {
   justify-content: space-evenly;
   align-items: center;
   width: 90%;
-  max-width: 1150px;
-  max-height: 70vh;
+  max-width: 65vw;
   padding-top: 40px;
 
   .card {
     margin-bottom: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
     height: 364px;
     width: 380px;
 
